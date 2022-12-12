@@ -1,6 +1,6 @@
 require("dotenv").config();
 const fs = require("fs");
-const { Client, Collection, ActivityType, GatewayIntentBits, Guild} = require("discord.js");
+const { Client, Collection, ActivityType, GatewayIntentBits, PermissionsBitField} = require("discord.js");
 
 const client = new Client({
     intents: [GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildPresences, GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions]
@@ -41,10 +41,25 @@ client.on("interactionCreate", async interaction => {
     } 
     
     if(interaction.isButton()) {
-        if(interaction.customId === "invite"){
-            await interaction.reply("Invite Button Clicked!");
+        switch(interaction.customId) {
+            case "kick":
+                if(interaction.member.permissions.has(PermissionsBitField.ADMINISTRATOR)) {
+                    await interaction.reply({ephemeral: true, content: "Kicked"});
+                } else {
+                    await interaction.reply({ephemeral: true, content: "Kick Button Clicked!"});
+                }
+                break;
+            case "ban":
+                await interaction.reply({ephemeral: true, content: "Ban Button Clicked!"});
+                break;
+            case "mute":
+                await interaction.reply({ephemeral: true, content: "Mute Button Clicked!"});
+                break;
+            default:
+                await interaction.reply({ephemeral: true, content: "Button Clicked!"});
         }
     }
+
 });
 
 
