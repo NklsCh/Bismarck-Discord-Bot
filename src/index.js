@@ -26,6 +26,27 @@ client.once("ready", () => {
     })
 });
 
+client.on("guildMemberAdd", member => {
+    client.user.setPresence({
+        activities: [{
+            name: `${client.guilds.cache.get(process.env.DISCORD_GUILD_ID).memberCount} members`,
+            type: ActivityType.Watching
+        }],
+        status: "online"
+    })
+})
+
+client.on("guildMemberRemove", member => {
+    client.user.setPresence({
+        activities: [{
+            name: `${client.guilds.cache.get(process.env.DISCORD_GUILD_ID).memberCount} members`,
+            type: ActivityType.Watching
+        }],
+        status: "online"
+    })
+})
+
+
 client.on("interactionCreate", async interaction => {
     if (!interaction.isCommand() && !interaction.isButton()) return;
     
