@@ -92,13 +92,6 @@ client.on("interactionCreate", async interaction => {
                 }
                 interaction.reply({ephemeral: true, content: `The user ${user} has been banned`});
                 break;
-            case "sayHi":
-                userid = interaction.message.embeds.map(embed => embed.footer.text)
-                let user = interaction.guild.members.cache.find(user => user.id === userid[0])
-                interaction.reply(`Hi ${user}`).then(() => {
-                    interaction.deleteReply();
-                });
-                break;
             default:
                 await interaction.reply({ephemeral: true, content: "Button Clicked!"});
                 break;
