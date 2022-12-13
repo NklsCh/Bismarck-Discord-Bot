@@ -15,11 +15,33 @@ commandFiles.forEach(commandFile => {
     client.commands.set(command.data.name, command);
 })
 
+const serverAmount = client.guilds.cache;
+
 client.once("ready", () => {
     console.log("Bot is ready!");;
     client.user.setPresence({
         activities: [{
-            name: `${client.guilds.cache.get(process.env.DISCORD_GUILD_ID).memberCount} members`,
+            name: `${serverAmount.size} Server(s)`,
+            type: ActivityType.Watching
+        }],
+        status: "online"
+    })
+});
+
+client.on("guildCreate", guild => {
+    client.user.setPresence({
+        activities: [{
+            name: `${serverAmount.size} Server(s)`,
+            type: ActivityType.Watching
+        }],
+        status: "online"
+    })
+});
+
+client.on("guildDelete", guild => {
+    client.user.setPresence({
+        activities: [{
+            name: `${serverAmount.size} Server(s)`,
             type: ActivityType.Watching
         }],
         status: "online"
@@ -62,19 +84,42 @@ client.on("interactionCreate", async interaction => {
     } 
     
     if(interaction.isButton()) {
+        let isAdmin
+        try {
+            isAdmin = interaction.member.permissions.has(PermissionsBitField.ADMINISTRATOR);
+        } catch (error) {
+            isAdmin = false;
+        }
         switch(interaction.customId) {
             case "kick":
-                if(interaction.member.permissions.has(PermissionsBitField.ADMINISTRATOR)) {
-                    await interaction.reply({ephemeral: true, content: "Kicked"});
+                if(isAdmin) {
+                    userid = interaction.message.embeds.map(embed => embed.description)
+                    //find user by id
+                    let user = interaction.guild.members.cache.find(user => user.id === userid[0])
+                    if(interaction.guild.members.cache.get(user.id).kickable) {
+                        try {
+                            await interaction.guild.members.cache.get(user.id).kick();
+                        } catch (error) {}
+                    } else {
+                        await interaction.reply({ephemeral: true, content: "I can't kick this user"});
+                    }
                 } else {
-                    await interaction.reply({ephemeral: true, content: "Kick Button Clicked!"});
+                    await interaction.reply({ephemeral: true, content: "You don't have permission to kick"});
                 }
                 break;
             case "ban":
-                await interaction.reply({ephemeral: true, content: "Ban Button Clicked!"});
+                if(isAdmin) {
+                    await interaction.reply({ephemeral: true, content: "Banned"});
+                } else {
+                    await interaction.reply({ephemeral: true, content: "You don't have permission to ban"});
+                }
                 break;
             case "mute":
-                await interaction.reply({ephemeral: true, content: "Mute Button Clicked!"});
+                if(isAdmin) {
+                    await interaction.reply({ephemeral: true, content: "Muted"});
+                } else {
+                    await interaction.reply({ephemeral: true, content: "You don't have permission to mute"});
+                }
                 break;
             default:
                 await interaction.reply({ephemeral: true, content: "Button Clicked!"});
