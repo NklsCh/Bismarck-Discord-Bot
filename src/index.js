@@ -72,7 +72,16 @@ client.on("interactionCreate", async interaction => {
         switch(interaction.customId) {
             case "kick":
                 if(isAdmin) {
-                    await interaction.reply({ephemeral: true, content: "Kicked"});
+                    userid = interaction.message.embeds.map(embed => embed.description)
+                    //find user by id
+                    let user = interaction.guild.members.cache.find(user => user.id === userid[0])
+                    if(interaction.guild.members.cache.get(user.id).kickable) {
+                        try {
+                            await interaction.guild.members.cache.get(user.id).kick();
+                        } catch (error) {}
+                    } else {
+                        await interaction.reply({ephemeral: true, content: "I can't kick this user"});
+                    }
                 } else {
                     await interaction.reply({ephemeral: true, content: "You don't have permission to kick"});
                 }
