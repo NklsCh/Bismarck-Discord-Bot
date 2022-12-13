@@ -8,7 +8,7 @@ module.exports = {
     .setDescription("gives info about a user")
     .addUserOption(option => option.setName("member").setDescription("The user's info you want to get").setRequired(true)),
     async execute(interaction) {
-        //Todo: Make Buttons functional
+        //TODO: Make buttons functional
         const member = interaction.options.getMember("member");
          var isAdmin = false
         try {
@@ -33,12 +33,12 @@ module.exports = {
             let sayHi = new ButtonBuilder()
                 .setStyle(2)
                 .setCustomId("sayHi")
-                .setLabel("Say Hi 👋")
+                .setLabel("Say Hi👋")
             Button = [sayHi]
         }
         interaction.reply({embeds: [
             new EmbedBuilder()
-            .setTitle(`Member Info about ${member.user.tag}`)
+            .setTitle(`${member.user.tag}`)
             .setThumbnail(member.user.displayAvatarURL({dynamic: true}))
             .addFields([
                 {
@@ -51,7 +51,9 @@ module.exports = {
                     value: `<t:${Math.round(member.joinedTimestamp / 1000)}>`,
                     inline: true
                 }
-            ])], 
+            ])
+            .setDescription(`${member.user.id}`) 
+        ], 
             ephemeral: true,
             components: [
                 new ActionRowBuilder()
