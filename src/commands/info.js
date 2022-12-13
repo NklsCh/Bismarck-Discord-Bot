@@ -8,14 +8,13 @@ module.exports = {
     .setDescription("gives info about a user")
     .addUserOption(option => option.setName("member").setDescription("The user's info you want to get").setRequired(true)),
     async execute(interaction) {
-        //TODO: Make buttons functional
         const member = interaction.options.getMember("member");
-         var isAdmin = false
+        var isAdmin = false
         try {
             isAdmin = interaction.member.permissions.has(PermissionsBitField.ADMINISTRATOR);
         } catch (error) {}
-        let kick, ban, mute, button = []
-        if(isAdmin){
+        let kick, ban, button = []
+        if(isAdmin && !member.user.bot){
             kick = new ButtonBuilder()
                 .setStyle(4)
                 .setCustomId("kick")
@@ -24,11 +23,7 @@ module.exports = {
                 .setStyle(4)
                 .setCustomId("ban")
                 .setLabel("Ban")
-            mute = new ButtonBuilder()
-                .setStyle(4)
-                .setCustomId("mute")
-                .setLabel("Mute")
-            Button = [kick, ban, mute]
+            Button = [kick, ban]
         } else {
             let sayHi = new ButtonBuilder()
                 .setStyle(2)
@@ -38,7 +33,7 @@ module.exports = {
         }
         interaction.reply({embeds: [
             new EmbedBuilder()
-            .setTitle(`${member.user.tag}`)
+            .setTitle(`User info about ${member.user.tag}`)
             .setThumbnail(member.user.displayAvatarURL({dynamic: true}))
             .addFields([
                 {
@@ -53,6 +48,7 @@ module.exports = {
                 }
             ])
             .setDescription(`${member.user.id}`) 
+            .setFooter({text: `${member.user.id}`})
         ], 
             ephemeral: true,
             components: [

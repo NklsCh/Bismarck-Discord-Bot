@@ -48,27 +48,6 @@ client.on("guildDelete", guild => {
     })
 });
 
-client.on("guildMemberAdd", member => {
-    client.user.setPresence({
-        activities: [{
-            name: `${client.guilds.cache.get(process.env.DISCORD_GUILD_ID).memberCount} members`,
-            type: ActivityType.Watching
-        }],
-        status: "online"
-    })
-})
-
-client.on("guildMemberRemove", member => {
-    client.user.setPresence({
-        activities: [{
-            name: `${client.guilds.cache.get(process.env.DISCORD_GUILD_ID).memberCount} members`,
-            type: ActivityType.Watching
-        }],
-        status: "online"
-    })
-})
-
-
 client.on("interactionCreate", async interaction => {
     if (!interaction.isCommand() && !interaction.isButton()) return;
     
@@ -90,40 +69,41 @@ client.on("interactionCreate", async interaction => {
         } catch (error) {
             isAdmin = false;
         }
+        userid = interaction.message.embeds.map(embed => embed.footer.text)
+        let user = interaction.guild.members.cache.find(user => user.id === userid[0])
         switch(interaction.customId) {
             case "kick":
-                if(isAdmin) {
-                    userid = interaction.message.embeds.map(embed => embed.description)
-                    //find user by id
-                    let user = interaction.guild.members.cache.find(user => user.id === userid[0])
-                    if(interaction.guild.members.cache.get(user.id).kickable) {
-                        try {
-                            await interaction.guild.members.cache.get(user.id).kick();
-                        } catch (error) {}
-                    } else {
-                        await interaction.reply({ephemeral: true, content: "I can't kick this user"});
-                    }
+                if(interaction.guild.members.cache.get(user.id).kickable) {
+                    try {
+                        await interaction.guild.members.cache.get(user.id).kick();
+                    } catch (error) {}
                 } else {
-                    await interaction.reply({ephemeral: true, content: "You don't have permission to kick"});
+                    await interaction.reply({ephemeral: true, content: "I can't kick this user"});
                 }
+                interaction.reply({ephemeral: true, content: `The user ${user} has been kicked`});
                 break;
             case "ban":
-                if(isAdmin) {
-                    await interaction.reply({ephemeral: true, content: "Banned"});
+                if(interaction.guild.members.cache.get(user.id).bannable) {
+                    try {
+                        await interaction.guild.members.cache.get(user.id).ban();
+                    } catch (error) {}
                 } else {
-                    await interaction.reply({ephemeral: true, content: "You don't have permission to ban"});
+                    await interaction.reply({ephemeral: true, content: "I can't ban this user"});
                 }
+                interaction.reply({ephemeral: true, content: `The user ${user} has been banned`});
                 break;
-            case "mute":
-                if(isAdmin) {
-                    await interaction.reply({ephemeral: true, content: "Muted"});
-                } else {
-                    await interaction.reply({ephemeral: true, content: "You don't have permission to mute"});
-                }
+            case "sayHi":
+                userid = interaction.message.embeds.map(embed => embed.footer.text)
+                let user = interaction.guild.members.cache.find(user => user.id === userid[0])
+                interaction.reply(`Hi ${user}`).then(() => {
+                    interaction.deleteReply();
+                });
                 break;
             default:
                 await interaction.reply({ephemeral: true, content: "Button Clicked!"});
+                break;
         }
+                
     }
 
 });
