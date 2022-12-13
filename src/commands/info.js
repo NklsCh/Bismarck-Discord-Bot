@@ -13,7 +13,7 @@ module.exports = {
         try {
             isAdmin = interaction.member.permissions.has(PermissionsBitField.ADMINISTRATOR);
         } catch (error) {}
-        let kick, ban, button = []
+        let kick, ban, admin, button = []
         if(isAdmin && !member.user.bot){
             kick = new ButtonBuilder()
                 .setStyle(4)
@@ -24,37 +24,51 @@ module.exports = {
                 .setCustomId("ban")
                 .setLabel("Ban")
             Button = [kick, ban]
+            admin = new ActionRowBuilder().addComponents(Button)
+            interaction.reply({embeds: [
+                new EmbedBuilder()
+                .setTitle(`User info about ${member.user.tag}`)
+                .setThumbnail(member.user.displayAvatarURL({dynamic: true}))
+                .addFields([
+                    {
+                        name: "Account Creation Date",
+                        value: `<t:${Math.round(member.user.createdTimestamp / 1000)}>`,
+                        inline: true
+                    },
+                    {
+                        name: "Joined Server Date",
+                        value: `<t:${Math.round(member.joinedTimestamp / 1000)}>`,
+                        inline: true
+                    }
+                ])
+                .setDescription(`${member.user.id}`) 
+                .setFooter({text: `${member.user.id}`})
+            ], 
+                ephemeral: true,
+                components: [
+                    admin
+                ]
+            })
         } else {
-            let sayHi = new ButtonBuilder()
-                .setStyle(2)
-                .setCustomId("sayHi")
-                .setLabel("Say Hi👋")
-            Button = [sayHi]
+            interaction.reply({embeds: [
+                new EmbedBuilder()
+                .setTitle(`User info about ${member.user.tag}`)
+                .setThumbnail(member.user.displayAvatarURL({dynamic: true}))
+                .addFields([
+                    {
+                        name: "Account Creation Date",
+                        value: `<t:${Math.round(member.user.createdTimestamp / 1000)}>`,
+                        inline: true
+                    },
+                    {
+                        name: "Joined Server Date",
+                        value: `<t:${Math.round(member.joinedTimestamp / 1000)}>`,
+                        inline: true
+                    }
+                ])
+                .setDescription(`${member.user.id}`) 
+                .setFooter({text: `${member.user.id}`})
+            ],ephemeral: true,})
         }
-        interaction.reply({embeds: [
-            new EmbedBuilder()
-            .setTitle(`User info about ${member.user.tag}`)
-            .setThumbnail(member.user.displayAvatarURL({dynamic: true}))
-            .addFields([
-                {
-                    name: "Account Creation Date",
-                    value: `<t:${Math.round(member.user.createdTimestamp / 1000)}>`,
-                    inline: true
-                },
-                {
-                    name: "Joined Server Date",
-                    value: `<t:${Math.round(member.joinedTimestamp / 1000)}>`,
-                    inline: true
-                }
-            ])
-            .setDescription(`${member.user.id}`) 
-            .setFooter({text: `${member.user.id}`})
-        ], 
-            ephemeral: true,
-            components: [
-                new ActionRowBuilder()
-                .addComponents(Button)
-            ]
-        })
     }
 }
