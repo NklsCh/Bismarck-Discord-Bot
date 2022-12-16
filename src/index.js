@@ -26,6 +26,7 @@ client.once("ready", () => {
         }],
         status: "online"
     })
+    
 });
 
 client.on("guildCreate", guild => {
@@ -47,6 +48,14 @@ client.on("guildDelete", guild => {
         status: "online"
     })
 });
+
+//When a user joins the server
+client.on("guildMemberAdd", member => {
+    //Log the amount of users in the server
+    console.log(`There are ${member.guild.memberCount} users in the server`);
+    //Changes name of a channel to the amount of users in the server
+    member.guild.channels.cache.get("1053423774780883075").setName(`Members: ${member.guild.memberCount}`);
+})
 
 client.on("interactionCreate", async interaction => {
     if (!interaction.isCommand() && !interaction.isButton()) return;

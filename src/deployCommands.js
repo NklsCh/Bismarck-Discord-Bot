@@ -17,3 +17,9 @@ restClient.put(Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID, pr
 { body: commands })
 .then(() => console.log("Successfully registered application commands."))
 .catch(console.error)
+
+//Delete a specific command by its ID
+
+restClient.delete(Routes.applicationCommand(process.env.DISCORD_APPLICATION_ID, '1045242579811303424'))
+	.then(() => console.log('Successfully deleted application command'))
+	.catch(console.error);
