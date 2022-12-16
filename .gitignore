@@ -1,2 +1,5 @@
 .env
 bot.txt
+
+/node_modules
+/server_configs
