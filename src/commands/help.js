@@ -31,16 +31,13 @@ module.exports = {
                         value: "Shows info about a user"
                     },
                     {
-                        name: "/ping",
-                        value: "Replies with Pong!"
-                    },
-                    {
                         name: "/invite",
                         value: "Sends an invite link to invite me to your server"
                     },
                 ])
-                .setFooter({text: "Note: More commands will be added soon"})
-            ]}
-        );
+                .setFooter({text: `Note: More commands will be added soon`})
+            ],
+            ephemeral: true
+        });
     }
 }
