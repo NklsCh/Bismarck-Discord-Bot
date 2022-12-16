@@ -26,7 +26,16 @@ client.once("ready", () => {
         }],
         status: "online"
     })
-    
+    //Get the config file for the server and change the channel name to the amount of users in the server
+    client.guilds.cache.forEach(guild => {
+        //Get all online users from guild
+        let onlineUsers = guild.members.cache.filter(member => member.presence?.status === "online" && !member.user.bot).size;
+        let config = JSON.parse(fs.readFileSync('./server-configs/' + guild.id + '.json', 'utf8'));
+        if(!config.onlineChannel) return;
+        guild.channels.edit(config.onlineChannel, {name: `Online: ${onlineUsers}`});
+        if(!config.allChannel) return;
+        guild.channels.edit(config.allChannel, {name: `Members: ${guild.memberCount}`});
+    })
 });
 
 client.on("guildCreate", guild => {
@@ -37,6 +46,9 @@ client.on("guildCreate", guild => {
         }],
         status: "online"
     })
+    fs.writeFileSync('./server-configs/' + guild.id + '.json', JSON.stringify({
+        "name": guild.name,
+    }))
 });
 
 client.on("guildDelete", guild => {
@@ -48,14 +60,6 @@ client.on("guildDelete", guild => {
         status: "online"
     })
 });
-
-//When a user joins the server
-client.on("guildMemberAdd", member => {
-    //Log the amount of users in the server
-    console.log(`There are ${member.guild.memberCount} users in the server`);
-    //Changes name of a channel to the amount of users in the server
-    member.guild.channels.cache.get("1053423774780883075").setName(`Members: ${member.guild.memberCount}`);
-})
 
 client.on("interactionCreate", async interaction => {
     if (!interaction.isCommand() && !interaction.isButton()) return;

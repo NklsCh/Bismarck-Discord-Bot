@@ -11,15 +11,21 @@ commandFiles.forEach(commandFile => {
     commands.push(command.data.toJSON());
 })
 
-const restClient = new REST({ version: "9" }).setToken(process.env.TOKEN);
+const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
-restClient.put(Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID, process.env.DISCORD_GUILD_ID),
+rest.put(Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID, process.env.DISCORD_GUILD_ID),
 { body: commands })
 .then(() => console.log("Successfully registered application commands."))
 .catch(console.error)
 
 //Delete a specific command by its ID
 
-restClient.delete(Routes.applicationCommand(process.env.DISCORD_APPLICATION_ID, '1045242579811303424'))
+/* rest.delete(Routes.applicationCommand(process.env.DISCORD_APPLICATION_ID, ''))
 	.then(() => console.log('Successfully deleted application command'))
-	.catch(console.error);
+	.catch(console.error); */
+
+//Delete all commands
+
+/* rest.put(Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID, process.env.DISCORD_GUILD_ID), { body: [] })
+.then(() => console.log('Successfully deleted all application commands.'))
+.catch(console.error); */
