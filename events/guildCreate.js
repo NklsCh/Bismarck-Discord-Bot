@@ -7,6 +7,8 @@ module.exports = {
 
         let serverAmount = 2
 
+        console.log(client)
+
         client.user.setPresence({
             activities: [{
                 name: `${serverAmount.size} Server(s)`,

@@ -4,6 +4,8 @@ module.exports = {
 	name: 'guildDelete',
 	execute(client) {
 
+        console.log(client)
+
         let serverAmount = 2
 
         client.user.setPresence({
