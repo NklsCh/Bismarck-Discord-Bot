@@ -1,1 +1,0 @@
-Be nice and dont do shit with my bot

@@ -23,16 +23,19 @@ module.exports = {
                 .setThumbnail(interaction.client.user.displayAvatarURL({dynamic: true}))
                 .addFields([
                     {
-                        name: "/help",
-                        value: "Shows all commands"
+                        name: "Default",
+                        value: "```/help\r/invite```",
+                        inline: true
                     },
                     {
-                        name: "/info",
-                        value: "Shows info about a user"
+                        name: "Information",
+                        value: "```/info @user```",
+                        inline: true
                     },
                     {
-                        name: "/invite",
-                        value: "Sends an invite link to invite me to your server"
+                        name: "Administrator",
+                        value: "```/track online @channel\r/track all @channel```",
+                        inline: true
                     },
                 ])
                 .setFooter({text: `Note: More commands will be added soon`})
