@@ -25,7 +25,8 @@ module.exports = {
             "de": "Die Infos über den Benutzer den du haben willst",
             "en-US": "The user's info you want to get",
         })
-        .setRequired(true)),
+        .setRequired(true))
+    .setDMPermission(false),
     async execute(interaction) {
         const member = interaction.options.getMember("member");
         var isAdmin = false

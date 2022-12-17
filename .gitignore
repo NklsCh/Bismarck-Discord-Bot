@@ -1,2 +1,10 @@
 .env
 bot.txt
+TODO.md
+
+/node_modules
+<<<<<<< HEAD
+/server-configs
+=======
+/server_configs
+>>>>>>> dev
