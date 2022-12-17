@@ -8,6 +8,8 @@ module.exports = {
 
         const serverAmount = client.guilds.cache;
 
+        console.log(client.user)
+
 		console.log(`Ready! Logged in as ${client.user.tag}`);
         client.user.setPresence({
             activities: [{
@@ -20,7 +22,7 @@ module.exports = {
         client.guilds.cache.forEach(guild => {
             if(fs.existsSync('./server-configs/' + guild.id + '.json') === false) return;
             //Get all online users from guild
-            let onlineUsers = guild.members.cache.filter(member => member.presence?.status === "online" && !member.user.bot).size;
+            let onlineUsers = guild.members.cache.filter(member => member.presence?.status === "online" | "dnd" | "idle" && !member.user.bot).size;
             let config = JSON.parse(fs.readFileSync('./server-configs/' + guild.id + '.json', 'utf8'));
             if(!config.onlineChannel) return;
             guild.channels.edit(config.onlineChannel, {name: `Online: ${onlineUsers}`});

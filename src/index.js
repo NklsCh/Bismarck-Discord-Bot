@@ -16,7 +16,7 @@ commandFiles.forEach(commandFile => {
     client.commands.set(command.data.name, command);
 })
 
-const eventsPath = path.join(__dirname, './../events');
+/* const eventsPath = path.join(__dirname, './../events');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
 for (const file of eventFiles) {
@@ -27,9 +27,9 @@ for (const file of eventFiles) {
 	} else {
 		client.on(event.name, (...args) => event.execute(...args));
 	}
-}
+} */
 
-/* const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
 eventFiles.forEach(file => {
     const event = require(`./../events/${file}`);
@@ -38,6 +38,6 @@ eventFiles.forEach(file => {
     } else {
         client.on(event.name, (...args) => event.execute(...args));
     }
-}); */
+});
 
 client.login(process.env.TOKEN);
