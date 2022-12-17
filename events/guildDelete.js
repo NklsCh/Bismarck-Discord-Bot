@@ -4,9 +4,9 @@ module.exports = {
 	name: 'guildDelete',
 	execute(client) {
 
-        console.log(client)
+        client = client.client
 
-        let serverAmount = 2
+        const serverAmount = client.guilds.cache
 
         client.user.setPresence({
             activities: [{

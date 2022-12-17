@@ -5,9 +5,9 @@ module.exports = {
 	name: 'guildCreate',
 	execute(client) {
 
-        let serverAmount = 2
+        client = client.client
 
-        console.log(client)
+        const serverAmount = client.guilds.cache
 
         client.user.setPresence({
             activities: [{
