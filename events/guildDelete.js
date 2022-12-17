@@ -1,10 +1,11 @@
 const { ActivityType } = require('discord.js');
+const { fs } = require('fs');
 
 module.exports = {
 	name: 'guildDelete',
-	execute(client) {
+	execute(guild) {
 
-        client = client.client
+        client = guild.client
 
         const serverAmount = client.guilds.cache
 
@@ -15,5 +16,8 @@ module.exports = {
             }],
             status: "online"
         })
+
+        fs.unlinkSync('./server-configs/' + guild.id + '.json')
+
 	},
 }

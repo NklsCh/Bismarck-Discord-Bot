@@ -26,6 +26,8 @@ module.exports = {
             guild.channels.edit(config.onlineChannel, {name: `Online: ${onlineUsers}`});
             if(!config.allChannel) return;
             guild.channels.edit(config.allChannel, {name: `Members: ${guild.memberCount}`});
+            if(!config.botChannel) return;
+            guild.channels.edit(config.botChannel, {name: `Bots: ${guild.members.cache.filter(member => member.user.bot).size}`});
         })
 	},
 };
