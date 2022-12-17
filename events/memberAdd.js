@@ -5,8 +5,6 @@ module.exports = {
 	name: Events.GuildMemberAdd,
 	execute(client) {
 
-        console.log(client.guild.name)
-
         const name = client.guild.name
 
         const helloEmbed = {
