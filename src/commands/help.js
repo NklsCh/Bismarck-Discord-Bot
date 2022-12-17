@@ -6,12 +6,10 @@ module.exports = {
     .setName("help")
     .setNameLocalizations({
         "de": "hilfe",
-        "en-US": "help",
     })
     .setDescription("Shows all commands")
     .setDescriptionLocalizations({
         "de": "Zeigt alle Befehle an",
-        "en-US": "Shows all commands",
     }),
     async execute(interaction) {
         await interaction.reply({embeds: [
