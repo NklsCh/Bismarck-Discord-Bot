@@ -32,7 +32,7 @@ module.exports = {
                     },
                     {
                         name: "Administrator",
-                        value: "```/track add online\r/track add all\r/track add bots\r/track remove online\r/track remove all\r/track remove bots\r/track list\r```",
+                        value: "```/track add online\r/track add all\r/track add bots\r/track remove online\r/track remove all\r/track remove bots\r/track list\r/channel setup join\r/channel setup leave\r/setup```",
                         inline: true
                     },
                 ])
