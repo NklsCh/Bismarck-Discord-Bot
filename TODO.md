@@ -1,8 +1,7 @@
 # TODO
 1. Reactionroles
 2. Musik
-3. Serverstats
-4. Track online members
+3. Setup Script
 
 # Priotities
-1. Track online members to a certain channel
+1. Setup Script
