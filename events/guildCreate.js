@@ -18,6 +18,6 @@ module.exports = {
         })
         fs.writeFileSync('./server-configs/' + guild.id + '.json', JSON.stringify({
             "name": guild.name,
-        }))
+        }), null, 4)
 	},
 };
