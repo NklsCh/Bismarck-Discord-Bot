@@ -1,4 +1,5 @@
 const { ActivityType } = require('discord.js');
+const { fs } = require('fs');
 
 module.exports = {
 	name: 'guildDelete',
@@ -15,5 +16,8 @@ module.exports = {
             }],
             status: "online"
         })
+
+        fs.unlinkSync('./server-configs/' + guild.id + '.json')
+
 	},
 }
