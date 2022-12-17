@@ -28,6 +28,7 @@ client.once("ready", () => {
     })
     //Get the config file for the server and change the channel name to the amount of users in the server
     client.guilds.cache.forEach(guild => {
+        if(fs.existsSync('./server-configs/' + guild.id + '.json') === false) return;
         //Get all online users from guild
         let onlineUsers = guild.members.cache.filter(member => member.presence?.status === "online" && !member.user.bot).size;
         let config = JSON.parse(fs.readFileSync('./server-configs/' + guild.id + '.json', 'utf8'));
