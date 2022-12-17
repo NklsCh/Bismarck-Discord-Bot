@@ -110,7 +110,7 @@ module.exports = {
                     case "online":
                         if(!serverConfig.onlineChannel){
                             serverConfig.onlineChannel = channel.id;
-                            fs.writeFileSync(`./server-configs/${interaction.guild.id}.json`, JSON.stringify(serverConfig));
+                            fs.writeFileSync(`./server-configs/${interaction.guild.id}.json`, JSON.stringify(serverConfig, null, 4));
                             interaction.reply({ content: `The bot will now track the amount of online users in ${channel}!`, ephemeral: true });
                         } else {
                             interaction.reply({ content: "The bot is already tracking the amount of online users in a channel!", ephemeral: true });
@@ -119,7 +119,7 @@ module.exports = {
                     case "all":
                         if(!serverConfig.allChannel){
                             serverConfig.allChannel = channel.id;
-                            fs.writeFileSync(`./server-configs/${interaction.guild.id}.json`, JSON.stringify(serverConfig));
+                            fs.writeFileSync(`./server-configs/${interaction.guild.id}.json`, JSON.stringify(serverConfig, null, 4));
                             interaction.reply({ content: `The bot will now track the amount of all users in ${channel}!`, ephemeral: true });
                         } else {
                             interaction.reply({ content: "The bot is already tracking the amount of all users in a channel!", ephemeral: true });
@@ -128,7 +128,7 @@ module.exports = {
                     case "bots":
                         if(!serverConfig.botChannel){
                             serverConfig.botChannel = channel.id;
-                            fs.writeFileSync(`./server-configs/${interaction.guild.id}.json`, JSON.stringify(serverConfig));
+                            fs.writeFileSync(`./server-configs/${interaction.guild.id}.json`, JSON.stringify(serverConfig, null, 4));
                             interaction.reply({ content: `The bot will now track the amount of bots in ${channel}!`, ephemeral: true });
                         } else {
                             interaction.reply({ content: "The bot is already tracking the amount of bots in a channel!", ephemeral: true });
@@ -140,7 +140,7 @@ module.exports = {
                     case "online":
                         if(serverConfig.onlineChannel){
                             delete serverConfig.onlineChannel;
-                            fs.writeFileSync(`./server-configs/${interaction.guild.id}.json`, JSON.stringify(serverConfig));
+                            fs.writeFileSync(`./server-configs/${interaction.guild.id}.json`, JSON.stringify(serverConfig, null, 4));
                             interaction.reply({ content: "The bot will no longer track the amount of online users!", ephemeral: true });
                         } else {
                             interaction.reply({ content: "The bot is not tracking the amount of online users!", ephemeral: true });
@@ -149,14 +149,14 @@ module.exports = {
                     case "all":
                         if(serverConfig.allChannel){
                             delete serverConfig.allChannel;
-                            fs.writeFileSync(`./server-configs/${interaction.guild.id}.json`, JSON.stringify(serverConfig));
+                            fs.writeFileSync(`./server-configs/${interaction.guild.id}.json`, JSON.stringify(serverConfig, null, 4));
                             interaction.reply({ content: "The bot will no longer track the amount of all users!", ephemeral: true });
                         }
                         break;
                     case "bots":
                         if(serverConfig.botChannel){
                             delete serverConfig.botChannel;
-                            fs.writeFileSync(`./server-configs/${interaction.guild.id}.json`, JSON.stringify(serverConfig));
+                            fs.writeFileSync(`./server-configs/${interaction.guild.id}.json`, JSON.stringify(serverConfig, null, 4));
                             interaction.reply({ content: "The bot will no longer track the amount of bots!", ephemeral: true });
                         } else {
                             interaction.reply({ content: "The bot is not tracking the amount of bots!", ephemeral: true });

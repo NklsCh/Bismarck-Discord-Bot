@@ -6,12 +6,10 @@ module.exports = {
     .setName("help")
     .setNameLocalizations({
         "de": "hilfe",
-        "en-US": "help",
     })
     .setDescription("Shows all commands")
     .setDescriptionLocalizations({
         "de": "Zeigt alle Befehle an",
-        "en-US": "Shows all commands",
     }),
     async execute(interaction) {
         await interaction.reply({embeds: [
@@ -34,7 +32,7 @@ module.exports = {
                     },
                     {
                         name: "Administrator",
-                        value: "```/track add online\r/track add all\r/track add bots\r/track remove online\r/track remove all\r/track remove bots\r/track list\r```",
+                        value: "```/track add online\r/track add all\r/track add bots\r/track remove online\r/track remove all\r/track remove bots\r/track list\r/channel setup join\r/channel setup leave\r/setup```",
                         inline: true
                     },
                 ])
