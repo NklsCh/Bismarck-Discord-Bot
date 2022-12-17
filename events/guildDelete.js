@@ -2,9 +2,9 @@ const { ActivityType } = require('discord.js');
 
 module.exports = {
 	name: 'guildDelete',
-	execute(client) {
+	execute(guild) {
 
-        client = client.client
+        client = guild.client
 
         const serverAmount = client.guilds.cache
 

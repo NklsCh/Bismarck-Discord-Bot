@@ -3,9 +3,9 @@ const fs = require('fs');
 
 module.exports = {
 	name: 'guildCreate',
-	execute(client) {
+	execute(guild) {
 
-        client = client.client
+        client = guild.client
 
         const serverAmount = client.guilds.cache
 
