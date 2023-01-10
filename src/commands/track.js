@@ -99,7 +99,7 @@ module.exports = {
             "de": "Listet alle Kanäle auf, in denen der Bot die Anzahl der Benutzer verfolgt"
         })
     )
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administratory)
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setDMPermission(false),
     async execute(interaction) {
         serverConfig = JSON.parse(fs.readFileSync(`./server-configs/${interaction.guild.id}.json`));

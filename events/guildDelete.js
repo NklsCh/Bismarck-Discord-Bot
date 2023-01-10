@@ -4,7 +4,7 @@ module.exports = {
 	name: 'guildDelete',
 	execute(guild) {
 
-        client = guild.client
+        let client = guild.client
 
         const serverAmount = client.guilds.cache
 

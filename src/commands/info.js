@@ -43,8 +43,8 @@ module.exports = {
                 .setStyle(4)
                 .setCustomId("ban")
                 .setLabel("Ban")
-            Button = [kick, ban]
-            admin = new ActionRowBuilder().addComponents(Button)
+            button = [kick, ban]
+            admin = new ActionRowBuilder().addComponents(button)
             interaction.reply({embeds: [
                 new EmbedBuilder()
                 .setTitle(`User info about ${member.user.tag}`)

@@ -8,7 +8,7 @@ module.exports = {
     .setDescriptionLocalizations({
         "de": "Zeigt das Setup Menü",
     })
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administratory),
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
         interaction.reply({ embeds: [
             new EmbedBuilder()
