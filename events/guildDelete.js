@@ -1,8 +1,8 @@
-const { ActivityType } = require('discord.js');
+const {ActivityType} = require('discord.js');
 
 module.exports = {
-	name: 'guildDelete',
-	execute(guild) {
+    name: 'guildDelete',
+    execute(guild) {
 
         let client = guild.client
 
@@ -16,5 +16,5 @@ module.exports = {
             status: "online"
         })
 
-	},
+    },
 }

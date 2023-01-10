@@ -1,9 +1,9 @@
-const { ActivityType } = require('discord.js');
+const {ActivityType} = require('discord.js');
 const fs = require('fs');
 
 module.exports = {
-	name: 'guildCreate',
-	execute(guild) {
+    name: 'guildCreate',
+    execute(guild) {
 
         let client = guild.client
 
@@ -19,5 +19,5 @@ module.exports = {
         fs.writeFileSync('./config/' + guild.id + '.json', JSON.stringify({
             "name": guild.name,
         }), null, 4)
-	},
+    },
 };
