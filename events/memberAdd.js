@@ -16,8 +16,8 @@ module.exports = {
             description: 'Welcome ' + client.user.tag + ' to ' + name + '!',
         }
 
-        if(fs.existsSync('./server-configs/' + client.guild.id + '.json') === false) return;
-        let config = JSON.parse(fs.readFileSync('./server-configs/' + client.guild.id + '.json', 'utf8'));
+        if(fs.existsSync('./config/' + client.guild.id + '.json') === false) return;
+        let config = JSON.parse(fs.readFileSync('./config/' + client.guild.id + '.json', 'utf8'));
         if(!config.joinChannel) return;
         let channel = client.guild.channels.cache.get(config.joinChannel);
         channel.send({ embeds: [helloEmbed] });

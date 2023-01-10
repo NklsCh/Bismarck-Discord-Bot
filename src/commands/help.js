@@ -18,7 +18,7 @@ module.exports = {
                 .setDescription("Here are all of my commands")
                 .setAuthor({name: interaction.client.user.tag})
                 //Show bot avatar
-                .setThumbnail(interaction.client.user.displayAvatarURL({dynamic: true}))
+                .setThumbnail(interaction.client.user.displayAvatarURL({ dynamic: true }))
                 .addFields([
                     {
                         name: "Default",

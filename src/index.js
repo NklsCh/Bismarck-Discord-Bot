@@ -37,4 +37,4 @@ eventFiles.forEach(file => {
     }
 });
 
-client.login(process.env.TOKEN);
+client.login(process.env.TOKEN).then(r => console.log(`Ready! Logged in as ${client.user.tag}`));

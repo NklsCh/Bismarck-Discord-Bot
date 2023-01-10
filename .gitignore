@@ -1,10 +1,7 @@
 .env
-bot.txt
-TODO.md
 
 /node_modules
 <<<<<<< HEAD
-/server-configs
+/config
 =======
-/server_configs
 >>>>>>> dev

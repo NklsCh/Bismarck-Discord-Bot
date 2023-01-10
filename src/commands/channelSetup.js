@@ -46,11 +46,11 @@ module.exports = {
             )
         )
     )
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administratory),
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .setDMPermission(false),
     async execute(interaction) {
         //Get server config
-        serverConfig = JSON.parse(fs.readFileSync(`./server-configs/${interaction.guild.id}.json`));
-        channel = interaction.options.getChannel("channel");
+        let serverConfig = JSON.parse(fs.readFileSync(`./server-configs/${interaction.guild.id}.json`));
         switch (interaction.options.getSubcommand()) {
             case "join":
                 const joinChannel = interaction.options.getChannel("channel");

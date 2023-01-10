@@ -5,7 +5,7 @@ module.exports = {
 	name: 'guildCreate',
 	execute(guild) {
 
-        client = guild.client
+        let client = guild.client
 
         const serverAmount = client.guilds.cache
 
@@ -16,7 +16,7 @@ module.exports = {
             }],
             status: "online"
         })
-        fs.writeFileSync('./server-configs/' + guild.id + '.json', JSON.stringify({
+        fs.writeFileSync('./config/' + guild.id + '.json', JSON.stringify({
             "name": guild.name,
         }), null, 4)
 	},

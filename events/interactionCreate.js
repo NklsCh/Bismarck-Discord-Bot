@@ -14,33 +14,30 @@ module.exports = {
                 console.error(error);
                 await interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
             }
-        } 
-        
-        if(interaction.isButton()) {
-            let isAdmin
-            try {
-                isAdmin = interaction.member.permissions.has(PermissionsBitField.ADMINISTRATOR);
-            } catch (error) {
-                isAdmin = false;
-            }
+        }
+
+        let userid;
+        if (interaction.isButton()) {
             userid = interaction.message.embeds.map(embed => embed.footer.text)
             let user = interaction.guild.members.cache.find(user => user.id === userid[0])
-            switch(interaction.customId) {
+            switch (interaction.customId) {
                 case "kick":
-                    if(interaction.guild.members.cache.get(user.id).kickable) {
+                    if (interaction.guild.members.cache.get(user.id).kickable) {
                         try {
                             await interaction.guild.members.cache.get(user.id).kick();
-                        } catch (error) {}
+                        } catch (error) {
+                        }
                     } else {
                         await interaction.reply({ephemeral: true, content: "I can't kick this user"});
                     }
                     interaction.reply({ephemeral: true, content: `The user ${user} has been kicked`});
                     break;
                 case "ban":
-                    if(interaction.guild.members.cache.get(user.id).bannable) {
+                    if (interaction.guild.members.cache.get(user.id).bannable) {
                         try {
                             await interaction.guild.members.cache.get(user.id).ban();
-                        } catch (error) {}
+                        } catch (error) {
+                        }
                     } else {
                         await interaction.reply({ephemeral: true, content: "I can't ban this user"});
                     }
@@ -50,7 +47,7 @@ module.exports = {
                     await interaction.reply({ephemeral: true, content: "Button Clicked!"});
                     break;
             }
-                    
+
         }
 	},
 };
