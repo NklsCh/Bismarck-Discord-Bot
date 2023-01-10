@@ -1,13 +1,13 @@
-const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder } = require('@discordjs/builders');
-const { EmbedBuilder } = require('discord.js');
+const {SlashCommandBuilder, ActionRowBuilder, ButtonBuilder} = require('@discordjs/builders');
+const {EmbedBuilder} = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-    .setName("contribute")
-    .setDescription("Shows the contribute menu")
-    .setDescriptionLocalizations({
-        "de": "Zeigt das Beteiligungsmenü",
-    }),
+        .setName("contribute")
+        .setDescription("Shows the contribute menu")
+        .setDescriptionLocalizations({
+            "de": "Zeigt das Beteiligungsmenü",
+        }),
     async execute(interaction) {
         let donate = new ButtonBuilder()
             .setLabel("Donate")
@@ -19,20 +19,22 @@ module.exports = {
             .setURL("https://github.com/NklsCh/Discord-Bot/issues/new")
         let contributeRow = new ActionRowBuilder()
             .addComponents([donate, errorReport])
-        interaction.reply({ embeds: [
-            new EmbedBuilder()
-                .setTitle("Contribute")
-                .setDescription("Here you can find all the contribute options")
-                .addFields([
-                    {
-                        name: "Donations",
-                        value: "You can donate money, to keep the server running and/or get the devs a coffee",
-                    },
-                    {
-                        name: "Error Reporting",
-                        value: "You can report errors, so the devs can fix them",
-                    },
-                ])
-        ], ephemeral: true, components: [contributeRow] });
+        interaction.reply({
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle("Contribute")
+                    .setDescription("Here you can find all the contribute options")
+                    .addFields([
+                        {
+                            name: "Donations",
+                            value: "You can donate money, to keep the server running and/or get the devs a coffee",
+                        },
+                        {
+                            name: "Error Reporting",
+                            value: "You can report errors, so the devs can fix them",
+                        },
+                    ])
+            ], ephemeral: true, components: [contributeRow]
+        });
     }
 }
