@@ -1,9 +1,9 @@
-const { Events, EmbedBuilder } = require('discord.js');
+const {Events, EmbedBuilder} = require('discord.js');
 const fs = require('fs');
 
 module.exports = {
-	name: Events.GuildMemberAdd,
-	execute(client) {
+    name: Events.GuildMemberAdd,
+    execute(client) {
 
         const name = client.guild.name
 
@@ -16,11 +16,11 @@ module.exports = {
             description: 'Welcome ' + client.user.tag + ' to ' + name + '!',
         }
 
-        if(fs.existsSync('./server-configs/' + client.guild.id + '.json') === false) return;
-        let config = JSON.parse(fs.readFileSync('./server-configs/' + client.guild.id + '.json', 'utf8'));
-        if(!config.joinChannel) return;
+        if (fs.existsSync('./config/' + client.guild.id + '.json') === false) return;
+        let config = JSON.parse(fs.readFileSync('./config/' + client.guild.id + '.json', 'utf8'));
+        if (!config.joinChannel) return;
         let channel = client.guild.channels.cache.get(config.joinChannel);
-        channel.send({ embeds: [helloEmbed] });
+        channel.send({embeds: [helloEmbed]});
 
-	},
+    },
 };
