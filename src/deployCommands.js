@@ -11,7 +11,7 @@ commandFiles.forEach(commandFile => {
     commands.push(command.data.toJSON());
 })
 
-const rest = new REST({version: "9"}).setToken(process.env.TOKEN);
+const rest = new REST({version: "10"}).setToken(process.env.TOKEN);
 
 rest.put(Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID, process.env.DISCORD_GUILD_ID),
     {body: commands})
