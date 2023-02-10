@@ -101,7 +101,7 @@ module.exports = {
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .setDMPermission(false),
     async execute(interaction) {
-        serverConfig = JSON.parse(fs.readFileSync(`./server-configs/${interaction.guild.id}.json`));
+        serverConfig = JSON.parse(fs.readFileSync(`./config/${interaction.guild.id}.json`));
         channel = interaction.options.getChannel("channel");
         switch (interaction.options.getSubcommandGroup() || interaction.options.getSubcommand()) {
             case "add":
@@ -109,7 +109,7 @@ module.exports = {
                     case "online":
                         if (!serverConfig.onlineChannel) {
                             serverConfig.onlineChannel = channel.id;
-                            fs.writeFileSync(`./server-configs/${interaction.guild.id}.json`, JSON.stringify(serverConfig, null, 4));
+                            fs.writeFileSync(`./config/${interaction.guild.id}.json`, JSON.stringify(serverConfig, null, 4));
                             interaction.reply({
                                 content: `The bot will now track the amount of online users in ${channel}!`,
                                 ephemeral: true
@@ -124,7 +124,7 @@ module.exports = {
                     case "all":
                         if (!serverConfig.allChannel) {
                             serverConfig.allChannel = channel.id;
-                            fs.writeFileSync(`./server-configs/${interaction.guild.id}.json`, JSON.stringify(serverConfig, null, 4));
+                            fs.writeFileSync(`./config/${interaction.guild.id}.json`, JSON.stringify(serverConfig, null, 4));
                             interaction.reply({
                                 content: `The bot will now track the amount of all users in ${channel}!`,
                                 ephemeral: true
@@ -139,7 +139,7 @@ module.exports = {
                     case "bots":
                         if (!serverConfig.botChannel) {
                             serverConfig.botChannel = channel.id;
-                            fs.writeFileSync(`./server-configs/${interaction.guild.id}.json`, JSON.stringify(serverConfig, null, 4));
+                            fs.writeFileSync(`./config/${interaction.guild.id}.json`, JSON.stringify(serverConfig, null, 4));
                             interaction.reply({
                                 content: `The bot will now track the amount of bots in ${channel}!`,
                                 ephemeral: true
@@ -157,7 +157,7 @@ module.exports = {
                     case "online":
                         if (serverConfig.onlineChannel) {
                             delete serverConfig.onlineChannel;
-                            fs.writeFileSync(`./server-configs/${interaction.guild.id}.json`, JSON.stringify(serverConfig, null, 4));
+                            fs.writeFileSync(`./config/${interaction.guild.id}.json`, JSON.stringify(serverConfig, null, 4));
                             interaction.reply({
                                 content: "The bot will no longer track the amount of online users!",
                                 ephemeral: true
@@ -172,7 +172,7 @@ module.exports = {
                     case "all":
                         if (serverConfig.allChannel) {
                             delete serverConfig.allChannel;
-                            fs.writeFileSync(`./server-configs/${interaction.guild.id}.json`, JSON.stringify(serverConfig, null, 4));
+                            fs.writeFileSync(`./config/${interaction.guild.id}.json`, JSON.stringify(serverConfig, null, 4));
                             interaction.reply({
                                 content: "The bot will no longer track the amount of all users!",
                                 ephemeral: true
@@ -182,7 +182,7 @@ module.exports = {
                     case "bots":
                         if (serverConfig.botChannel) {
                             delete serverConfig.botChannel;
-                            fs.writeFileSync(`./server-configs/${interaction.guild.id}.json`, JSON.stringify(serverConfig, null, 4));
+                            fs.writeFileSync(`./config/${interaction.guild.id}.json`, JSON.stringify(serverConfig, null, 4));
                             interaction.reply({
                                 content: "The bot will no longer track the amount of bots!",
                                 ephemeral: true

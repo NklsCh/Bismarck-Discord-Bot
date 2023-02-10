@@ -18,8 +18,6 @@ module.exports = {
                             inline: true
                         },
                     ])
-                    .setDescription(`${member.id}`)
-                    .setFooter({text: `${member.id}`})
             ], ephemeral: true,
         })
     }

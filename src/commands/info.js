@@ -34,7 +34,7 @@ module.exports = {
             isAdmin = interaction.member.permissions.has(PermissionsBitField.ADMINISTRATOR);
         } catch (error) {
         }
-        let kick, ban, admin, button = []
+        let kick, ban, admin, button
         if (isAdmin && !member.user.bot) {
             kick = new ButtonBuilder()
                 .setStyle(4)
@@ -63,8 +63,6 @@ module.exports = {
                                 inline: true
                             }
                         ])
-                        .setDescription(`${member.user.id}`)
-                        .setFooter({text: `${member.user.id}`})
                 ],
                 ephemeral: true,
                 components: [
@@ -89,8 +87,6 @@ module.exports = {
                                 inline: true
                             }
                         ])
-                        .setDescription(`${member.user.id}`)
-                        .setFooter({text: `${member.user.id}`})
                 ], ephemeral: true,
             })
         }
