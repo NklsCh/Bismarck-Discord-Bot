@@ -29,13 +29,8 @@ module.exports = {
         .setDMPermission(false),
     async execute(interaction) {
         const member = interaction.options.getMember("member");
-        var isAdmin = false
-        try {
-            isAdmin = interaction.member.permissions.has(PermissionsBitField.ADMINISTRATOR);
-        } catch (error) {
-        }
         let kick, ban, admin, button
-        if (isAdmin && !member.user.bot) {
+        if (interaction.member.permissions.has(PermissionsBitField.ADMINISTRATOR) && !member.user.bot) {
             kick = new ButtonBuilder()
                 .setStyle(4)
                 .setCustomId("kick")
