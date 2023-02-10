@@ -72,12 +72,16 @@ module.exports = {
         //Get server config
         let serverConfig = JSON.parse(fs.readFileSync(`./config/${interaction.guild.id}.json`));
 
+        //Switch the subcommand group whether it is set or unset
         switch (interaction.options.getSubcommandGroup()) {
             case "unset":
+                //Switch the subcommand whether it is join or leave
                 switch (interaction.options.getSubcommand()) {
                     case "join":
+                        //Set the join channel to null and save the config
                         serverConfig.joinChannel = null;
                         fs.writeFileSync(`./config/${interaction.guild.id}.json`, JSON.stringify(serverConfig, null, 4));
+                        //Reply's the user that the join channel has been unset
                         interaction.reply({content: `Join channel unset`, ephemeral: true});
                         break;
                     case "leave":
