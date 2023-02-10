@@ -12,32 +12,54 @@ module.exports = {
             "de": "Zeigt alle Befehle an",
         }),
     async execute(interaction) {
+
+        const userEmbed = new EmbedBuilder()
+            .setTitle("User")
+            .setDescription("Here are all of my commands")
+            .setAuthor({name: interaction.client.user.tag})
+            .setThumbnail(interaction.client.user.displayAvatarURL({dynamic: true}))
+            .addFields([
+                {
+                    name: "Default",
+                    value: "```/help```",
+                    inline: true
+                },
+                {
+                    name: "Information",
+                    value: "```/info @user```",
+                    inline: true
+                },
+            ])
+            .setFooter({text: `Note: More commands will be added soon`});
+
+        const adminEmbed = new EmbedBuilder()
+            .setTitle("Administrator")
+            .setDescription("Here are all of my commands")
+            .setAuthor({name: interaction.client.user.tag})
+            .setThumbnail(interaction.client.user.displayAvatarURL({dynamic: true}))
+            .addFields([
+                {
+                    name: "Tracking",
+                    value: "```/track add online\r/track add all\r/track add bots\r/track remove online\r/track remove all\r/track remove bots```",
+                    inline: true
+                },
+                {
+                    name: "Channel",
+                    value: "```/channel set join\r/channel set leave\r/channel unset join\r/channel unset leave```",
+                    inline: true
+                },
+                {
+                    name: "Other",
+                    value: "```/track list\r/setup```",
+                    inline: true
+                },
+            ])
+            .setFooter({text: `Note: More commands will be added soon`})
+
         await interaction.reply({
             embeds: [
-                new EmbedBuilder()
-                    .setTitle("**Help Page**")
-                    .setDescription("Here are all of my commands")
-                    .setAuthor({name: interaction.client.user.tag})
-                    //Show bot avatar
-                    .setThumbnail(interaction.client.user.displayAvatarURL({dynamic: true}))
-                    .addFields([
-                        {
-                            name: "Default",
-                            value: "```/help\r/invite```",
-                            inline: true
-                        },
-                        {
-                            name: "Information",
-                            value: "```/info @user```",
-                            inline: true
-                        },
-                        {
-                            name: "Administrator",
-                            value: "```/track add online\r/track add all\r/track add bots\r/track remove online\r/track remove all\r/track remove bots\r/track list\r/channel setup join\r/channel setup leave\r/setup```",
-                            inline: true
-                        },
-                    ])
-                    .setFooter({text: `Note: More commands will be added soon`})
+                userEmbed,
+                adminEmbed
             ],
             ephemeral: true
         });

@@ -1,7 +1,9 @@
 .env
 
+/.idea
 /node_modules
 <<<<<<< HEAD
-/config
+/config/*
+!/config/.gitkeep
 =======
 >>>>>>> dev

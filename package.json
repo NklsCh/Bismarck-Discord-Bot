@@ -1,7 +1,7 @@
 {
-  "name": "discord-bot",
+  "name": "proton-bot",
   "version": "1.0.0",
-  "description": "",
+  "description": "Proton - A Discord Bot with a lot of features",
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -9,7 +9,7 @@
     "deploy": "node src/deployCommands.js"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@discordjs/builders": "^1.4.0",
     "@discordjs/rest": "^1.4.0",
