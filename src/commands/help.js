@@ -22,6 +22,21 @@ module.exports = {
                     .setThumbnail(interaction.client.user.displayAvatarURL({dynamic: true}))
                     .addFields([
                         {
+                            name: "User",
+                            value: "  ",
+                            inline: true
+                        },
+                        {
+                            name: "  ",
+                            value: "  ",
+                            inline: true
+                        },
+                        {
+                            name: "  ",
+                            value: "  ",
+                            inline: true
+                        },
+                        {
                             name: "Default",
                             value: "```/help\r/invite```",
                             inline: true
@@ -32,8 +47,38 @@ module.exports = {
                             inline: true
                         },
                         {
+                            name: "  ",
+                            value: "  ",
+                            inline: true
+                        },
+                        {
                             name: "Administrator",
-                            value: "```/track add online\r/track add all\r/track add bots\r/track remove online\r/track remove all\r/track remove bots\r/track list\r/channel set join\r/channel set leave\r/channel unset join\r/channel unset leave\r/setup```",
+                            value: "  ",
+                            inline: true
+                        },
+                        {
+                            name: "  ",
+                            value: "  ",
+                            inline: true
+                        },
+                        {
+                            name: "  ",
+                            value: "  ",
+                            inline: true
+                        },
+                        {
+                            name: "Tracking",
+                            value: "```/track add online\r/track add all\r/track add bots\r/track remove online\r/track remove all\r/track remove bots```",
+                            inline: true
+                        },
+                        {
+                            name: "Channel",
+                            value: "```/channel set join\r/channel set leave\r/channel unset join\r/channel unset leave```",
+                            inline: true
+                        },
+                        {
+                            name: "Other",
+                            value: "```/track list\r/setup```",
                             inline: true
                         },
                     ])
