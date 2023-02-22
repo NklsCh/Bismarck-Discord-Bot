@@ -30,7 +30,7 @@ module.exports = {
     async execute(interaction) {
         const member = interaction.options.getMember("member");
         let kick, ban, admin, button
-        if (interaction.member.permissions.has(PermissionsBitField.ADMINISTRATOR) && !member.user.bot) {
+        if (interaction.member.permissions.has([PermissionsBitField.Flags.BanMembers, PermissionsBitField.Flags.KickMembers]) && !member.user.bot) {
             kick = new ButtonBuilder()
                 .setStyle(4)
                 .setCustomId("kick")
