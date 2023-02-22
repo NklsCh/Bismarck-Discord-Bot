@@ -10,7 +10,7 @@ module.exports = {
         const guild = interaction.guild;
         const memberInGuild = guild.members.cache.get(member.id);
         let kick, ban, admin, button
-        if (interaction.member.permissions.has(PermissionsBitField.ADMINISTRATOR) && !member.bot) {
+        if (interaction.member.permissions.has([PermissionsBitField.Flags.BanMembers, PermissionsBitField.Flags.KickMembers]) && !member.bot) {
             kick = new ButtonBuilder()
                 .setStyle(4)
                 .setCustomId("kick")
