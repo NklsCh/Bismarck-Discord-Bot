@@ -1,20 +1,20 @@
-const {ActivityType} = require('discord.js');
+const { ActivityType } = require("discord.js");
 
 module.exports = {
-    name: 'guildDelete',
+    name: "guildDelete",
     execute(guild) {
+        let client = guild.client;
 
-        let client = guild.client
-
-        const serverAmount = client.guilds.cache
+        const serverAmount = client.guilds.cache;
 
         client.user.setPresence({
-            activities: [{
-                name: `${serverAmount.size} Server(s)`,
-                type: ActivityType.Watching
-            }],
-            status: "online"
-        })
-
+            activities: [
+                {
+                    name: `${serverAmount.size} Server(s)`,
+                    type: ActivityType.Watching,
+                },
+            ],
+            status: "online",
+        });
     },
-}
+};

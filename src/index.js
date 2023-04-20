@@ -1,6 +1,6 @@
 require("dotenv").config();
 const fs = require("fs");
-const {Client, Collection, GatewayIntentBits} = require("discord.js");
+const { Client, Collection, GatewayIntentBits } = require("discord.js");
 
 const client = new Client({
     intents: [
@@ -9,26 +9,30 @@ const client = new Client({
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.GuildMessageReactions,
-        GatewayIntentBits.MessageContent
-    ]
+        GatewayIntentBits.MessageContent,
+    ],
 });
 
 client.commands = new Collection();
 
 // Command handler
 
-const commandFiles = fs.readdirSync("./src/commands").filter(file => file.endsWith(".js"));
+const commandFiles = fs
+    .readdirSync("./src/commands")
+    .filter((file) => file.endsWith(".js"));
 
-commandFiles.forEach(commandFile => {
+commandFiles.forEach((commandFile) => {
     const command = require(`./commands/${commandFile}`);
     client.commands.set(command.data.name, command);
-})
+});
 
 // Event handler
 
-const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
+const eventFiles = fs
+    .readdirSync("./events")
+    .filter((file) => file.endsWith(".js"));
 
-eventFiles.forEach(file => {
+eventFiles.forEach((file) => {
     const event = require(`./../events/${file}`);
     if (event.once) {
         client.once(event.name, (...args) => event.execute(...args));
@@ -37,4 +41,6 @@ eventFiles.forEach(file => {
     }
 });
 
-client.login(process.env.TOKEN).then(r => console.log(`Ready! Logged in as ${client.user.tag}`));
+client
+    .login(process.env.TOKEN)
+    .then((r) => console.log(`Ready! Logged in as ${client.user.tag}`));
