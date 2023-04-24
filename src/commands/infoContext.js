@@ -1,5 +1,10 @@
-const {ContextMenuCommandBuilder, ApplicationCommandType, EmbedBuilder, PermissionsBitField} = require('discord.js');
-const {ButtonBuilder, ActionRowBuilder} = require("@discordjs/builders");
+const {
+    ContextMenuCommandBuilder,
+    ApplicationCommandType,
+    EmbedBuilder,
+    PermissionsBitField,
+} = require("discord.js");
+const { ButtonBuilder, ActionRowBuilder } = require("@discordjs/builders");
 
 module.exports = {
     data: new ContextMenuCommandBuilder()
@@ -9,61 +14,78 @@ module.exports = {
         const member = interaction.targetUser;
         const guild = interaction.guild;
         const memberInGuild = guild.members.cache.get(member.id);
-        let kick, ban, admin, button
-        if (interaction.member.permissions.has([PermissionsBitField.Flags.BanMembers, PermissionsBitField.Flags.KickMembers]) && !member.bot) {
+        let kick, ban, admin, button;
+        if (
+            interaction.member.permissions.has([
+                PermissionsBitField.Flags.BanMembers,
+                PermissionsBitField.Flags.KickMembers,
+            ]) &&
+            !member.bot
+        ) {
             kick = new ButtonBuilder()
                 .setStyle(4)
                 .setCustomId("kick")
-                .setLabel("Kick")
+                .setLabel("Kick");
             ban = new ButtonBuilder()
                 .setStyle(4)
                 .setCustomId("ban")
-                .setLabel("Ban")
-            button = [kick, ban]
-            admin = new ActionRowBuilder().addComponents(button)
+                .setLabel("Ban");
+            button = [kick, ban];
+            admin = new ActionRowBuilder().addComponents(button);
             interaction.reply({
                 embeds: [
                     new EmbedBuilder()
                         .setTitle(`User info about ${member.tag}`)
-                        .setThumbnail(member.displayAvatarURL({dynamic: true}))
+                        .setThumbnail(
+                            member.displayAvatarURL({ dynamic: true })
+                        )
                         .addFields([
                             {
                                 name: "Account Creation Date",
-                                value: `<t:${Math.round(member.createdTimestamp / 1000)}>`,
-                                inline: true
+                                value: `<t:${Math.round(
+                                    member.createdTimestamp / 1000
+                                )}>`,
+                                inline: true,
                             },
                             {
                                 name: "Joined Server Date",
-                                value: `<t:${Math.round(memberInGuild.joinedTimestamp / 1000)}>`,
-                                inline: true
-                            }
-                        ])
+                                value: `<t:${Math.round(
+                                    memberInGuild.joinedTimestamp / 1000
+                                )}>`,
+                                inline: true,
+                            },
+                        ]),
                 ],
                 ephemeral: true,
-                components: [
-                    admin
-                ]
-            })
+                components: [admin],
+            });
         } else {
             interaction.reply({
                 embeds: [
                     new EmbedBuilder()
                         .setTitle(`User info about ${member.tag}`)
-                        .setThumbnail(member.displayAvatarURL({dynamic: true}))
+                        .setThumbnail(
+                            member.displayAvatarURL({ dynamic: true })
+                        )
                         .addFields([
                             {
                                 name: "Account Creation Date",
-                                value: `<t:${Math.round(member.createdTimestamp / 1000)}>`,
-                                inline: true
+                                value: `<t:${Math.round(
+                                    member.createdTimestamp / 1000
+                                )}>`,
+                                inline: true,
                             },
                             {
                                 name: "Joined Server Date",
-                                value: `<t:${Math.round(memberInGuild.joinedTimestamp / 1000)}>`,
-                                inline: true
-                            }
-                        ])
-                ], ephemeral: true,
-            })
+                                value: `<t:${Math.round(
+                                    memberInGuild.joinedTimestamp / 1000
+                                )}>`,
+                                inline: true,
+                            },
+                        ]),
+                ],
+                ephemeral: true,
+            });
         }
-    }
-}
+    },
+};
