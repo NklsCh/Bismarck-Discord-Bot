@@ -1,5 +1,9 @@
+
 const { ActivityType, Presence } = require("discord.js");
 const fs = require("fs");
+const {ActivityType, Presence} = require('discord.js');
+const fs = require('fs');
+
 
 module.exports = {
     name: "ready",
@@ -48,6 +52,13 @@ module.exports = {
                 let config = JSON.parse(
                     fs.readFileSync("./config/" + guild.id + ".json", "utf8")
                 );
+                let onlineUsers = guild.members.cache.filter(member => (member.presence?.status === 'online' ||
+                    member.presence?.status === 'idle' ||
+                    member.presence?.status === 'dnd') &&
+                    !member.user.bot)
+                    .size;
+                console.log(onlineUsers)
+                let config = JSON.parse(fs.readFileSync('./config/' + guild.id + '.json', 'utf8'));
                 if (!config.onlineChannel) return;
                 guild.channels.edit(config.onlineChannel, {
                     name: `Online: ${onlineUsers}`,
@@ -64,6 +75,8 @@ module.exports = {
                     }`,
                 });
             });
+                guild.channels.edit(config.botChannel, {name: `Bots: ${guild.members.cache.filter(member => member.user.bot).size}`});
+            })
         }, 1000 * 30);
     },
 };
