@@ -30,8 +30,6 @@ module.exports = {
 
         //Get the config file for the server and change the channel name to the amount of users in the server
 
-        //TODO: Fix the bug that it sometimes gets the wrong amount of users
-
         setInterval(() => {
             client.guilds.cache.forEach((guild) => {
                 if (fs.existsSync("./config/" + guild.id + ".json") === false)
