@@ -1,5 +1,5 @@
 const { ActivityType } = require("discord.js");
-const Guild = require("../models/Guilds");
+const Guild = require("../models/guilds");
 
 module.exports = {
     name: "guildCreate",

@@ -65,8 +65,6 @@ module.exports = {
                     }`,
                 });
             });
-                guild.channels.edit(config.botChannel, {name: `Bots: ${guild.members.cache.filter(member => member.user.bot).size}`});
-            })
         }, 1000 * 30);
     },
 };
