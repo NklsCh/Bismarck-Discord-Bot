@@ -1,11 +1,14 @@
 const { ActivityType } = require("discord.js");
-const fs = require("fs");
+const Guild = require("../models/guilds");
 
 module.exports = {
     name: "guildCreate",
-    execute(guild) {
+    async execute(guild) {
         let client = guild.client;
 
+        const dbguild = await Guild.create({
+            guildId: guild.id,
+        });
         const serverAmount = client.guilds.cache;
 
         client.user.setPresence({
@@ -17,13 +20,5 @@ module.exports = {
             ],
             status: "online",
         });
-        fs.writeFileSync(
-            "./config/" + guild.id + ".json",
-            JSON.stringify({
-                name: guild.name,
-            }),
-            null,
-            4
-        );
     },
 };
