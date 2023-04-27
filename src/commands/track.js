@@ -4,7 +4,7 @@ const {
     SlashCommandBuilder,
     ChannelType,
 } = require("discord.js");
-const Guilds = require("../../models/guilds.js");
+const Guilds = require("../../models/guilds");
 
 let channel, serverConfig;
 

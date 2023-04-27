@@ -1,5 +1,5 @@
 const { Events } = require("discord.js");
-const Guilds = require("../models/Guilds.js");
+const Guilds = require("../models/guilds");
 
 module.exports = {
     name: Events.GuildMemberRemove,

@@ -1,5 +1,5 @@
 const { PermissionFlagsBits, SlashCommandBuilder } = require("discord.js");
-const Guilds = require("../../models/guilds.js");
+const Guilds = require("../../models/guilds");
 
 module.exports = {
     data: new SlashCommandBuilder()
