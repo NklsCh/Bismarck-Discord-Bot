@@ -1,4 +1,4 @@
-const Sequialize = require("sequelize");
+const Sequelize = require("sequelize");
 const sequelize = require("../utils/database.js");
 
 const Guilds = sequelize.define("guilds", {
