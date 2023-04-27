@@ -1,11 +1,13 @@
-const { ActivityType, Presence } = require("discord.js");
-const fs = require("fs");
+const { ActivityType } = require("discord.js");
+const Guild = require("../models/guilds");
 
 module.exports = {
     name: "ready",
     once: true,
-    execute(client) {
+    async execute(client) {
         let memberAmount = 0;
+
+        Guild.sync();
 
         //Get the amount of all users from all servers
         client.guilds.cache.forEach((guild) => {
@@ -31,9 +33,12 @@ module.exports = {
         //Get the config file for the server and change the channel name to the amount of users in the server
 
         setInterval(() => {
-            client.guilds.cache.forEach((guild) => {
-                if (fs.existsSync("./config/" + guild.id + ".json") === false)
-                    return;
+            client.guilds.cache.forEach(async (guild) => {
+                const dbguild = await Guild.findOne({
+                    where: {
+                        guildId: guild.id,
+                    },
+                });
                 //Get all online users from guild
                 let onlineUsers = guild.members.cache.filter(
                     (member) =>
@@ -43,19 +48,16 @@ module.exports = {
                         !member.user.bot
                 ).size;
                 console.log(onlineUsers);
-                let config = JSON.parse(
-                    fs.readFileSync("./config/" + guild.id + ".json", "utf8")
-                );
-                if (!config.onlineChannel) return;
-                guild.channels.edit(config.onlineChannel, {
+                if (!dbguild.onlineChannelId) return;
+                guild.channels.edit(dbguild.onlineChannelId, {
                     name: `Online: ${onlineUsers}`,
                 });
-                if (!config.allChannel) return;
-                guild.channels.edit(config.allChannel, {
+                if (!dbguild.allChannelId) return;
+                guild.channels.edit(dbguild.allChannelId, {
                     name: `Members: ${guild.memberCount}`,
                 });
-                if (!config.botChannel) return;
-                guild.channels.edit(config.botChannel, {
+                if (!dbguild.botChannelId) return;
+                guild.channels.edit(dbguild.botChannelId, {
                     name: `Bots: ${
                         guild.members.cache.filter((member) => member.user.bot)
                             .size

@@ -1,7 +1,7 @@
 const Sequialize = require("sequelize");
-const sequelize = require('../utils/database.js');
+const sequelize = require("../utils/database.js");
 
-const Guilds = sequelize.define('guilds', {
+const Guilds = sequelize.define("guilds", {
     guildId: {
         type: Sequialize.STRING,
         primaryKey: true,
