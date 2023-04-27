@@ -26,6 +26,7 @@ module.exports = {
             userid = interaction.message.embeds.map(
                 (embed) => embed.footer.text
             );
+            if(!interaction.guild.members.resolveId(userid[0])) return interaction.reply({ephemeral: true, content: "This user is not in this guild"});
             let user = interaction.guild.members.cache.find(
                 (user) => user.id === userid[0]
             );
