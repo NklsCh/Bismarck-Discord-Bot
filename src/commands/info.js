@@ -2,8 +2,9 @@ const {
     SlashCommandBuilder,
     ActionRowBuilder,
     ButtonBuilder,
-} = require("@discordjs/builders");
-const { EmbedBuilder, PermissionsBitField } = require("discord.js");
+    EmbedBuilder,
+    PermissionsBitField,
+} = require("discord.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -59,6 +60,7 @@ module.exports = {
                         .setThumbnail(
                             member.user.displayAvatarURL({ dynamic: true })
                         )
+                        .setFooter({ text: `${member.user.id}` })
                         .addFields([
                             {
                                 name: "Account Creation Date",

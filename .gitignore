@@ -2,9 +2,8 @@
 
 /.idea
 /node_modules
-<<<<<<< HEAD
 /config/*
 !/config/.gitkeep
 /.vs
-=======
->>>>>>> dev
+database.sqlite
+```
