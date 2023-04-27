@@ -1,9 +1,5 @@
 .env
-
 /.idea
 /node_modules
-/config/*
-!/config/.gitkeep
 /.vs
 database.sqlite
-```
