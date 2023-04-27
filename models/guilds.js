@@ -3,27 +3,27 @@ const sequelize = require("../utils/database.js");
 
 const Guilds = sequelize.define("guilds", {
     guildId: {
-        type: Sequialize.STRING,
+        type: Sequelize.STRING,
         primaryKey: true,
     },
     onlineChannelId: {
-        type: Sequialize.STRING,
+        type: Sequelize.STRING,
         allowNull: true,
     },
     allChannelId: {
-        type: Sequialize.STRING,
+        type: Sequelize.STRING,
         allowNull: true,
     },
     botChannelId: {
-        type: Sequialize.STRING,
+        type: Sequelize.STRING,
         allowNull: true,
     },
     welcomeChannelId: {
-        type: Sequialize.STRING,
+        type: Sequelize.STRING,
         allowNull: true,
     },
     goodbyeChannelId: {
-        type: Sequialize.STRING,
+        type: Sequelize.STRING,
         allowNull: true,
     },
 });
