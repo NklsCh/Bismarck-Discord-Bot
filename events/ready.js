@@ -1,4 +1,3 @@
-
 const { ActivityType } = require("discord.js");
 const Guild = require("../models/guilds");
 
@@ -35,12 +34,13 @@ module.exports = {
 
         setInterval(() => {
             client.guilds.cache.forEach(async (guild) => {
-                const dbguild = await Guild.findOne({
+                const [dbguild] = await Guild.findOrCreate({
                     where: {
                         guildId: guild.id,
                     },
                 });
                 //Get all online users from guild
+                await guild.members.fetch();
                 let onlineUsers = guild.members.cache.filter(
                     (member) =>
                         (member.presence?.status === "online" ||
@@ -49,21 +49,25 @@ module.exports = {
                         !member.user.bot
                 ).size;
                 console.log(onlineUsers);
-                if (!dbguild.onlineChannelId) return;
-                guild.channels.edit(dbguild.onlineChannelId, {
-                    name: `Online: ${onlineUsers}`,
-                });
-                if (!dbguild.allChannelId) return;
-                guild.channels.edit(dbguild.allChannelId, {
-                    name: `Members: ${guild.memberCount}`,
-                });
-                if (!dbguild.botChannelId) return;
-                guild.channels.edit(dbguild.botChannelId, {
-                    name: `Bots: ${
-                        guild.members.cache.filter((member) => member.user.bot)
-                            .size
-                    }`,
-                });
+                if (dbguild.onlineChannelId) {
+                    guild.channels.edit(dbguild.onlineChannelId, {
+                        name: `Online: ${onlineUsers}`,
+                    });
+                }
+                if (dbguild.allChannelId) {
+                    guild.channels.edit(dbguild.allChannelId, {
+                        name: `Members: ${guild.memberCount}`,
+                    });
+                }
+                if (dbguild.botChannelId) {
+                    guild.channels.edit(dbguild.botChannelId, {
+                        name: `Bots: ${
+                            guild.members.cache.filter(
+                                (member) => member.user.bot
+                            ).size
+                        }`,
+                    });
+                }
             });
         }, 1000 * 30);
     },
