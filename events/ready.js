@@ -40,6 +40,7 @@ module.exports = {
                     },
                 });
                 //Get all online users from guild
+                await guild.members.fetch();
                 let onlineUsers = guild.members.cache.filter(
                     (member) =>
                         (member.presence?.status === "online" ||
@@ -64,6 +65,6 @@ module.exports = {
                     }`,
                 });
             });
-        }, 1000 * 30);
+        }, 1000 * 60);
     },
 };
