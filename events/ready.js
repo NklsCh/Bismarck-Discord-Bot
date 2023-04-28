@@ -1,4 +1,3 @@
-
 const { ActivityType } = require("discord.js");
 const Guild = require("../models/guilds");
 
