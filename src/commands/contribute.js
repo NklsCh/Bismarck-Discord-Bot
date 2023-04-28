@@ -2,7 +2,7 @@ const {
     SlashCommandBuilder,
     ActionRowBuilder,
     ButtonBuilder,
-    EmbedBuilder
+    EmbedBuilder,
 } = require("discord.js");
 
 module.exports = {
@@ -20,7 +20,9 @@ module.exports = {
         let errorReport = new ButtonBuilder()
             .setLabel("Error Report")
             .setStyle(5)
-            .setURL("https://github.com/NklsCh/Discord-Bot/issues/new");
+            .setURL(
+                "https://github.com/Proton-Bot-Development/Proton/issues/new"
+            );
         let contributeRow = new ActionRowBuilder().addComponents([
             donate,
             errorReport,
