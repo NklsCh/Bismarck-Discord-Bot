@@ -6,7 +6,7 @@ Ever wanted a Bot to help you manage your Server? Well the answer is Proton
 It has all the features you want online user tracking or welcome and goodbye messages
 
 
-## Getting startet
+## Getting started
 
 ```text
 /help (Shows all commands)
