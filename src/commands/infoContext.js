@@ -3,8 +3,9 @@ const {
     ApplicationCommandType,
     EmbedBuilder,
     PermissionsBitField,
+    ButtonBuilder,
+    ActionRowBuilder,
 } = require("discord.js");
-const { ButtonBuilder, ActionRowBuilder } = require("@discordjs/builders");
 
 module.exports = {
     data: new ContextMenuCommandBuilder()
@@ -39,6 +40,7 @@ module.exports = {
                         .setThumbnail(
                             member.displayAvatarURL({ dynamic: true })
                         )
+                        .setFooter({ text: `${member.id}` })
                         .addFields([
                             {
                                 name: "Account Creation Date",

@@ -1,6 +1,5 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { PermissionFlagsBits } = require("discord.js");
-const fs = require("fs");
+const { PermissionFlagsBits, SlashCommandBuilder } = require("discord.js");
+const Guilds = require("../../models/guilds");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -81,9 +80,9 @@ module.exports = {
         .setDMPermission(false),
     async execute(interaction) {
         //Get server config
-        let serverConfig = JSON.parse(
-            fs.readFileSync(`./config/${interaction.guild.id}.json`)
-        );
+        const [guild] = await Guilds.findOrCreate({
+            where: { guildId: interaction.guild.id },
+        });
 
         //Switch the subcommand group whether it is set or unset
         switch (interaction.options.getSubcommandGroup()) {
@@ -92,23 +91,19 @@ module.exports = {
                 switch (interaction.options.getSubcommand()) {
                     case "join":
                         //Set the join channel to null and save the config
-                        serverConfig.joinChannel = null;
-                        fs.writeFileSync(
-                            `./config/${interaction.guild.id}.json`,
-                            JSON.stringify(serverConfig, null, 4)
-                        );
-                        //Reply's the user that the join channel has been unset
+                        await guild.update({
+                            welcomeChannelId: null,
+                        });
                         interaction.reply({
                             content: `Join channel unset`,
                             ephemeral: true,
                         });
                         break;
                     case "leave":
-                        serverConfig.leftChannel = null;
-                        fs.writeFileSync(
-                            `./config/${interaction.guild.id}.json`,
-                            JSON.stringify(serverConfig, null, 4)
-                        );
+                        //Set the leave channel to null and save the config
+                        await guild.update({
+                            goodbyeChannelId: null,
+                        });
                         interaction.reply({
                             content: `Leave channel unset`,
                             ephemeral: true,
@@ -119,28 +114,27 @@ module.exports = {
             case "set":
                 switch (interaction.options.getSubcommand()) {
                     case "join":
-                        const joinChannel =
+                        const welcomeChannelId =
                             interaction.options.getChannel("channel");
-                        serverConfig.joinChannel = joinChannel.id;
-                        fs.writeFileSync(
-                            `./config/${interaction.guild.id}.json`,
-                            JSON.stringify(serverConfig, null, 4)
-                        );
+
+                        await guild.update({
+                            welcomeChannelId: welcomeChannelId.id,
+                        });
                         interaction.reply({
-                            content: `Join channel set to ${joinChannel}`,
+                            content: `Join channel set to ${welcomeChannelId}`,
                             ephemeral: true,
                         });
                         break;
                     case "leave":
-                        const leaveChannel =
+                        const goodbyeChannelId =
                             interaction.options.getChannel("channel");
-                        serverConfig.leftChannel = leaveChannel.id;
-                        fs.writeFileSync(
-                            `./config/${interaction.guild.id}.json`,
-                            JSON.stringify(serverConfig, null, 4)
-                        );
+
+                        await guild.update({
+                            goodbyeChannelId: goodbyeChannelId.id,
+                        });
+
                         interaction.reply({
-                            content: `Leave channel set to ${leaveChannel}`,
+                            content: `Leave channel set to ${goodbyeChannelId}`,
                             ephemeral: true,
                         });
                         break;
