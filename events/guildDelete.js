@@ -1,5 +1,6 @@
 const { ActivityType } = require("discord.js");
 const Guild = require("../models/guilds");
+const cMessage = require("../models/cMessage");
 
 module.exports = {
     name: "guildDelete",
@@ -8,6 +9,11 @@ module.exports = {
 
         const serverAmount = client.guilds.cache;
 
+        await cMessage.destroy({
+            where: {
+                guildId: guild.id,
+            },
+        });
         await Guild.destroy({
             where: {
                 guildId: guild.id,

@@ -4,13 +4,16 @@ const Guilds = require("../models/guilds");
 module.exports = {
     name: Events.GuildMemberRemove,
     async execute(client) {
-        const dbguild = await Guilds.findOne({
+        const [dbguild] = await Guilds.findOrCreate({
             where: {
                 guildId: client.guild.id,
             },
         });
-        if (!dbguild.goodbyeChannelId) return;
-        let channel = client.guild.channels.cache.get(dbguild.goodbyeChannelId);
-        channel.send(`**${client.user.tag}** left the server!`);
+        if (!(await dbguild.goodbyeChannelId)) return;
+        client.guild.channels
+            .fetch(await dbguild.goodbyeChannelId)
+            .then((channel) => {
+                channel.send(`**${client.user.tag}** left the server!`);
+            });
     },
 };
