@@ -40,7 +40,7 @@ module.exports = {
                     },
                 });
                 //Get all online users from guild
-                await guild.members.fetch();
+                await guild.members.fetch({ cache: true });
                 let onlineUsers = guild.members.cache.filter(
                     (member) =>
                         (member.presence?.status === "online" ||
@@ -49,18 +49,18 @@ module.exports = {
                         !member.user.bot
                 ).size;
                 console.log(onlineUsers);
-                if (dbguild.onlineChannelId) {
-                    guild.channels.edit(dbguild.onlineChannelId, {
+                if (await dbguild.onlineChannelId) {
+                    guild.channels.edit(await dbguild.onlineChannelId, {
                         name: `Online: ${onlineUsers}`,
                     });
                 }
-                if (dbguild.allChannelId) {
-                    guild.channels.edit(dbguild.allChannelId, {
+                if (await dbguild.allChannelId) {
+                    guild.channels.edit(await dbguild.allChannelId, {
                         name: `Members: ${guild.memberCount}`,
                     });
                 }
-                if (dbguild.botChannelId) {
-                    guild.channels.edit(dbguild.botChannelId, {
+                if (await dbguild.botChannelId) {
+                    guild.channels.edit(await dbguild.botChannelId, {
                         name: `Bots: ${
                             guild.members.cache.filter(
                                 (member) => member.user.bot
@@ -69,6 +69,6 @@ module.exports = {
                     });
                 }
             });
-        }, 1000 * 30);
+        }, 1000 * 600);
     },
 };
