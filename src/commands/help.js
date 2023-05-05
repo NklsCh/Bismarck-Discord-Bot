@@ -57,7 +57,7 @@ module.exports = {
                 },
                 {
                     name: 'Custom Messages',
-                    value: '```/custom_message welcome\r/custom_message goodbye```',
+                    value: '```/welcome\r/goodbye```',
                     inline: true,
                 },
             ])

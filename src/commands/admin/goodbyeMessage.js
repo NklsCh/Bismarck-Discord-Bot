@@ -2,7 +2,7 @@ const {
     PermissionFlagsBits: { Administrator },
     SlashCommandBuilder,
 } = require('discord.js')
-const CMessage = require('../../models/cMessage')
+const CMessage = require('../../../models/cMessage')
 
 module.exports = {
     data: new SlashCommandBuilder()
