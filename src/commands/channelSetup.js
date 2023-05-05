@@ -1,6 +1,7 @@
 const {
     PermissionFlagsBits: { Administrator },
     SlashCommandBuilder,
+    ChannelType: { GuildText },
 } = require('discord.js')
 const Guilds = require('../../models/guilds')
 
@@ -35,6 +36,7 @@ module.exports = {
                                     de: 'Der Channel in dem die Join Nachrichten gesendet werden sollen',
                                 })
                                 .setRequired(true)
+                                .addChannelTypes(GuildText)
                         )
                 )
                 .addSubcommand((subcommand) =>
@@ -52,6 +54,7 @@ module.exports = {
                                     de: 'Der Channel der gesetzt werden soll',
                                 })
                                 .setRequired(true)
+                                .addChannelTypes(GuildText)
                         )
                 )
         )

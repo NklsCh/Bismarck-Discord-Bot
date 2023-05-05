@@ -2,11 +2,8 @@ const {
     PermissionFlagsBits: { Administrator },
     EmbedBuilder,
     SlashCommandBuilder,
-    ChannelType,
 } = require('discord.js')
 const Guilds = require('../../models/guilds')
-
-let channel, serverConfig
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -45,7 +42,6 @@ module.exports = {
                                     de: 'Der Kanal, in dem die Anzahl der Benutzer verfolgt werden soll',
                                 })
                                 .setRequired(true)
-                                .addChannelTypes(ChannelType.GuildVoice)
                         )
                 )
                 .addSubcommand((subcommand) =>
@@ -67,7 +63,6 @@ module.exports = {
                                     de: 'Der Kanal, in dem die Anzahl der Benutzer verfolgt werden soll',
                                 })
                                 .setRequired(true)
-                                .addChannelTypes(ChannelType.GuildVoice)
                         )
                 )
                 .addSubcommand((subcommand) =>
@@ -89,7 +84,6 @@ module.exports = {
                                     de: 'Der Kanal, in dem die Anzahl der Benutzer verfolgt werden soll',
                                 })
                                 .setRequired(true)
-                                .addChannelTypes(ChannelType.GuildVoice)
                         )
                 )
         )
@@ -149,7 +143,7 @@ module.exports = {
         const [guild] = await Guilds.findOrCreate({
             where: { guildId: interaction.guild.id },
         })
-        channel = interaction.options.getChannel('channel')
+        const channel = interaction.options.getChannel('channel')
         switch (
             interaction.options.getSubcommandGroup() ||
             interaction.options.getSubcommand()

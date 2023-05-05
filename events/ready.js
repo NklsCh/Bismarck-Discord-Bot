@@ -52,17 +52,17 @@ module.exports = {
                 ).size
                 console.log(onlineUsers)
                 if (await dbguild.onlineChannelId) {
-                    guild.channels.edit(await dbguild.onlineChannelId, {
+                    await guild.channels.edit(await dbguild.onlineChannelId, {
                         name: `Online: ${onlineUsers}`,
                     })
                 }
                 if (await dbguild.allChannelId) {
-                    guild.channels.edit(await dbguild.allChannelId, {
+                    await guild.channels.edit(await dbguild.allChannelId, {
                         name: `Members: ${guild.memberCount}`,
                     })
                 }
                 if (await dbguild.botChannelId) {
-                    guild.channels.edit(await dbguild.botChannelId, {
+                    await guild.channels.edit(await dbguild.botChannelId, {
                         name: `Bots: ${
                             guild.members.cache.filter(
                                 (member) => member.user.bot
