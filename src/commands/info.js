@@ -4,56 +4,53 @@ const {
     ButtonBuilder,
     EmbedBuilder,
     PermissionsBitField,
-} = require("discord.js");
+} = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("info")
+        .setName('info')
         .setNameLocalizations({
-            de: "info",
-            "en-US": "info",
+            de: 'info',
+            'en-US': 'info',
         })
-        .setDescription("gives info about a user")
+        .setDescription('gives info about a user')
         .setDescriptionLocalizations({
-            de: "Gibt Infos über einen Benutzer",
-            "en-US": "gives info about a user",
+            de: 'Gibt Infos über einen Benutzer',
+            'en-US': 'gives info about a user',
         })
         .addUserOption((option) =>
             option
-                .setName("member")
+                .setName('member')
                 .setNameLocalizations({
-                    de: "mitglied",
-                    "en-US": "member",
+                    de: 'mitglied',
+                    'en-US': 'member',
                 })
                 .setDescription("The user's info you want to get")
                 .setDescriptionLocalizations({
-                    de: "Die Infos über den Benutzer den du haben willst",
-                    "en-US": "The user's info you want to get",
+                    de: 'Die Infos über den Benutzer den du haben willst',
+                    'en-US': "The user's info you want to get",
                 })
                 .setRequired(true)
         )
         .setDMPermission(false),
     async execute(interaction) {
-        const member = interaction.options.getMember("member");
-        let kick, ban, admin, button;
-        const {BanMembers, KickMembers} = PermissionsBitField.Flags;
+        const member = interaction.options.getMember('member')
+        let kick, ban, admin, button
+        const { BanMembers, KickMembers } = PermissionsBitField.Flags
         if (
-            interaction.member.permissions.has([
-                BanMembers,
-                KickMembers,
-            ]) &&
+            interaction.member.permissions.has([BanMembers, KickMembers]) &&
             !member.user.bot
         ) {
             kick = new ButtonBuilder()
                 .setStyle(4)
-                .setCustomId("kick")
-                .setLabel("Kick");
+                .setCustomId('kick')
+                .setLabel('Kick')
             ban = new ButtonBuilder()
                 .setStyle(4)
-                .setCustomId("ban")
-                .setLabel("Ban");
-            button = [kick, ban];
-            admin = new ActionRowBuilder().addComponents(button);
+                .setCustomId('ban')
+                .setLabel('Ban')
+            button = [kick, ban]
+            admin = new ActionRowBuilder().addComponents(button)
             interaction.reply({
                 embeds: [
                     new EmbedBuilder()
@@ -64,14 +61,14 @@ module.exports = {
                         .setFooter({ text: `${member.user.id}` })
                         .addFields([
                             {
-                                name: "Account Creation Date",
+                                name: 'Account Creation Date',
                                 value: `<t:${Math.round(
                                     member.user.createdTimestamp / 1000
                                 )}>`,
                                 inline: true,
                             },
                             {
-                                name: "Joined Server Date",
+                                name: 'Joined Server Date',
                                 value: `<t:${Math.round(
                                     member.joinedTimestamp / 1000
                                 )}>`,
@@ -81,7 +78,7 @@ module.exports = {
                 ],
                 ephemeral: true,
                 components: [admin],
-            });
+            })
         } else {
             interaction.reply({
                 embeds: [
@@ -92,14 +89,14 @@ module.exports = {
                         )
                         .addFields([
                             {
-                                name: "Account Creation Date",
+                                name: 'Account Creation Date',
                                 value: `<t:${Math.round(
                                     member.user.createdTimestamp / 1000
                                 )}>`,
                                 inline: true,
                             },
                             {
-                                name: "Joined Server Date",
+                                name: 'Joined Server Date',
                                 value: `<t:${Math.round(
                                     member.joinedTimestamp / 1000
                                 )}>`,
@@ -108,7 +105,7 @@ module.exports = {
                         ]),
                 ],
                 ephemeral: true,
-            });
+            })
         }
     },
-};
+}
