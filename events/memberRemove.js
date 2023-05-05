@@ -1,5 +1,5 @@
-const { Events } = require("discord.js");
-const Guilds = require("../models/guilds");
+const { Events } = require('discord.js')
+const Guilds = require('../models/guilds')
 
 module.exports = {
     name: Events.GuildMemberRemove,
@@ -8,12 +8,12 @@ module.exports = {
             where: {
                 guildId: client.guild.id,
             },
-        });
-        if (!(await dbguild.goodbyeChannelId)) return;
+        })
+        if (!(await dbguild.goodbyeChannelId)) return
         client.guild.channels
             .fetch(await dbguild.goodbyeChannelId)
             .then((channel) => {
-                channel.send(`**${client.user.tag}** left the server!`);
-            });
+                channel.send(`**${client.user.tag}** left the server!`)
+            })
     },
-};
+}

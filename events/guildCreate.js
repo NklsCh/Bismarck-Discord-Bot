@@ -1,18 +1,21 @@
-const { ActivityType: {Watching} } = require("discord.js");
-const Guild = require("../models/guilds");
-const cMessage = require("../models/cMessage");
+const {
+    ActivityType: { Watching },
+    Events,
+} = require('discord.js')
+const Guild = require('../models/guilds')
+const cMessage = require('../models/cMessage')
 
 module.exports = {
-    name: "guildCreate",
+    name: Events.GuildCreate,
     async execute(guild) {
-        let client = guild.client;
+        let client = guild.client
         await Guild.create({
             guildId: guild.id,
         })
         await cMessage.create({
             guildId: guild.id,
-        });
-        const serverAmount = client.guilds.cache;
+        })
+        const serverAmount = client.guilds.cache
 
         client.user.setPresence({
             activities: [
@@ -21,7 +24,7 @@ module.exports = {
                     type: Watching,
                 },
             ],
-            status: "online",
-        });
+            status: 'online',
+        })
     },
-};
+}

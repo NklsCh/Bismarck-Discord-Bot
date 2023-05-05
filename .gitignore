@@ -3,4 +3,5 @@
 /.fleet
 /node_modules
 .env
+.prettierrc.json
 database.sqlite
