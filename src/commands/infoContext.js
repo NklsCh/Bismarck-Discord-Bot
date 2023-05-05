@@ -16,10 +16,11 @@ module.exports = {
         const guild = interaction.guild;
         const memberInGuild = guild.members.cache.get(member.id);
         let kick, ban, admin, button;
+        const {BanMembers, KickMembers} = PermissionsBitField.Flags;
         if (
             interaction.member.permissions.has([
-                PermissionsBitField.Flags.BanMembers,
-                PermissionsBitField.Flags.KickMembers,
+                BanMembers,
+                KickMembers,
             ]) &&
             !member.bot
         ) {

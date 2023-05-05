@@ -1,4 +1,4 @@
-const { PermissionFlagsBits, SlashCommandBuilder } = require("discord.js");
+const { PermissionFlagsBits: {Administrator}, SlashCommandBuilder } = require("discord.js");
 const CMessage = require("../../models/cMessage");
 
 module.exports = {
@@ -42,7 +42,7 @@ module.exports = {
         .setDescriptionLocalizations({
             de: "Setze eine benutzerdefinierte Willkommens- oder Abschiedsnachricht",
         })
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+        .setDefaultMemberPermissions(Administrator)
         .setDMPermission(false),
     async execute(interaction) {
         const [customMessage] = await CMessage.findOrCreate({

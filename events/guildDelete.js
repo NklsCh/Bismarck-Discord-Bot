@@ -1,4 +1,4 @@
-const { ActivityType } = require("discord.js");
+const { ActivityType: {Watching} } = require("discord.js");
 const Guild = require("../models/guilds");
 const cMessage = require("../models/cMessage");
 
@@ -24,7 +24,7 @@ module.exports = {
             activities: [
                 {
                     name: `${serverAmount.size} Server(s)`,
-                    type: ActivityType.Watching,
+                    type: Watching,
                 },
             ],
             status: "online",

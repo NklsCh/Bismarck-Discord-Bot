@@ -1,4 +1,4 @@
-const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
+const {EmbedBuilder, SlashCommandBuilder} = require("discord.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -14,9 +14,9 @@ module.exports = {
         const userEmbed = new EmbedBuilder()
             .setTitle("User")
             .setDescription("Here are all of my commands")
-            .setAuthor({ name: interaction.client.user.tag })
+            .setAuthor({name: interaction.client.user.tag})
             .setThumbnail(
-                interaction.client.user.displayAvatarURL({ dynamic: true })
+                interaction.client.user.displayAvatarURL({dynamic: true})
             )
             .addFields([
                 {
@@ -30,14 +30,14 @@ module.exports = {
                     inline: true,
                 },
             ])
-            .setFooter({ text: `Note: More commands will be added soon` });
+            .setFooter({text: `Note: More commands will be added soon`});
 
         const adminEmbed = new EmbedBuilder()
             .setTitle("Administrator")
             .setDescription("Here are all of my commands")
-            .setAuthor({ name: interaction.client.user.tag })
+            .setAuthor({name: interaction.client.user.tag})
             .setThumbnail(
-                interaction.client.user.displayAvatarURL({ dynamic: true })
+                interaction.client.user.displayAvatarURL({dynamic: true})
             )
             .addFields([
                 {
@@ -55,8 +55,13 @@ module.exports = {
                     value: "```/track list\r/setup```",
                     inline: true,
                 },
+                {
+                    name: "Custom Messages",
+                    value: "```/custom_message welcome\r/custom_message goodbye```",
+                    inline: true,
+                }
             ])
-            .setFooter({ text: `Note: More commands will be added soon` });
+            .setFooter({text: `Note: More commands will be added soon`});
 
         await interaction.reply({
             embeds: [userEmbed, adminEmbed],

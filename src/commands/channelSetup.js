@@ -1,4 +1,4 @@
-const { PermissionFlagsBits, SlashCommandBuilder } = require("discord.js");
+const { PermissionFlagsBits: {Administrator}, SlashCommandBuilder } = require("discord.js");
 const Guilds = require("../../models/guilds");
 
 module.exports = {
@@ -76,7 +76,7 @@ module.exports = {
                         })
                 )
         )
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+        .setDefaultMemberPermissions(Administrator)
         .setDMPermission(false),
     async execute(interaction) {
         //Get server config
