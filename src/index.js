@@ -12,6 +12,7 @@ const {
         MessageContent,
     },
 } = require('discord.js')
+const modules = ['admin', 'user', 'other']
 
 /*
     Initiates the Bot as client
@@ -31,21 +32,15 @@ client.commands = new Collection()
 
 // Command handler
 
-const commandFilesAdmin = fs
-    .readdirSync('./src/commands/admin/')
-    .filter((file) => file.endsWith('.js'))
-const commandFilesUser = fs
-    .readdirSync('./src/commands/')
-    .filter((file) => file.endsWith('.js'))
+modules.forEach((module) => {
+    const commandFiles = fs
+        .readdirSync(`./src/commands/${module}/`)
+        .filter((file) => file.endsWith('.js'))
 
-commandFilesAdmin.forEach((commandFile) => {
-    const command = require(`./commands/admin/${commandFile}`)
-    client.commands.set(command.data.name, command)
-})
-
-commandFilesUser.forEach((commandFile) => {
-    const command = require(`./commands/${commandFile}`)
-    client.commands.set(command.data.name, command)
+    commandFiles.forEach((commandFile) => {
+        const command = require(`./commands/${module}/${commandFile}`)
+        client.commands.set(command.data.name, command)
+    })
 })
 
 // Event handler
