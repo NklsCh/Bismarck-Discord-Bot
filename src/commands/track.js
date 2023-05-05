@@ -1,5 +1,5 @@
 const {
-    PermissionFlagsBits,
+    PermissionFlagsBits: {Administrator},
     EmbedBuilder,
     SlashCommandBuilder,
     ChannelType,
@@ -143,7 +143,7 @@ module.exports = {
                     de: "Listet alle Kanäle auf, in denen der Bot die Anzahl der Benutzer verfolgt",
                 })
         )
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+        .setDefaultMemberPermissions(Administrator)
         .setDMPermission(false),
     async execute(interaction) {
         const [guild] = await Guilds.findOrCreate({
@@ -161,7 +161,7 @@ module.exports = {
                         await guild.update({
                             onlineChannelId: channel.id,
                         });
-                        interaction.editReply({
+                        await interaction.editReply({
                             content: `The bot will now track the amount of online users in ${channel}!`,
                         });
                         break;
@@ -170,7 +170,7 @@ module.exports = {
                         await guild.update({
                             allChannelId: channel.id,
                         });
-                        interaction.editReply({
+                        await interaction.editReply({
                             content: `The bot will now track the amount of all users in ${channel}!`,
                             ephemeral: true,
                         });
@@ -180,7 +180,7 @@ module.exports = {
                         await guild.update({
                             botChannelId: channel.id,
                         });
-                        interaction.editReply({
+                        await interaction.editReply({
                             content: `The bot will now track the amount of bots in ${channel}!`,
                             ephemeral: true,
                         });
@@ -193,7 +193,7 @@ module.exports = {
                         await guild.update({
                             onlineChannelId: null,
                         });
-                        interaction.editReply({
+                        await interaction.editReply({
                             content:
                                 "The bot will no longer track the amount of online users!",
                             ephemeral: true,
@@ -204,7 +204,7 @@ module.exports = {
                         await guild.update({
                             allChannelId: null,
                         });
-                        interaction.editReply({
+                        await interaction.editReply({
                             content:
                                 "The bot will no longer track the amount of all users!",
                             ephemeral: true,
@@ -215,7 +215,7 @@ module.exports = {
                         await guild.update({
                             botChannelId: null,
                         });
-                        interaction.editReply({
+                        await interaction.editReply({
                             content:
                                 "The bot will no longer track the amount of bots!",
                             ephemeral: true,
@@ -247,7 +247,7 @@ module.exports = {
                         guild.botChannelId
                     );
                 }
-                interaction.editReply({
+                await interaction.editReply({
                     embeds: [
                         new EmbedBuilder()
                             .setTitle("Tracking Channels")

@@ -1,4 +1,4 @@
-const { PermissionFlagsBits, SlashCommandBuilder } = require("discord.js");
+const { PermissionFlagsBits: {Administrator}, SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -15,7 +15,12 @@ module.exports = {
                     de: "Zeige die aktuelle Konfiguration",
                 })
         )
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+        .setDefaultMemberPermissions(Administrator)
         .setDMPermission(false),
-    async execute(interaction) {},
+    async execute(interaction) {
+        interaction.reply({
+            content: "This command is not yet implemented",
+            ephemeral: true,
+        });
+    },
 };

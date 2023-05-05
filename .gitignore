@@ -1,5 +1,6 @@
-.env
 /.idea
-/node_modules
 /.vs
+/.fleet
+/node_modules
+.env
 database.sqlite

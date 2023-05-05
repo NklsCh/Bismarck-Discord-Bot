@@ -36,10 +36,11 @@ module.exports = {
     async execute(interaction) {
         const member = interaction.options.getMember("member");
         let kick, ban, admin, button;
+        const {BanMembers, KickMembers} = PermissionsBitField.Flags;
         if (
             interaction.member.permissions.has([
-                PermissionsBitField.Flags.BanMembers,
-                PermissionsBitField.Flags.KickMembers,
+                BanMembers,
+                KickMembers,
             ]) &&
             !member.user.bot
         ) {
