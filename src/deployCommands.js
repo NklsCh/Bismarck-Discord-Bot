@@ -1,22 +1,18 @@
 require('dotenv').config()
 const fs = require('fs')
 const { REST, Routes } = require('discord.js')
+const modules = ['admin', 'user', 'other']
 const commands = []
 
-const commandFilesAdmin = fs
-    .readdirSync('./src/commands/admin/')
-    .filter((file) => file.endsWith('.js'))
-const commandFilesUser = fs
-    .readdirSync('./src/commands/')
-    .filter((file) => file.endsWith('.js'))
+modules.forEach((module) => {
+    const commandFiles = fs
+        .readdirSync(`./src/commands/${module}/`)
+        .filter((file) => file.endsWith('.js'))
 
-commandFilesAdmin.forEach((commandFile) => {
-    const command = require(`./commands/admin/${commandFile}`)
-    commands.push(command.data.toJSON())
-})
-commandFilesUser.forEach((commandFile) => {
-    const command = require(`./commands/${commandFile}`)
-    commands.push(command.data.toJSON())
+    commandFiles.forEach((commandFile) => {
+        const command = require(`./commands/${module}/${commandFile}`)
+        commands.push(command.data.toJSON())
+    })
 })
 
 const rest = new REST({ version: '10' }).setToken(process.env.TOKEN)

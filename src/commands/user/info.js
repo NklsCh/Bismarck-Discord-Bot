@@ -11,24 +11,20 @@ module.exports = {
         .setName('info')
         .setNameLocalizations({
             de: 'info',
-            'en-US': 'info',
         })
         .setDescription('gives info about a user')
         .setDescriptionLocalizations({
             de: 'Gibt Infos über einen Benutzer',
-            'en-US': 'gives info about a user',
         })
         .addUserOption((option) =>
             option
                 .setName('member')
                 .setNameLocalizations({
                     de: 'mitglied',
-                    'en-US': 'member',
                 })
                 .setDescription("The user's info you want to get")
                 .setDescriptionLocalizations({
                     de: 'Die Infos über den Benutzer den du haben willst',
-                    'en-US': "The user's info you want to get",
                 })
                 .setRequired(true)
         )
