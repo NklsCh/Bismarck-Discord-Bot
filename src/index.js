@@ -31,11 +31,19 @@ client.commands = new Collection()
 
 // Command handler
 
-const commandFiles = fs
-    .readdirSync('./src/commands')
+const commandFilesAdmin = fs
+    .readdirSync('./src/commands/admin/')
+    .filter((file) => file.endsWith('.js'))
+const commandFilesUser = fs
+    .readdirSync('./src/commands/')
     .filter((file) => file.endsWith('.js'))
 
-commandFiles.forEach((commandFile) => {
+commandFilesAdmin.forEach((commandFile) => {
+    const command = require(`./commands/admin/${commandFile}`)
+    client.commands.set(command.data.name, command)
+})
+
+commandFilesUser.forEach((commandFile) => {
     const command = require(`./commands/${commandFile}`)
     client.commands.set(command.data.name, command)
 })

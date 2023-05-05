@@ -3,11 +3,18 @@ const fs = require('fs')
 const { REST, Routes } = require('discord.js')
 const commands = []
 
-const commandFiles = fs
-    .readdirSync('./src/commands')
+const commandFilesAdmin = fs
+    .readdirSync('./src/commands/admin/')
+    .filter((file) => file.endsWith('.js'))
+const commandFilesUser = fs
+    .readdirSync('./src/commands/')
     .filter((file) => file.endsWith('.js'))
 
-commandFiles.forEach((commandFile) => {
+commandFilesAdmin.forEach((commandFile) => {
+    const command = require(`./commands/admin/${commandFile}`)
+    commands.push(command.data.toJSON())
+})
+commandFilesUser.forEach((commandFile) => {
     const command = require(`./commands/${commandFile}`)
     commands.push(command.data.toJSON())
 })
