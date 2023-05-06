@@ -26,3 +26,6 @@ It has all the features you want online user tracking or welcome and goodbye mes
 
 For support, join our [Discord Server](https://discord.com/invite/vbRQB8PV9X)
 
+## Copyright
+
+Copyright (c) 2022, 2023 Niklas Choinowski and contributors
