@@ -127,16 +127,6 @@ module.exports = {
                         })
                 )
         )
-        .addSubcommand((subcommand) =>
-            subcommand
-                .setName('list')
-                .setDescription(
-                    'Lists all channels the bot is tracking the amount of users in'
-                )
-                .setDescriptionLocalizations({
-                    de: 'Listet alle Kanäle auf, in denen der Bot die Anzahl der Benutzer verfolgt',
-                })
-        )
         .setDefaultMemberPermissions(Administrator)
         .setDMPermission(false),
     async execute(interaction) {
@@ -216,55 +206,6 @@ module.exports = {
                         })
                         break
                 }
-                break
-            case 'list':
-                await interaction.deferReply({ ephemeral: true })
-                let onlineChannelName, allChannelName, botChannelName
-                if (!guild.onlineChannelId) {
-                    onlineChannelName = 'Not tracking'
-                } else {
-                    onlineChannelName = await interaction.guild.channels.fetch(
-                        guild.onlineChannelId
-                    )
-                }
-                if (!guild.allChannelId) {
-                    allChannelName = 'Not tracking'
-                } else {
-                    allChannelName = await interaction.guild.channels.fetch(
-                        guild.allChannelId
-                    )
-                }
-                if (!guild.onlineChannelId) {
-                    botChannelName = 'Not tracking'
-                } else {
-                    botChannelName = await interaction.guild.channels.fetch(
-                        guild.botChannelId
-                    )
-                }
-                await interaction.editReply({
-                    embeds: [
-                        new EmbedBuilder()
-                            .setTitle('Tracking Channels')
-                            .setFields([
-                                {
-                                    name: 'Online',
-                                    value: `${onlineChannelName}`,
-                                    inline: true,
-                                },
-                                {
-                                    name: 'All',
-                                    value: `${allChannelName}`,
-                                    inline: true,
-                                },
-                                {
-                                    name: 'Bots',
-                                    value: `${botChannelName}`,
-                                    inline: true,
-                                },
-                            ]),
-                    ],
-                    ephemeral: true,
-                })
                 break
         }
     },
