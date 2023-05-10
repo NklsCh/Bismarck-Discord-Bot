@@ -69,6 +69,29 @@ module.exports = {
                         content: `The user ${user} has been banned`,
                     })
                     break
+                case 'pollOpt1':
+                    interaction.client.users.send(
+                        interaction.user,
+                        'You voted for option 1'
+                    )
+                    break
+                case 'pollOpt2':
+                    interaction.client.users.send(
+                        interaction.user,
+                        'You voted for option 2'
+                    )
+                    break
+                case 'pollOpt3':
+                    interaction.client.users.send(
+                        interaction.user,
+                        'You voted for option 3'
+                    )
+                    break
+                case 'pollOpt4':
+                    interaction.client.users.send(
+                        interaction.user,
+                        'You voted for option 4'
+                    )
                 default:
                     await interaction.reply({
                         ephemeral: true,
