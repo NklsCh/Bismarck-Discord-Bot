@@ -4,49 +4,50 @@ const cMessage = require('../models/cMessage')
 
 module.exports = {
     name: Events.GuildMemberAdd,
-    async execute(client) {
-        const name = client.guild.name
+    async execute(GuildMember) {
+        const name = GuildMember.guild.name;
         const [dbguild] = await Guilds.findOrCreate({
             where: {
-                guildId: client.guild.id,
+                guildId: GuildMember.guild.id,
             },
-        })
+        });
         const [customMessage] = await cMessage.findOrCreate({
             where: {
-                guildId: client.guild.id,
+                guildId: GuildMember.guild.id,
             },
-        })
+        });
 
         if (await customMessage.welcomeMessage) {
             const welcomeEmbed = {
                 color: 0x0099ff,
-                title: '**Welcome**',
+                title: "**Welcome**",
                 thumbnail: {
-                    url: client.user.avatarURL(),
+                    url: GuildMember.user.avatarURL(),
                 },
                 description: await customMessage.welcomeMessage,
-            }
-            if (!(await dbguild.welcomeChannelId)) return
-            client.guild.channels
+            };
+            if (!(await dbguild.welcomeChannelId)) return;
+            GuildMember.guild.channels
                 .fetch(await dbguild.welcomeChannelId)
                 .then((channel) => {
-                    channel.send({ embeds: [welcomeEmbed] })
-                })
+                    channel.send({ embeds: [welcomeEmbed] });
+                });
         } else {
             const helloEmbed = {
                 color: 0x0099ff,
-                title: '**Welcome**',
+                title: "**Welcome**",
                 thumbnail: {
-                    url: client.user.avatarURL(),
+                    url: GuildMember.user.avatarURL(),
                 },
-                description: 'Welcome ' + client.user.tag + ' to ' + name + '!',
-            }
-            if (!(await dbguild.welcomeChannelId)) return
-            client.guild.channels
+                description:
+                    "Welcome " + GuildMember.user.tag + " to " + name + "!",
+            };
+            if (!(await dbguild.welcomeChannelId)) return;
+            GuildMember.guild.channels
                 .fetch(await dbguild.welcomeChannelId)
                 .then((channel) => {
-                    channel.send({ embeds: [helloEmbed] })
-                })
+                    channel.send({ embeds: [helloEmbed] });
+                });
         }
     },
-}
+};
