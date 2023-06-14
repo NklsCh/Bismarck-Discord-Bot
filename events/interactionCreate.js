@@ -69,29 +69,78 @@ module.exports = {
                         content: `The user ${user} has been banned`,
                     })
                     break
-                case 'pollOpt1':
-                    interaction.client.users.send(
-                        interaction.user,
-                        'You voted for option 1'
-                    )
+                case 'option1':
+                    await interaction.reply({
+                        ephemeral: true,
+                        content: 'Vote for option 1!',
+                    })
+                    interaction.message.embeds[0].fields[0].value = `> **${
+                        //Need to split the string to get the number of votes and parse the string to an integer
+                        parseInt(
+                            interaction.message.embeds[0].fields[0].value
+                                .split(' ')
+                                .join('**')
+                                .split('**')[2]
+                        ) + 1
+                    } votes**`
+                    interaction.message.edit({
+                        embeds: interaction.message.embeds,
+                    })
                     break
-                case 'pollOpt2':
-                    interaction.client.users.send(
-                        interaction.user,
-                        'You voted for option 2'
-                    )
+                case 'option2':
+                    await interaction.reply({
+                        ephemeral: true,
+                        content: 'Vote for option 2!',
+                    })
+                    interaction.message.embeds[0].fields[1].value = `> **${
+                        //Need to split the string to get the number of votes and parse the string to an integer
+                        parseInt(
+                            interaction.message.embeds[0].fields[1].value
+                                .split(' ')
+                                .join('**')
+                                .split('**')[2]
+                        ) + 1
+                    } votes**`
+                    interaction.message.edit({
+                        embeds: interaction.message.embeds,
+                    })
                     break
-                case 'pollOpt3':
-                    interaction.client.users.send(
-                        interaction.user,
-                        'You voted for option 3'
-                    )
+                case 'option3':
+                    await interaction.reply({
+                        ephemeral: true,
+                        content: 'Voted for option 3!',
+                    })
+                    interaction.message.embeds[0].fields[2].value = `> **${
+                        //Need to split the string to get the number of votes and parse the string to an integer
+                        parseInt(
+                            interaction.message.embeds[0].fields[2].value
+                                .split(' ')
+                                .join('**')
+                                .split('**')[2]
+                        ) + 1
+                    } votes**`
+                    interaction.message.edit({
+                        embeds: interaction.message.embeds,
+                    })
                     break
-                case 'pollOpt4':
-                    interaction.client.users.send(
-                        interaction.user,
-                        'You voted for option 4'
-                    )
+                case 'option4':
+                    await interaction.reply({
+                        ephemeral: true,
+                        content: 'Voted for option 4!',
+                    })
+                    interaction.message.embeds[0].fields[3].value = `> **${
+                        //Need to split the string to get the number of votes and parse the string to an integer
+                        parseInt(
+                            interaction.message.embeds[0].fields[3].value
+                                .split(' ')
+                                .join('**')
+                                .split('**')[2]
+                        ) + 1
+                    } votes**`
+                    interaction.message.edit({
+                        embeds: interaction.message.embeds,
+                    })
+                    break
                 default:
                     await interaction.reply({
                         ephemeral: true,
