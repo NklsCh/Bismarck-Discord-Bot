@@ -3,7 +3,11 @@ const {
     ButtonBuilder,
     EmbedBuilder,
     ActionRowBuilder,
+    AttachmentBuilder,
 } = require('discord.js')
+const rp = require('request-promise')
+const { ChartJSNodeCanvas } = require('chartjs-node-canvas')
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('poll')
@@ -55,14 +59,6 @@ module.exports = {
                 })
         ),
     async execute(interaction) {
-        const options = [
-            (buttonOpt1 = new ButtonBuilder().setStyle(1).setLabel('1').setCustomId('pollOpt1')),
-            (buttonOpt2 = new ButtonBuilder().setStyle(1).setLabel('2').setCustomId('pollOpt2')),
-            (buttonOpt3 = new ButtonBuilder().setStyle(1).setLabel('3').setCustomId('pollOpt3')),
-            (buttonOpt4 = new ButtonBuilder().setStyle(1).setLabel('4').setCustomId('pollOpt4')),
-        ]
-        const row1 = new ActionRowBuilder().addComponents(options)
-
         const question = interaction.options.getString('question')
         const option1 = interaction.options.getString('option1')
         const option2 = interaction.options.getString('option2')
@@ -70,44 +66,128 @@ module.exports = {
         const option4 = interaction.options.getString('option4')
 
         const poll = new EmbedBuilder()
+            .setFooter({ text: '🤚 Poll System' })
+            .setTimestamp()
             .setTitle(question)
-            .setFooter({ text: `Poll by ${interaction.user.tag}` })
-            .setFields([
-                {
-                    name: '1',
-                    value: option1,
-                    inline: true,
-                },
-                {
-                    name: '2',
-                    value: option2,
-                    inline: true,
-                },
-                {
-                    name: ' ',
-                    value: ' ',
-                    inline: true,
-                },
-                {
-                    name: '3',
-                    value: option3,
-                    inline: true,
-                },
-                {
-                    name: '4',
-                    value: option4,
-                    inline: true,
-                },
-                {
-                    name: ' ',
-                    value: ' ',
-                    inline: true,
-                }
-            ])
+            .addFields({
+                name: '1️⃣: ' + option1,
+                value: '> **0 Votes**',
+                inline: true,
+            })
+            .addFields({
+                name: '2️⃣: ' + option2,
+                value: '> **0 Votes**',
+                inline: true,
+            })
+            .addFields({ name: ' ', value: ' ' })
+            .addFields({
+                name: option3 ? '3️⃣: ' + option3 : ' ',
+                value: option3 ? '> **0 Votes**' : ' ',
+                inline: true,
+            })
+            .addFields({
+                name: option4 ? '4️⃣: ' + option4 : ' ',
+                value: option4 ? '> **0 Votes**' : ' ',
+                inline: true,
+            })
+            .addFields({
+                name: 'Author',
+                value: `> ${interaction.user}`,
+                inline: false,
+            })
 
-        interaction.reply({
+        const buttons = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setCustomId('option1')
+                .setEmoji('1️⃣')
+                .setStyle(2),
+            new ButtonBuilder()
+                .setCustomId('option2')
+                .setEmoji('2️⃣')
+                .setStyle(2)
+        )
+        const button3 = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setCustomId('option3')
+                .setEmoji('3️⃣')
+                .setStyle(2)
+        )
+        const button4 = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setCustomId('option4')
+                .setEmoji('4️⃣')
+                .setStyle(2)
+        )
+
+        const msg = await interaction.reply({
             embeds: [poll],
-            components: [row1],
+            components: [buttons],
         })
+        option3 ? msg.edit({ components: [buttons, button3] }) : null
+        option4 ? msg.edit({ components: [buttons, button3, button4] }) : null
+
+        setTimeout(async () => {
+            let message = await msg.fetch()
+            const generatedChart = async (labels, datas) => {
+                const renderer = new ChartJSNodeCanvas({
+                    width: 500,
+                    height: 500,
+                })
+                const image = await renderer.renderToBuffer({
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Poll',
+                                data: datas,
+                                backgroundColor: [
+                                    '#57F287',
+                                    '#FEE75C',
+                                    '#5865F2',
+                                    '#ED4245',
+                                ],
+                            },
+                        ],
+                    },
+                })
+                return new AttachmentBuilder(image)
+            }
+            let labels = ['1', '2', '3', '4']
+            let datas = [
+                message.embeds[0].fields[0].value
+                    .split('**')
+                    .join(' ')
+                    .split(' ')[2],
+                message.embeds[0].fields[1].value
+                    .split('**')
+                    .join(' ')
+                    .split(' ')[2],
+                message.embeds[0].fields[2].value
+                    .split('**')
+                    .join(' ')
+                    .split(' ')[2],
+                message.embeds[0].fields[3].value
+                    .split('**')
+                    .join(' ')
+                    .split(' ')[2],
+            ]
+            console.log(datas)
+
+            const finalVote = new EmbedBuilder()
+                .setTitle('Poll Results')
+                .setFooter({ text: '🤚 Poll System' })
+                .setTimestamp()
+                .setImage('attachment://chart.png')
+
+            const attachment = await generatedChart(labels, datas)
+
+            const finalMsg = await interaction.channel.send({
+                embeds: [finalVote],
+                files: [attachment],
+            })
+
+            msg.edit({ components: [] })
+        }, 60000)
     },
 }
