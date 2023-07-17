@@ -52,7 +52,7 @@ module.exports = {
                 },
                 {
                     name: 'Other',
-                    value: '```/track list\r/setup```',
+                    value: '```/track list\r/setup\r/poll\r/clear```',
                     inline: true,
                 },
                 {
