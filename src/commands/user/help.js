@@ -26,7 +26,7 @@ module.exports = {
                 },
                 {
                     name: 'Information',
-                    value: '```/info @user```',
+                    value: '```/info [@user]```',
                     inline: true,
                 },
             ])
@@ -42,23 +42,19 @@ module.exports = {
             .addFields([
                 {
                     name: 'Tracking',
-                    value: '```/track add online\r/track add all\r/track add bots\r/track remove online\r/track remove all\r/track remove bots```',
-                    inline: true,
+                    value: '```/track add online [channel]\r/track add all [channel]\r/track add bots [channel]\r/track remove online\r/track remove all\r/track remove bots```',
                 },
                 {
                     name: 'Channel',
-                    value: '```/channel set join\r/channel set leave\r/channel unset join\r/channel unset leave```',
-                    inline: true,
+                    value: '```/channel set join [channel]\r/channel set leave [channel]\r/channel unset join\r/channel unset leave```',
                 },
                 {
                     name: 'Other',
-                    value: '```/track list\r/setup\r/poll\r/clear```',
-                    inline: true,
+                    value: '```/track list\r/setup\r/poll [question] [option1] [option2] [...]\r/clear [amount]```',
                 },
                 {
                     name: 'Custom Messages',
-                    value: '```/welcome\r/goodbye```',
-                    inline: true,
+                    value: '```/welcome [message]\r/goodbye [message]```',
                 },
             ])
             .setFooter({ text: `Note: More commands will be added soon` })
