@@ -5,7 +5,6 @@ const {
     ActionRowBuilder,
     AttachmentBuilder,
 } = require('discord.js')
-const rp = require('request-promise')
 const { ChartJSNodeCanvas } = require('chartjs-node-canvas')
 
 module.exports = {

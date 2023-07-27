@@ -15,8 +15,7 @@
     "chartjs-node-canvas": "^4.1.6",
     "discord.js": "^14.11.0",
     "dotenv": "^16.0.3",
-    "nodemon": "^2.0.20",
-    "request-promise": "^4.2.6",
+    "nodemon": "^3.0.1",
     "sequelize": "^6.31.0",
     "sqlite3": "^5.1.6"
   },
