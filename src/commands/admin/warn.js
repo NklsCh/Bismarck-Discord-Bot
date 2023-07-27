@@ -3,6 +3,7 @@ const {
     SlashCommandBuilder,
     EmbedBuilder,
 } = require("discord.js");
+const warns = require("../../../models/warns");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -21,6 +22,7 @@ module.exports = {
                 .setRequired(true)
         ),
     async execute(interaction) {
+
         const user = interaction.options.getUser("user");
         const reason = interaction.options.getString("reason");
 
@@ -48,6 +50,12 @@ module.exports = {
             ])
             .setColor("Red")
             .setTimestamp();
+
+        await warns.create({
+            guildId: interaction.guild.id,
+            userId: user.id,
+            reason: reason,
+        });
 
         await interaction.reply({ embeds: [warnEmbed]});
     },
