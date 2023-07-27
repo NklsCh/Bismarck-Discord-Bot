@@ -9,9 +9,9 @@ const cMessage = require('../../../models/cMessage')
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('config')
-        .setDescription('Configure the bot')
+        .setDescription('Shows the current configuration of the bot')
         .setDescriptionLocalizations({
-            de: 'Konfiguriere den Bot',
+            de: 'Zeigt die aktuelle Konfiguration des Bots an',
         })
         .setDefaultMemberPermissions(Administrator)
         .setDMPermission(false),
