@@ -4,6 +4,7 @@ const sequelize = new Sequelize('database', 'user', 'password', {
     host: 'localhost',
     storage: 'database.sqlite',
     logging: false,
+    transactionType: 'IMMEDIATE',
 })
 
 module.exports = sequelize

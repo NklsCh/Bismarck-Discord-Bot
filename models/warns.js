@@ -4,7 +4,7 @@ const sequelize = require("../utils/database.js");
 const warns = sequelize.define("warns", {
     guildId: {
         type: Sequelize.STRING,
-        primaryKey: true,
+        allowNull: false,
     },
     userId: {
         type: Sequelize.STRING,
