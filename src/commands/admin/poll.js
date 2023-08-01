@@ -162,16 +162,15 @@ module.exports = {
                     .split('**')
                     .join(' ')
                     .split(' ')[2],
-                message.embeds[0].fields[2].value
-                    .split('**')
-                    .join(' ')
-                    .split(' ')[2],
                 message.embeds[0].fields[3].value
                     .split('**')
                     .join(' ')
                     .split(' ')[2],
+                message.embeds[0].fields[4].value
+                    .split('**')
+                    .join(' ')
+                    .split(' ')[2],
             ]
-            console.log(datas)
 
             const finalVote = new EmbedBuilder()
                 .setTitle('Poll Results')
@@ -181,7 +180,7 @@ module.exports = {
 
             const attachment = await generatedChart(labels, datas)
 
-            const finalMsg = await interaction.channel.send({
+            await interaction.channel.send({
                 embeds: [finalVote],
                 files: [attachment],
             })
