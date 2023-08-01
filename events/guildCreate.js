@@ -4,6 +4,7 @@ const {
 } = require('discord.js')
 const Guild = require('../models/guilds')
 const cMessage = require('../models/cMessage')
+const warns = require('../models/warns')
 
 module.exports = {
     name: Events.GuildCreate,
@@ -15,6 +16,7 @@ module.exports = {
         await cMessage.create({
             guildId: guild.id,
         })
+
         const serverAmount = client.guilds.cache
 
         client.user.setPresence({

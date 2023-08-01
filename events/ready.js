@@ -2,6 +2,7 @@ const {
     ActivityType: { Watching },
 } = require('discord.js')
 const Guild = require('../models/guilds')
+const cMessage = require('../models/cMessage')
 
 module.exports = {
     name: 'ready',
@@ -10,12 +11,29 @@ module.exports = {
         let memberAmount = 0
 
         await Guild.sync()
+        await cMessage.sync()
 
+        client.guilds.fetch({ cache: true })
+        
         //Get the amount of all users from all servers
         client.guilds.cache.forEach((guild) => {
             memberAmount += guild.members.cache.filter(
                 (member) => !member.user.bot
             ).size
+        })
+
+        client.guilds.cache.forEach(async (guild) => {
+            await Guild.findOrCreate({
+                where: {
+                    guildId: guild.id,
+                },
+            })
+
+            await cMessage.findOrCreate({
+                where: {
+                    guildId: guild.id,
+                },
+            })
         })
 
         const serverAmount = client.guilds.cache
