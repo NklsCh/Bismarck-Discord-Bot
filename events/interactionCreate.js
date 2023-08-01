@@ -110,10 +110,10 @@ module.exports = {
                         ephemeral: true,
                         content: 'Voted for option 3!',
                     })
-                    interaction.message.embeds[0].fields[2].value = `> **${
+                    interaction.message.embeds[0].fields[3].value = `> **${
                         //Need to split the string to get the number of votes and parse the string to an integer
                         parseInt(
-                            interaction.message.embeds[0].fields[2].value
+                            interaction.message.embeds[0].fields[3].value
                                 .split(' ')
                                 .join('**')
                                 .split('**')[2]
@@ -128,10 +128,10 @@ module.exports = {
                         ephemeral: true,
                         content: 'Voted for option 4!',
                     })
-                    interaction.message.embeds[0].fields[3].value = `> **${
+                    interaction.message.embeds[0].fields[4].value = `> **${
                         //Need to split the string to get the number of votes and parse the string to an integer
                         parseInt(
-                            interaction.message.embeds[0].fields[3].value
+                            interaction.message.embeds[0].fields[4].value
                                 .split(' ')
                                 .join('**')
                                 .split('**')[2]
