@@ -1,145 +1,151 @@
-const { PermissionFlagsBits, SlashCommandBuilder } = require("discord.js");
-const Guilds = require("../../models/guilds");
+const {
+    PermissionFlagsBits: { Administrator },
+    SlashCommandBuilder,
+    ChannelType: { GuildText },
+} = require('discord.js')
+const Guilds = require('../../../models/guilds')
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("channel")
-        .setDescription("Setup the bot")
+        .setName('channel')
+        .setDescription('Setup the bot')
         .setDescriptionLocalizations({
-            de: "Richte den Bot ein",
+            de: 'Richte den Bot ein',
         })
         .addSubcommandGroup((subcommandGroup) =>
             subcommandGroup
-                .setName("set")
-                .setDescription("Setup notification channels")
+                .setName('set')
+                .setDescription('Setup notification channels')
                 .setDescriptionLocalizations({
-                    de: "Richte die Benachrichtigungschannel ein",
+                    de: 'Richte die Benachrichtigungschannel ein',
                 })
                 .addSubcommand((subcommand) =>
                     subcommand
-                        .setName("join")
-                        .setDescription("Setup the channel for join messages")
+                        .setName('join')
+                        .setDescription('Setup the channel for join messages')
                         .setDescriptionLocalizations({
-                            de: "Richte den Join Channel ein",
+                            de: 'Richte den Join Channel ein',
                         })
                         .addChannelOption((option) =>
                             option
-                                .setName("channel")
+                                .setName('channel')
                                 .setDescription(
-                                    "The channel where the join messages should be sent"
+                                    'The channel where the join messages should be sent'
                                 )
                                 .setDescriptionLocalizations({
-                                    de: "Der Channel in dem die Join Nachrichten gesendet werden sollen",
+                                    de: 'Der Channel in dem die Join Nachrichten gesendet werden sollen',
                                 })
                                 .setRequired(true)
+                                .addChannelTypes(GuildText)
                         )
                 )
                 .addSubcommand((subcommand) =>
                     subcommand
-                        .setName("leave")
-                        .setDescription("Setup the leave channel")
+                        .setName('leave')
+                        .setDescription('Setup the leave channel')
                         .setDescriptionLocalizations({
-                            de: "Richte den Leave Channel ein",
+                            de: 'Richte den Leave Channel ein',
                         })
                         .addChannelOption((option) =>
                             option
-                                .setName("channel")
-                                .setDescription("The channel to set")
+                                .setName('channel')
+                                .setDescription('The channel to set')
                                 .setDescriptionLocalizations({
-                                    de: "Der Channel der gesetzt werden soll",
+                                    de: 'Der Channel der gesetzt werden soll',
                                 })
                                 .setRequired(true)
+                                .addChannelTypes(GuildText)
                         )
                 )
         )
         .addSubcommandGroup((subcommandGroup) =>
             subcommandGroup
-                .setName("unset")
-                .setDescription("Unset notification channels")
+                .setName('unset')
+                .setDescription('Unset notification channels')
                 .setDescriptionLocalizations({
-                    de: "Entferne die Benachrichtigungschannel",
+                    de: 'Entferne die Benachrichtigungschannel',
                 })
                 .addSubcommand((subcommand) =>
                     subcommand
-                        .setName("join")
-                        .setDescription("Unset the join channel")
+                        .setName('join')
+                        .setDescription('Unset the join channel')
                         .setDescriptionLocalizations({
-                            de: "Entferne den Join Channel",
+                            de: 'Entferne den Join Channel',
                         })
                 )
                 .addSubcommand((subcommand) =>
                     subcommand
-                        .setName("leave")
-                        .setDescription("Unset the leave channel")
+                        .setName('leave')
+                        .setDescription('Unset the leave channel')
                         .setDescriptionLocalizations({
-                            de: "Entferne den Leave Channel",
+                            de: 'Entferne den Leave Channel',
                         })
                 )
         )
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+        .setDefaultMemberPermissions(Administrator)
         .setDMPermission(false),
     async execute(interaction) {
         //Get server config
         const [guild] = await Guilds.findOrCreate({
             where: { guildId: interaction.guild.id },
-        });
+        })
 
         //Switch the subcommand group whether it is set or unset
         switch (interaction.options.getSubcommandGroup()) {
-            case "unset":
+            case 'unset':
                 //Switch the subcommand whether it is join or leave
                 switch (interaction.options.getSubcommand()) {
-                    case "join":
+                    case 'join':
                         //Set the join channel to null and save the config
                         await guild.update({
                             welcomeChannelId: null,
-                        });
+                        })
                         interaction.reply({
                             content: `Join channel unset`,
                             ephemeral: true,
-                        });
-                        break;
-                    case "leave":
+                        })
+                        break
+                    case 'leave':
                         //Set the leave channel to null and save the config
                         await guild.update({
                             goodbyeChannelId: null,
-                        });
+                        })
                         interaction.reply({
                             content: `Leave channel unset`,
                             ephemeral: true,
-                        });
-                        break;
+                        })
+                        break
                 }
-                break;
-            case "set":
+                break
+            case 'set':
                 switch (interaction.options.getSubcommand()) {
-                    case "join":
+                    case 'join':
                         const welcomeChannelId =
-                            interaction.options.getChannel("channel");
+                            interaction.options.getChannel('channel')
 
                         await guild.update({
                             welcomeChannelId: welcomeChannelId.id,
-                        });
+                        })
                         interaction.reply({
                             content: `Join channel set to ${welcomeChannelId}`,
                             ephemeral: true,
-                        });
-                        break;
-                    case "leave":
+                        })
+                        break
+                    case 'leave':
                         const goodbyeChannelId =
-                            interaction.options.getChannel("channel");
+                            interaction.options.getChannel('channel')
 
                         await guild.update({
                             goodbyeChannelId: goodbyeChannelId.id,
-                        });
+                        })
 
                         interaction.reply({
                             content: `Leave channel set to ${goodbyeChannelId}`,
                             ephemeral: true,
-                        });
-                        break;
+                        })
+                        break
                 }
-                break;
+                break
         }
     },
-};
+}
