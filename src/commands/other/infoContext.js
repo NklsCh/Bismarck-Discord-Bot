@@ -5,34 +5,32 @@ const {
     PermissionsBitField,
     ButtonBuilder,
     ActionRowBuilder,
-} = require("discord.js");
+} = require('discord.js')
 
 module.exports = {
     data: new ContextMenuCommandBuilder()
-        .setName("Info")
+        .setName('Info')
         .setType(ApplicationCommandType.User),
     async execute(interaction) {
-        const member = interaction.targetUser;
-        const guild = interaction.guild;
-        const memberInGuild = guild.members.cache.get(member.id);
-        let kick, ban, admin, button;
+        const member = interaction.targetUser
+        const guild = interaction.guild
+        const memberInGuild = guild.members.cache.get(member.id)
+        let kick, ban, admin, button
+        const { BanMembers, KickMembers } = PermissionsBitField.Flags
         if (
-            interaction.member.permissions.has([
-                PermissionsBitField.Flags.BanMembers,
-                PermissionsBitField.Flags.KickMembers,
-            ]) &&
+            interaction.member.permissions.has([BanMembers, KickMembers]) &&
             !member.bot
         ) {
             kick = new ButtonBuilder()
                 .setStyle(4)
-                .setCustomId("kick")
-                .setLabel("Kick");
+                .setCustomId('kick')
+                .setLabel('Kick')
             ban = new ButtonBuilder()
                 .setStyle(4)
-                .setCustomId("ban")
-                .setLabel("Ban");
-            button = [kick, ban];
-            admin = new ActionRowBuilder().addComponents(button);
+                .setCustomId('ban')
+                .setLabel('Ban')
+            button = [kick, ban]
+            admin = new ActionRowBuilder().addComponents(button)
             interaction.reply({
                 embeds: [
                     new EmbedBuilder()
@@ -43,14 +41,14 @@ module.exports = {
                         .setFooter({ text: `${member.id}` })
                         .addFields([
                             {
-                                name: "Account Creation Date",
+                                name: 'Account Creation Date',
                                 value: `<t:${Math.round(
                                     member.createdTimestamp / 1000
                                 )}>`,
                                 inline: true,
                             },
                             {
-                                name: "Joined Server Date",
+                                name: 'Joined Server Date',
                                 value: `<t:${Math.round(
                                     memberInGuild.joinedTimestamp / 1000
                                 )}>`,
@@ -60,7 +58,7 @@ module.exports = {
                 ],
                 ephemeral: true,
                 components: [admin],
-            });
+            })
         } else {
             interaction.reply({
                 embeds: [
@@ -71,14 +69,14 @@ module.exports = {
                         )
                         .addFields([
                             {
-                                name: "Account Creation Date",
+                                name: 'Account Creation Date',
                                 value: `<t:${Math.round(
                                     member.createdTimestamp / 1000
                                 )}>`,
                                 inline: true,
                             },
                             {
-                                name: "Joined Server Date",
+                                name: 'Joined Server Date',
                                 value: `<t:${Math.round(
                                     memberInGuild.joinedTimestamp / 1000
                                 )}>`,
@@ -87,7 +85,7 @@ module.exports = {
                         ]),
                 ],
                 ephemeral: true,
-            });
+            })
         }
     },
-};
+}
