@@ -27,6 +27,18 @@ const client = new Client({
     ],
 })
 
+process.on('unhandledRejection', (reason, promise) => {
+    console.log('Unhandled Rejection at:', promise, 'reason:', reason)
+})
+
+process.on('uncaughtException', (err) => {
+    console.log('Uncaught Exception:', err)
+})
+
+process.on('uncaughtExceptionMonitor', (err, origin) => {
+    console.log('Uncaught Exepction Monitor:', err, origin)
+})
+
 client.commands = new Collection()
 
 // Load Handlers
