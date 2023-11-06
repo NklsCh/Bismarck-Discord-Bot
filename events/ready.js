@@ -8,19 +8,10 @@ module.exports = {
     name: 'ready',
     once: true,
     async execute(client) {
-        let memberAmount = 0
-
         await Guild.sync()
         await cMessage.sync()
 
-        client.guilds.fetch({ cache: true })
-        
-        //Get the amount of all users from all servers
-        client.guilds.cache.forEach((guild) => {
-            memberAmount += guild.members.cache.filter(
-                (member) => !member.user.bot
-            ).size
-        })
+        await client.guilds.fetch({ cache: true })
 
         client.guilds.cache.forEach(async (guild) => {
             await Guild.findOrCreate({
@@ -41,9 +32,7 @@ module.exports = {
         client.user.setPresence({
             activities: [
                 {
-                    name: `${new Intl.NumberFormat('de-DE').format(
-                        memberAmount
-                    )} users in ${serverAmount.size} server(s)`,
+                    name: `${serverAmount.size} server(s)`,
                     type: Watching,
                 },
             ],
