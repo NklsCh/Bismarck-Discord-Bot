@@ -4,7 +4,6 @@ const {
 } = require('discord.js')
 const Guild = require('../models/guilds')
 const cMessage = require('../models/cMessage')
-const warns = require('../models/warns')
 
 module.exports = {
     name: Events.GuildCreate,
