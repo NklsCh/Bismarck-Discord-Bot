@@ -1,4 +1,9 @@
-const { EmbedBuilder, SlashCommandBuilder } = require('discord.js')
+const {
+    EmbedBuilder,
+    SlashCommandBuilder,
+    REST,
+    Routes,
+} = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -11,56 +16,35 @@ module.exports = {
             de: 'Zeigt alle Befehle an',
         }),
     async execute(interaction) {
-        const userEmbed = new EmbedBuilder()
-            .setTitle('User')
-            .setDescription('Here are all of my commands')
+        const rest = new REST({ version: '10' }).setToken(process.env.TOKEN)
+
+        const commands = await rest.get(
+            Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID)
+        )
+
+        const helpEmbed = new EmbedBuilder()
+            .setTitle('Help')
+            .setDescription('Here are all of my commands\r------------------')
             .setAuthor({ name: interaction.client.user.tag })
             .setThumbnail(
                 interaction.client.user.displayAvatarURL({ dynamic: true })
             )
-            .addFields([
-                {
-                    name: 'Default',
-                    value: '```/help```',
-                    inline: true,
-                },
-                {
-                    name: 'Information',
-                    value: '```/info [@user]```',
-                    inline: true,
-                },
-            ])
             .setFooter({ text: `Note: More commands will be added soon` })
 
-        const adminEmbed = new EmbedBuilder()
-            .setTitle('Administrator')
-            .setDescription('Here are all of my commands')
-            .setAuthor({ name: interaction.client.user.tag })
-            .setThumbnail(
-                interaction.client.user.displayAvatarURL({ dynamic: true })
-            )
-            .addFields([
-                {
-                    name: 'Tracking',
-                    value: '```/track add online [channel]\r/track add all [channel]\r/track add bots [channel]\r/track remove online\r/track remove all\r/track remove bots```',
-                },
-                {
-                    name: 'Channel',
-                    value: '```/channel set join [channel]\r/channel set leave [channel]\r/channel unset join\r/channel unset leave```',
-                },
-                {
-                    name: 'Other',
-                    value: '```/track list\r/setup\r/poll [question] [option1] [option2] [...]\r/clear [amount]```',
-                },
-                {
-                    name: 'Custom Messages',
-                    value: '```/welcome [message]\r/goodbye [message]```',
-                },
-            ])
-            .setFooter({ text: `Note: More commands will be added soon` })
+        commands.forEach((command) => {
+            if (command.name === 'Info') return
+            helpEmbed.addFields({
+                name: `</${command.name}:${command.id}>`
+                    ? `</${command.name}:${command.id}>`
+                    : 'No name',
+                value: `${
+                    command.description ? command.description : 'No description'
+                }`,
+            })
+        })
 
         await interaction.reply({
-            embeds: [userEmbed, adminEmbed],
+            embeds: [helpEmbed],
             ephemeral: true,
         })
     },

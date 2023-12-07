@@ -13,7 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "chartjs-node-canvas": "^4.1.6",
-    "discord.js": "^14.11.0",
+    "discord.js": "^14.14.1",
     "dotenv": "^16.0.3",
     "nodemon": "^3.0.1",
     "sequelize": "^6.31.0",
