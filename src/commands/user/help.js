@@ -31,6 +31,8 @@ module.exports = {
             )
             .setFooter({ text: `Note: More commands will be added soon` })
 
+
+        //#TODO: Currently the base command of a subcommand group is shown in the embed. This should be fixed       
         commands.forEach((command) => {
             if (command.name === 'Info') return
             helpEmbed.addFields({
@@ -40,6 +42,35 @@ module.exports = {
                 value: `${
                     command.description ? command.description : 'No description'
                 }`,
+            })
+            command.options?.forEach((option) => {
+                if (option.type == 2) {
+                    option.options?.forEach((subOption) => {
+                        helpEmbed.addFields({
+                            name: `</${
+                                command.name +
+                                ' ' +
+                                option.name +
+                                ' ' +
+                                subOption.name
+                            }:${command.id}>`
+                                ? `</${
+                                      command.name +
+                                      ' ' +
+                                      option.name +
+                                      ' ' +
+                                      subOption.name
+                                  }:${command.id}>`
+                                : 'No name',
+                            value: `${
+                                subOption.description
+                                    ? subOption.description
+                                    : 'No description'
+                            }`,
+                        })
+                    })
+                }
+                return
             })
         })
 
