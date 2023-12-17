@@ -16,6 +16,7 @@ module.exports = {
             de: 'Zeigt alle Befehle an',
         }),
     async execute(interaction) {
+        interaction.deferReply({ ephemeral: true })
         const rest = new REST({ version: '10' }).setToken(process.env.TOKEN)
 
         const commands = await rest.get(
@@ -74,7 +75,7 @@ module.exports = {
             })
         })
 
-        await interaction.reply({
+        await interaction.editReply({
             embeds: [helpEmbed],
             ephemeral: true,
         })
