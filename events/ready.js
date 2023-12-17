@@ -57,7 +57,6 @@ module.exports = {
                             member.presence?.status === 'dnd') &&
                         !member.user.bot
                 ).size
-                console.log(onlineUsers)
                 if (await dbguild.onlineChannelId) {
                     await guild.channels.edit(await dbguild.onlineChannelId, {
                         name: `Online: ${onlineUsers}`,
@@ -80,7 +79,7 @@ module.exports = {
             })
 
             //Sets the bots status to the amount of servers it is in
-            //#TODO: Fixes the bug where it sometimes doenst show a presence at all (Find the cause) 
+            //#TODO: Fixes the bug where it sometimes doenst show a presence at all (Find the cause)
 
             serverAmount = await client.guilds.fetch({ cache: true })
 

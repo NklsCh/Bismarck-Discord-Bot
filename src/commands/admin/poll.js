@@ -125,6 +125,91 @@ module.exports = {
         option3 ? msg.edit({ components: [buttons, button3] }) : null
         option4 ? msg.edit({ components: [buttons, button3, button4] }) : null
 
+        const collector = await msg.createMessageComponentCollector()
+
+        collector.on('collect', async (i) => {
+            switch (i.customId) {
+                case 'option1':
+                    await i.reply({
+                        ephemeral: true,
+                        content: 'Voted for option 1!',
+                    })
+                    i.message.embeds[0].fields[0].value = `> **${
+                        //Need to split the string to get the number of votes and parse the string to an integer
+                        parseInt(
+                            i.message.embeds[0].fields[0].value
+                                .split(' ')
+                                .join('**')
+                                .split('**')[2]
+                        ) + 1
+                    } votes**`
+                    i.message.edit({
+                        embeds: i.message.embeds,
+                    })
+                    break
+                case 'option2':
+                    await i.reply({
+                        ephemeral: true,
+                        content: 'Voted for option 2!',
+                    })
+                    i.message.embeds[0].fields[1].value = `> **${
+                        //Need to split the string to get the number of votes and parse the string to an integer
+                        parseInt(
+                            i.message.embeds[0].fields[1].value
+                                .split(' ')
+                                .join('**')
+                                .split('**')[2]
+                        ) + 1
+                    } votes**`
+                    i.message.edit({
+                        embeds: i.message.embeds,
+                    })
+                    break
+                case 'option3':
+                    await i.reply({
+                        ephemeral: true,
+                        content: 'Voted for option 3!',
+                    })
+                    i.message.embeds[0].fields[3].value = `> **${
+                        //Need to split the string to get the number of votes and parse the string to an integer
+                        parseInt(
+                            i.message.embeds[0].fields[3].value
+                                .split(' ')
+                                .join('**')
+                                .split('**')[2]
+                        ) + 1
+                    } votes**`
+                    i.message.edit({
+                        embeds: i.message.embeds,
+                    })
+                    break
+                case 'option4':
+                    await i.reply({
+                        ephemeral: true,
+                        content: 'Voted for option 4!',
+                    })
+                    i.message.embeds[0].fields[4].value = `> **${
+                        //Need to split the string to get the number of votes and parse the string to an integer
+                        parseInt(
+                            i.message.embeds[0].fields[4].value
+                                .split(' ')
+                                .join('**')
+                                .split('**')[2]
+                        ) + 1
+                    } votes**`
+                    i.message.edit({
+                        embeds: i.message.embeds,
+                    })
+                    break
+                default:
+                    await i.reply({
+                        ephemeral: true,
+                        content: 'Something went wrong!',
+                    })
+                    break
+            }
+        })
+
         setTimeout(async () => {
             let message = await msg.fetch()
             const generatedChart = async (labels, datas) => {
