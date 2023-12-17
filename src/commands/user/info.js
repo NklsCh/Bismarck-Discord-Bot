@@ -31,7 +31,7 @@ module.exports = {
         .setDMPermission(false),
     async execute(interaction) {
         const member = interaction.options.getMember('member')
-        let kick, ban, admin, button
+        let kick, ban, admin, button, msg
         const { BanMembers, KickMembers } = PermissionsBitField.Flags
         if (
             interaction.member.permissions.has([BanMembers, KickMembers]) &&
@@ -47,7 +47,7 @@ module.exports = {
                 .setLabel('Ban')
             button = [kick, ban]
             admin = new ActionRowBuilder().addComponents(button)
-            interaction.reply({
+            msg = await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
                         .setTitle(`User info about ${member.user.tag}`)
@@ -76,7 +76,7 @@ module.exports = {
                 components: [admin],
             })
         } else {
-            interaction.reply({
+            msg = await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
                         .setTitle(`User info about ${member.user.tag}`)
@@ -103,5 +103,46 @@ module.exports = {
                 ephemeral: true,
             })
         }
+
+        const collector = await msg.createMessageComponentCollector()
+
+        collector.on('collect', async (i) => {
+            if (i.customId === 'kick') {
+                if (member.kickable) {
+                    try {
+                        await member.kick()
+                    } catch (error) {}
+                } else {
+                    await i.reply({
+                        ephemeral: true,
+                        content: "I can't kick this user",
+                    })
+                }
+                i.reply({
+                    ephemeral: true,
+                    content: `The user ${member} has been kicked`,
+                })
+            } else if (i.customId === 'ban') {
+                if (member.bannable) {
+                    try {
+                        await member.ban()
+                    } catch (error) {}
+                } else {
+                    await i.reply({
+                        ephemeral: true,
+                        content: "I can't ban this user",
+                    })
+                }
+                i.reply({
+                    ephemeral: true,
+                    content: `The user ${member} has been banned`,
+                })
+            } else {
+                await i.reply({
+                    ephemeral: true,
+                    content: 'Something went wrong!',
+                })
+            }
+        })
     },
 }
