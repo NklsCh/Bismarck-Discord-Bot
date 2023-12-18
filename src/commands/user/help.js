@@ -4,6 +4,7 @@ const {
     REST,
     Routes,
 } = require('discord.js')
+const makeHelpEmbed = require('../../functions/helpEmbedCreator')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -16,22 +17,11 @@ module.exports = {
             de: 'Zeigt alle Befehle an',
         }),
     async execute(interaction) {
-        interaction.deferReply({ ephemeral: true })
         const rest = new REST({ version: '10' }).setToken(process.env.TOKEN)
 
         const commands = await rest.get(
             Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID)
         )
-
-        const helpEmbed = new EmbedBuilder()
-            .setTitle('Help')
-            .setDescription('Here are all of my commands\r------------------')
-            .setAuthor({ name: interaction.client.user.tag })
-            .setThumbnail(
-                interaction.client.user.displayAvatarURL({ dynamic: true })
-            )
-            .setFooter({ text: `Note: More commands will be added soon` })
-
 
         //#TODO: Currently the base command of a subcommand group is shown in the embed. This should be fixed       
         commands.forEach((command) => {
@@ -75,8 +65,10 @@ module.exports = {
             })
         })
 
-        await interaction.editReply({
-            embeds: [helpEmbed],
+        const page = makeHelpEmbed(interaction, commands[0], commands[1], commands[2], commands[3], commands[4])
+
+        await interaction.reply({
+            embeds: [page],
             ephemeral: true,
         })
     },
