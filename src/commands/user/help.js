@@ -23,7 +23,12 @@ module.exports = {
             Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID)
         )
 
-        //#TODO: Currently the base command of a subcommand group is shown in the embed. This should be fixed       
+        const helpEmbed = new EmbedBuilder()
+            .setTitle('Help')
+            .setDescription('Here are all commands\r------------------')
+            .setColor('Blue')
+
+        //#TODO: Currently the base command of a subcommand group is shown in the embed. This should be fixed
         commands.forEach((command) => {
             if (command.name === 'Info') return
             helpEmbed.addFields({
@@ -65,10 +70,8 @@ module.exports = {
             })
         })
 
-        const page = makeHelpEmbed(interaction, commands[0], commands[1], commands[2], commands[3], commands[4])
-
         await interaction.reply({
-            embeds: [page],
+            embeds: [helpEmbed],
             ephemeral: true,
         })
     },
