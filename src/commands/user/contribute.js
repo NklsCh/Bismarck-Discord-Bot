@@ -5,27 +5,27 @@ const {
     EmbedBuilder,
 } = require('discord.js')
 
-const langData = require('../../../utils/lang.json')
+const langData = require(`../../../resources/translations/lang.json`)
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName(langData.contribute.name.en)
+        .setName(langData.en.contribute.command.name)
         .setNameLocalizations({
-            de: langData.contribute.name.de,
+            de: langData.de.contribute.command.name,
         })
-        .setDescription(langData.contribute.description.en)
+        .setDescription(langData.en.contribute.command.description)
         .setDescriptionLocalizations({
-            de: langData.contribute.description.de,
+            de: langData.de.contribute.command.description,
         }),
     async execute(interaction) {
         const userLang = interaction.locale.slice(0, 2)
 
         let donate = new ButtonBuilder()
-            .setLabel(langData.contribute.buttons.labelDonate[userLang])
+            .setLabel(langData[userLang].contribute.buttons.labelDonate)
             .setStyle(5)
             .setURL('https://buymeacoffee.com/nchoini')
         let errorReport = new ButtonBuilder()
-            .setLabel(langData.contribute.buttons.labelGithub[userLang])
+            .setLabel(langData[userLang].contribute.buttons.labelErrorReport)
             .setStyle(5)
             .setURL('https://github.com/Proton-Bot-Development/Proton/')
         let contributeRow = new ActionRowBuilder().addComponents([
@@ -35,24 +35,22 @@ module.exports = {
         interaction.reply({
             embeds: [
                 new EmbedBuilder()
-                    .setTitle(langData.contribute.embed.title[userLang])
+                    .setTitle(langData[userLang].contribute.embed.title)
                     .setDescription(
-                        langData.contribute.embed.description[userLang]
+                        langData[userLang].contribute.embed.description
                     )
                     .addFields([
                         {
-                            name: langData.contribute.embed.fields.donate[
-                                userLang
-                            ],
-                            value: langData.contribute.embed.fields.donate
-                                .description[userLang],
+                            name: langData[userLang].contribute.embed.fields
+                                .donate.name,
+                            value: langData[userLang].contribute.embed.fields
+                                .donate.description,
                         },
                         {
-                            name: langData.contribute.embed.fields.github[
-                                userLang
-                            ],
-                            value: langData.contribute.embed.fields.github
-                                .description[userLang],
+                            name: langData[userLang].contribute.embed.fields
+                                .github.name,
+                            value: langData[userLang].contribute.embed.fields
+                                .github.description,
                         },
                     ]),
             ],

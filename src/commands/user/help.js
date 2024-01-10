@@ -5,17 +5,17 @@ const {
     Routes,
 } = require('discord.js')
 
-const langData = require('../../../utils/lang.json')
+const langData = require(`../../../resources/translations/lang.json`)
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName(langData.help.name.en)
+        .setName(langData.en.help.command.name)
         .setNameLocalizations({
-            de: langData.help.name.de,
+            de: langData.de.help.command.name,
         })
-        .setDescription(langData.help.description.en)
+        .setDescription(langData.en.help.command.name)
         .setDescriptionLocalizations({
-            de: langData.help.description.de,
+            de: langData.de.help.command.name,
         }),
     async execute(interaction) {
         const userLang = interaction.locale.slice(0, 2)
@@ -27,13 +27,13 @@ module.exports = {
         )
 
         const helpEmbed = new EmbedBuilder()
-            .setTitle(langData.help.embed.title[userLang])
-            .setDescription(langData.help.embed.description[userLang])
+            .setTitle(langData[userLang].help.embed.title)
+            .setDescription(langData[userLang].help.embed.description)
             .setAuthor({ name: interaction.client.user.tag })
             .setThumbnail(
                 interaction.client.user.displayAvatarURL({ dynamic: true })
             )
-            .setFooter({ text: langData.help.embed.footer[userLang] })
+            .setFooter({ text: langData[userLang].help.embed.footer })
 
         //#TODO: Currently the base command of a subcommand group is shown in the embed. This should be fixed
         commands.forEach((command) => {
