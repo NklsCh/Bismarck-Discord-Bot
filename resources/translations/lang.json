@@ -1,0 +1,76 @@
+{
+    "de": {
+        "help": {
+            "command": {
+                "name": "hilfe",
+                "description": "Zeigt alle Befehle an"
+            },
+            "embed": {
+                "title": "Hilfe",
+                "description": "Hier kannst du alle Befehle sehen\r------------------",
+                "footer": "Hinweis: Mehr Befehle werden bald hinzugefügt"
+            }
+        },
+        "contribute": {
+            "command": {
+                "name": "contribute",
+                "description": "Zeigt das Contributions Menü an"
+            },
+            "buttons": {
+                "labelDonate": "Spenden",
+                "labelGithub": "Github"
+            },
+            "embed": {
+                "title": "Contribute",
+                "description": "Hier kannst du alle Contributionsmethoden finden",
+                "fields": {
+                    "donate": {
+                        "name": "Spenden",
+                        "description": "Du kannst Geld spenden, um den Server am laufen zu halten und/oder den Entwicklern einen Kaffee zu kaufen"
+                    },
+                    "github": {
+                        "name": "Github",
+                        "description": "Du kannst Fehler melden, damit die Entwickler sie beheben können"
+                    }
+                }
+            }
+        }
+    },
+    "en": {
+        "help": {
+            "command": {
+                "name": "help",
+                "description": "Shows all commands"
+            },
+            "embed": {
+                "title": "Help",
+                "description": "Here are all of my commands\r------------------",
+                "footer": "Note: More commands will be added soon"
+            }
+        },
+        "contribute": {
+            "command": {
+                "name": "contribute",
+                "description": "Shows the contribute menu"
+            },
+            "buttons": {
+                "labelDonate": "Donate",
+                "labelGithub": "Github"
+            },
+            "embed": {
+                "title": "Contribute",
+                "description": "Here you can find all the contribution methods",
+                "fields": {
+                    "donate": {
+                        "name": "Donate",
+                        "description": "You can donate money, to keep the server running and/or get the devs a coffee"
+                    },
+                    "github": {
+                        "name": "Github",
+                        "description": "You can report errors, so the devs can fix them"
+                    }
+                }
+            }
+        }
+    }
+}
