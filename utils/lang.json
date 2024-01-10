@@ -1,0 +1,74 @@
+{
+    "help": {
+        "name": {
+            "en": "help",
+            "de": "hilfe"
+        },
+        "description": {
+            "en": "Shows all commands",
+            "de": "Zeigt alle Befehle an"
+        },
+        "embed": {
+            "title": {
+                "en": "Help",
+                "de": "Hilfe"
+            },
+            "description": {
+                "en": "Here are all of my commands\r------------------",
+                "de": "Hier kannst du alle Befehle sehen\r------------------"
+            },
+            "footer": {
+                "en": "Note: More commands will be added soon` equested by",
+                "de": "Hinweis: Mehr Befehle werden bald hinzugefügt"
+            }
+        }
+    },
+    "contribute": {
+        "name": {
+            "en": "contribute",
+            "de": "mitwirken"
+        },
+        "description": {
+            "en": "Shows the contribute menu",
+            "de": "Zeigt das Mitwirken Menü an"
+        },
+        "buttons": {
+            "labelDonate": {
+                "en": "Donate",
+                "de": "Spenden"
+            },
+            "labelGithub": {
+                "en": "Github",
+                "de": "Github"
+            }
+        },
+        "embed": {
+            "title": {
+                "en": "Contribute",
+                "de": "Mitwirken"
+            },
+            "description": {
+                "en": "Here you can find all the contribution methods",
+                "de": "Hier kannst du alle Mitwirkungsmethoden finden"
+            },
+            "fields": {
+                "donate": {
+                    "en": "Donate",
+                    "de": "Spenden",
+                    "description": {
+                        "en": "You can donate money, to keep the server running and/or get the devs a coffee",
+                        "de": "Du kannst Geld spenden, um den Server am laufen zu halten und/oder den Entwicklern einen Kaffee zu kaufen"
+                    }
+                },
+                "github": {
+                    "en": "Github",
+                    "de": "Github",
+                    "description": {
+                        "en": "You can report errors, so the devs can fix them",
+                        "de": "Du kannst Fehler melden, damit die Entwickler sie beheben können"
+                    }
+                }
+            }
+        }
+    }
+}

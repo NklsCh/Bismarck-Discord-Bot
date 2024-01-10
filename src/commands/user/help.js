@@ -5,17 +5,21 @@ const {
     Routes,
 } = require('discord.js')
 
+const langData = require('../../../utils/lang.json')
+
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('help')
+        .setName(langData.help.name.en)
         .setNameLocalizations({
-            de: 'hilfe',
+            de: langData.help.name.de,
         })
-        .setDescription('Shows all commands')
+        .setDescription(langData.help.description.en)
         .setDescriptionLocalizations({
-            de: 'Zeigt alle Befehle an',
+            de: langData.help.description.de,
         }),
     async execute(interaction) {
+        const userLang = interaction.locale.slice(0, 2)
+
         const rest = new REST({ version: '10' }).setToken(process.env.TOKEN)
 
         const commands = await rest.get(
@@ -23,16 +27,15 @@ module.exports = {
         )
 
         const helpEmbed = new EmbedBuilder()
-            .setTitle('Help')
-            .setDescription('Here are all of my commands\r------------------')
+            .setTitle(langData.help.embed.title[userLang])
+            .setDescription(langData.help.embed.description[userLang])
             .setAuthor({ name: interaction.client.user.tag })
             .setThumbnail(
                 interaction.client.user.displayAvatarURL({ dynamic: true })
             )
-            .setFooter({ text: `Note: More commands will be added soon` })
+            .setFooter({ text: langData.help.embed.footer[userLang] })
 
-
-        //#TODO: Currently the base command of a subcommand group is shown in the embed. This should be fixed       
+        //#TODO: Currently the base command of a subcommand group is shown in the embed. This should be fixed
         commands.forEach((command) => {
             if (command.name === 'Info') return
             helpEmbed.addFields({
