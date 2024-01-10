@@ -34,6 +34,19 @@
                     }
                 }
             }
+        },
+        "info": {
+            "command":{ 
+                "name": "info",
+                "description": "Gibt Infos über einen Benutzer",
+                "userOptionName": "mitglied",
+                "userOptionDescription": "Das Mitglied, über das du Infos haben willst"
+            },
+            "buttons": {
+                "kick": "Kick",
+                "ban": "Bannen"	
+            }
+
         }
     },
     "en": {
