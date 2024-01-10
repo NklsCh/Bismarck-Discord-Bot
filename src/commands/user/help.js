@@ -28,17 +28,28 @@ module.exports = {
             .setDescription('Here are all commands\r------------------')
             .setColor('Blue')
 
-        //#TODO: Currently the base command of a subcommand group is shown in the embed. This should be fixed
         commands.forEach((command) => {
             if (command.name === 'Info') return
-            helpEmbed.addFields({
-                name: `</${command.name}:${command.id}>`
-                    ? `</${command.name}:${command.id}>`
-                    : 'No name',
-                value: `${
-                    command.description ? command.description : 'No description'
-                }`,
-            })
+            
+            const isBaseCommand =
+                command.options && command.options.length === 0
+            const isSubcommandGroup =
+                command.options &&
+                command.options.some((option) => option.type === 2)
+            const isToplevelCommand = !isBaseCommand && !isSubcommandGroup
+
+            if (isToplevelCommand) {
+                helpEmbed.addFields({
+                    name: `</${command.name}:${command.id}>`
+                        ? `</${command.name}:${command.id}>`
+                        : 'No name',
+                    value: `${
+                        command.description
+                            ? command.description
+                            : 'No description'
+                    }`,
+                })
+            }
             command.options?.forEach((option) => {
                 if (option.type == 2) {
                     option.options?.forEach((subOption) => {
