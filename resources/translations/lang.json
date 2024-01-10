@@ -1,5 +1,14 @@
 {
     "de": {
+        "errors": {
+            "notAbleToKickUser": "Ich kann diesen Benutzer nicht kicken",
+            "notAbleToBanUser": "Ich kann diesen Benutzer nicht bannen",
+            "smthWentWrong": "Etwas ist schief gelaufen"
+        },
+        "success": {
+            "kickSuccess": "Der Benutzer wurde erfolgreich gekickt",
+            "banSuccess": "Der Benutzer wurde erfolgreich gebannt"
+        },
         "help": {
             "command": {
                 "name": "hilfe",
@@ -23,20 +32,20 @@
             "embed": {
                 "title": "Contribute",
                 "description": "Hier kannst du alle Contributionsmethoden finden",
-                "fields": {
-                    "donate": {
+                "fields": [
+                    {
                         "name": "Spenden",
-                        "description": "Du kannst Geld spenden, um den Server am laufen zu halten und/oder den Entwicklern einen Kaffee zu kaufen"
+                        "value": "Du kannst Geld spenden, um den Server am laufen zu halten und/oder den Entwicklern einen Kaffee zu kaufen"
                     },
-                    "github": {
+                    {
                         "name": "Github",
-                        "description": "Du kannst Fehler melden, damit die Entwickler sie beheben können"
+                        "value": "Du kannst Fehler melden, damit die Entwickler sie beheben können"
                     }
-                }
+                ]
             }
         },
         "info": {
-            "command":{ 
+            "command": {
                 "name": "info",
                 "description": "Gibt Infos über einen Benutzer",
                 "userOptionName": "mitglied",
@@ -44,12 +53,27 @@
             },
             "buttons": {
                 "kick": "Kick",
-                "ban": "Bannen"	
+                "ban": "Bannen"
+            },
+            "embed": {
+                "title": "Info über den Nutzer: ",
+                "fields": {
+                    "accountCreated": "Account erstellt am: ",
+                    "serverJoined": "Server beigetreten am: "
+                }
             }
-
         }
     },
     "en": {
+        "errors": {
+            "notAbleToKickUser": "I am not able to kick this user",
+            "notAbleToBanUser": "I am not able to ban this user",
+            "smthWentWrong": "Something went wrong"
+        },
+        "success": {
+            "kickSuccess": "The user has been kicked successfully",
+            "banSuccess": "The user has been banned successfully"
+        },
         "help": {
             "command": {
                 "name": "help",
@@ -73,15 +97,34 @@
             "embed": {
                 "title": "Contribute",
                 "description": "Here you can find all the contribution methods",
-                "fields": {
-                    "donate": {
+                "fields": [
+                    {
                         "name": "Donate",
-                        "description": "You can donate money, to keep the server running and/or get the devs a coffee"
+                        "value": "You can donate money, to keep the server running and/or get the devs a coffee"
                     },
-                    "github": {
+                    {
                         "name": "Github",
-                        "description": "You can report errors, so the devs can fix them"
+                        "value": "You can report errors, so the devs can fix them"
                     }
+                ]
+            }
+        },
+        "info":{
+            "command": {
+                "name": "info",
+                "description": "Gives info about a user",
+                "userOptionName": "member",
+                "userOptionDescription": "The member you want to get info about"
+            },
+            "buttons": {
+                "kick": "Kick",
+                "ban": "Ban"
+            },
+            "embed": {
+                "title": "Info about the user: ",
+                "fields": {
+                    "accountCreated": "Account created at: ",
+                    "serverJoined": "Server joined at: "
                 }
             }
         }

@@ -25,7 +25,7 @@ module.exports = {
             .setStyle(5)
             .setURL('https://buymeacoffee.com/nchoini')
         let errorReport = new ButtonBuilder()
-            .setLabel(langData[userLang].contribute.buttons.labelErrorReport)
+            .setLabel(langData[userLang].contribute.buttons.labelGithub)
             .setStyle(5)
             .setURL('https://github.com/Proton-Bot-Development/Proton/')
         let contributeRow = new ActionRowBuilder().addComponents([
@@ -41,16 +41,16 @@ module.exports = {
                     )
                     .addFields([
                         {
-                            name: langData[userLang].contribute.embed.fields
-                                .donate.name,
-                            value: langData[userLang].contribute.embed.fields
-                                .donate.description,
+                            name: langData[userLang].contribute.embed.fields[0]
+                                .name,
+                            value: langData[userLang].contribute.embed.fields[0]
+                                .value,
                         },
                         {
-                            name: langData[userLang].contribute.embed.fields
-                                .github.name,
-                            value: langData[userLang].contribute.embed.fields
-                                .github.description,
+                            name: langData[userLang].contribute.embed.fields[1]
+                                .name,
+                            value: langData[userLang].contribute.embed.fields[1]
+                                .value,
                         },
                     ]),
             ],

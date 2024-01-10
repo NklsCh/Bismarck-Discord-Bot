@@ -6,30 +6,33 @@ const {
     PermissionsBitField,
 } = require('discord.js')
 
+const langData = require(`../../../resources/translations/lang.json`)
+
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('info')
+        .setName(langData.en.info.command.name)
         .setNameLocalizations({
-            de: 'info',
+            de: langData.de.info.command.name,
         })
-        .setDescription('gives info about a user')
+        .setDescription(langData.en.info.command.description)
         .setDescriptionLocalizations({
-            de: 'Gibt Infos über einen Benutzer',
+            de: langData.de.info.command.description,
         })
         .addUserOption((option) =>
             option
-                .setName('member')
+                .setName(langData.en.info.command.userOptionName)
                 .setNameLocalizations({
-                    de: 'mitglied',
+                    de: langData.de.info.command.userOptionName,
                 })
-                .setDescription("The user's info you want to get")
+                .setDescription(langData.en.info.command.userOptionDescription)
                 .setDescriptionLocalizations({
-                    de: 'Die Infos über den Benutzer den du haben willst',
+                    de: langData.de.info.command.userOptionDescription,
                 })
                 .setRequired(true)
         )
         .setDMPermission(false),
     async execute(interaction) {
+        const userLang = interaction.locale.slice(0, 2)
         const member = interaction.options.getMember('member')
         let kick, ban, admin, button, msg
         const { BanMembers, KickMembers } = PermissionsBitField.Flags
@@ -40,31 +43,36 @@ module.exports = {
             kick = new ButtonBuilder()
                 .setStyle(4)
                 .setCustomId('kick')
-                .setLabel('Kick')
+                .setLabel(langData[userLang].info.buttons.kick)
             ban = new ButtonBuilder()
                 .setStyle(4)
                 .setCustomId('ban')
-                .setLabel('Ban')
+                .setLabel(langData[userLang].info.buttons.ban)
             button = [kick, ban]
             admin = new ActionRowBuilder().addComponents(button)
             msg = await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
-                        .setTitle(`User info about ${member.user.tag}`)
+                        .setTitle(
+                            langData[userLang].info.embed.title +
+                                `${member.user.tag}`
+                        )
                         .setThumbnail(
                             member.user.displayAvatarURL({ dynamic: true })
                         )
                         .setFooter({ text: `${member.user.id}` })
                         .addFields([
                             {
-                                name: 'Account Creation Date',
+                                name: langData[userLang].info.embed.fields
+                                    .accountCreated,
                                 value: `<t:${Math.round(
                                     member.user.createdTimestamp / 1000
                                 )}>`,
                                 inline: true,
                             },
                             {
-                                name: 'Joined Server Date',
+                                name: langData[userLang].info.embed.fields
+                                    .serverJoined,
                                 value: `<t:${Math.round(
                                     member.joinedTimestamp / 1000
                                 )}>`,
@@ -79,20 +87,25 @@ module.exports = {
             msg = await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
-                        .setTitle(`User info about ${member.user.tag}`)
+                        .setTitle(
+                            langData[userLang].info.embed.title +
+                                `${member.user.tag}`
+                        )
                         .setThumbnail(
                             member.user.displayAvatarURL({ dynamic: true })
                         )
                         .addFields([
                             {
-                                name: 'Account Creation Date',
+                                name: langData[userLang].info.embed.fields
+                                    .accountCreated,
                                 value: `<t:${Math.round(
                                     member.user.createdTimestamp / 1000
                                 )}>`,
                                 inline: true,
                             },
                             {
-                                name: 'Joined Server Date',
+                                name: langData[userLang].info.embed.fields
+                                    .serverJoined,
                                 value: `<t:${Math.round(
                                     member.joinedTimestamp / 1000
                                 )}>`,
@@ -115,12 +128,12 @@ module.exports = {
                 } else {
                     await i.reply({
                         ephemeral: true,
-                        content: "I can't kick this user",
+                        content: langData[userLang].errors.notAbleToKickUser,
                     })
                 }
                 i.reply({
                     ephemeral: true,
-                    content: `The user ${member} has been kicked`,
+                    content: langData[userLang].success.kickSuccess,
                 })
             } else if (i.customId === 'ban') {
                 if (member.bannable) {
@@ -130,17 +143,17 @@ module.exports = {
                 } else {
                     await i.reply({
                         ephemeral: true,
-                        content: "I can't ban this user",
+                        content: langData[userLang].errors.notAbleToBanUser,
                     })
                 }
                 i.reply({
                     ephemeral: true,
-                    content: `The user ${member} has been banned`,
+                    content: langData[userLang].success.banSuccess,
                 })
             } else {
                 await i.reply({
                     ephemeral: true,
-                    content: 'Something went wrong!',
+                    content: langData[userLang].errors.smthWentWrong,
                 })
             }
         })
