@@ -5,24 +5,29 @@ const {
     EmbedBuilder,
 } = require('discord.js')
 
+const langData = require('../../../utils/lang.json')
+
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('contribute')
-        .setDescription('Shows the contribute menu')
+        .setName(langData.contribute.name.en)
+        .setNameLocalizations({
+            de: langData.contribute.name.de,
+        })
+        .setDescription(langData.contribute.description.en)
         .setDescriptionLocalizations({
-            de: 'Zeigt das Beteiligungsmenü',
+            de: langData.contribute.description.de,
         }),
     async execute(interaction) {
+        const userLang = interaction.locale.slice(0, 2)
+
         let donate = new ButtonBuilder()
-            .setLabel('Donate')
+            .setLabel(langData.contribute.buttons.labelDonate[userLang])
             .setStyle(5)
             .setURL('https://buymeacoffee.com/nchoini')
         let errorReport = new ButtonBuilder()
-            .setLabel('Error Report')
+            .setLabel(langData.contribute.buttons.labelGithub[userLang])
             .setStyle(5)
-            .setURL(
-                'https://github.com/Proton-Bot-Development/Proton/issues/new'
-            )
+            .setURL('https://github.com/Proton-Bot-Development/Proton/')
         let contributeRow = new ActionRowBuilder().addComponents([
             donate,
             errorReport,
@@ -30,18 +35,24 @@ module.exports = {
         interaction.reply({
             embeds: [
                 new EmbedBuilder()
-                    .setTitle('Contribute')
+                    .setTitle(langData.contribute.embed.title[userLang])
                     .setDescription(
-                        'Here you can find all the contribute options'
+                        langData.contribute.embed.description[userLang]
                     )
                     .addFields([
                         {
-                            name: 'Donations',
-                            value: 'You can donate money, to keep the server running and/or get the devs a coffee',
+                            name: langData.contribute.embed.fields.donate[
+                                userLang
+                            ],
+                            value: langData.contribute.embed.fields.donate
+                                .description[userLang],
                         },
                         {
-                            name: 'Error Reporting',
-                            value: 'You can report errors, so the devs can fix them',
+                            name: langData.contribute.embed.fields.github[
+                                userLang
+                            ],
+                            value: langData.contribute.embed.fields.github
+                                .description[userLang],
                         },
                     ]),
             ],
