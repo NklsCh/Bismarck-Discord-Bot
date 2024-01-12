@@ -45,6 +45,9 @@
             }
         },
         "info": {
+            "contextMenu": {
+                "name": "Info"
+            },
             "command": {
                 "name": "info",
                 "description": "Gibt Infos über einen Benutzer",
@@ -109,7 +112,10 @@
                 ]
             }
         },
-        "info":{
+        "info": {
+            "contextMenu": {
+                "name": "Info"
+            },
             "command": {
                 "name": "info",
                 "description": "Gives info about a user",
