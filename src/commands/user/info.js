@@ -55,7 +55,7 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(
                             langData[userLang].info.embed.title +
-                                `${member.user.tag}`
+                                `${member.user.username}`
                         )
                         .setThumbnail(
                             member.user.displayAvatarURL({ dynamic: true })
@@ -89,7 +89,7 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(
                             langData[userLang].info.embed.title +
-                                `${member.user.tag}`
+                                `${member.user.username}`
                         )
                         .setThumbnail(
                             member.user.displayAvatarURL({ dynamic: true })
