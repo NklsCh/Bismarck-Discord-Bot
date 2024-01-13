@@ -37,21 +37,26 @@ module.exports = {
             msg = await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
-                        .setTitle(langData[userLang].info.embed.title +`${member.username}`)
+                        .setTitle(
+                            langData[userLang].info.embed.title +
+                                `${member.username}`
+                        )
                         .setThumbnail(
                             member.displayAvatarURL({ dynamic: true })
                         )
                         .setFooter({ text: `${member.id}` })
                         .addFields([
                             {
-                                name: langData[userLang].info.embed.fields.accountCreated,
+                                name: langData[userLang].info.embed.fields
+                                    .accountCreated,
                                 value: `<t:${Math.round(
                                     member.createdTimestamp / 1000
                                 )}>`,
                                 inline: true,
                             },
                             {
-                                name: langData[userLang].info.embed.fields.serverJoined,
+                                name: langData[userLang].info.embed.fields
+                                    .serverJoined,
                                 value: `<t:${Math.round(
                                     memberInGuild.joinedTimestamp / 1000
                                 )}>`,
@@ -72,14 +77,16 @@ module.exports = {
                         )
                         .addFields([
                             {
-                                name: langData[userLang].info.embed.fields.accountCreated,
+                                name: langData[userLang].info.embed.fields
+                                    .accountCreated,
                                 value: `<t:${Math.round(
                                     member.createdTimestamp / 1000
                                 )}>`,
                                 inline: true,
                             },
                             {
-                                name: langData[userLang].info.embed.fields.serverJoined,
+                                name: langData[userLang].info.embed.fields
+                                    .serverJoined,
                                 value: `<t:${Math.round(
                                     memberInGuild.joinedTimestamp / 1000
                                 )}>`,
