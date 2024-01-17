@@ -65,6 +65,27 @@
                     "serverJoined": "Server beigetreten am: "
                 }
             }
+        },
+        "channelSetup": {
+            "command": {
+                "name": "channel",
+                "subCommandJoin": {
+                    "description": "Richtet den Join Channel ein",
+                    "channelOptionDescription": "Der Channel, in dem die Join Nachrichten gesendet werden sollen"
+                },
+                "subCommandLeave": {
+                    "description": "Richtet den Leave Channel ein",
+                    "channelOptionDescription": "Der Channel, in dem die Leave Nachrichten gesendet werden sollen"
+                },
+                "subCommandUnsetJoinDescription": "Löscht den Join Channel",
+                "subCommandUnsetLeaveDescription": "Löscht den Leave Channel"
+            },
+            "reply": {
+                "joinChannelSet": "Der Join Channel wurde erfolgreich gesetzt zu ",
+                "leaveChannelSet": "Der Leave Channel wurde erfolgreich gesetzt zu ",
+                "joinChannelUnset": "Der Join Channel wurde erfolgreich gelöscht",
+                "leaveChannelUnset": "Der Leave Channel wurde erfolgreich gelöscht"
+            }
         }
     },
     "en": {
@@ -132,6 +153,27 @@
                     "accountCreated": "Account created at: ",
                     "serverJoined": "Server joined at: "
                 }
+            }
+        },
+        "channelSetup": {
+            "command": {
+                "name": "channel",
+                "subCommandJoin": {
+                    "description": "Set up the channel for join messages",
+                    "channelOptionDescription": "The channel where the join messages should be sent"
+                },
+                "subCommandLeave": {
+                    "description": "Set up the channel for leave messages",
+                    "channelOptionDescription": "The channel where the leave messages should be sent"
+                },
+                "subCommandUnsetJoinDescription": "Unset the channel for join messages",
+                "subCommandUnsetLeaveDescription": "Unset the channel for leave messages"
+            },
+            "reply": {
+                "joinChannelSet": "The join channel has been set successfully to ",
+                "leaveChannelSet": "The leave channel has been set successfully to ",
+                "joinChannelUnset": "The join channel has been unset successfully",
+                "leaveChannelUnset": "The leave channel has been unset successfully"
             }
         }
     }
