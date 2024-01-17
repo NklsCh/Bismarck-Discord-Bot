@@ -86,6 +86,18 @@
                 "joinChannelUnset": "Der Join Channel wurde erfolgreich gelöscht",
                 "leaveChannelUnset": "Der Leave Channel wurde erfolgreich gelöscht"
             }
+        },
+        "clear": {
+            "command": {
+                "description": "Lösche Nachrichten",
+                "integerOptionDescription": "Die Anzahl der Nachrichten, die gelöscht werden sollen"
+            },
+            "reply": {
+                "over100": "Du kannst nicht mehr als 100 Nachrichten löschen",
+                "under1": "Du kannst nicht weniger als 1 Nachricht löschen",
+                "success": "${amount} Nachrichten wurden erfolgreich gelöscht",
+                "error": "Es ist ein Fehler beim Löschen der Nachrichten aufgetreten"
+            }
         }
     },
     "en": {
@@ -174,6 +186,18 @@
                 "leaveChannelSet": "The leave channel has been set successfully to ",
                 "joinChannelUnset": "The join channel has been unset successfully",
                 "leaveChannelUnset": "The leave channel has been unset successfully"
+            }
+        },
+        "clear": {
+            "command": {
+                "description": "Clear messages",
+                "integerOptionDescription": "The amount of messages to be deleted"
+            },
+            "reply": {
+                "over100": "You can't delete more than 100 messages",
+                "under1": "You can't delete less than 1 message",
+                "success": "${amount} messages have been deleted successfully",
+                "error": "An error occurred while deleting the messages"
             }
         }
     }
