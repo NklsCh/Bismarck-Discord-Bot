@@ -13,7 +13,7 @@ module.exports = {
         GuildMember.guild.channels
             .fetch(await dbguild.goodbyeChannelId)
             .then((channel) => {
-                channel.send(`**${GuildMember.user.tag}** left the server!`);
+                channel.send(`**${GuildMember.user.username}** left the server!`);
             });
     },
 };

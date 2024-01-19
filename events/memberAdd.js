@@ -40,7 +40,7 @@ module.exports = {
                     url: GuildMember.user.avatarURL(),
                 },
                 description:
-                    "Welcome " + GuildMember.user.tag + " to " + name + "!",
+                    "Welcome " + GuildMember.user.username + " to " + name + "!",
             };
             if (!(await dbguild.welcomeChannelId)) return;
             GuildMember.guild.channels
