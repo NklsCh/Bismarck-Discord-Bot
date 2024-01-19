@@ -6,31 +6,44 @@ const {
 const wait = require('node:timers/promises').setTimeout
 const warns = require('../../../models/warns')
 
+const langData = require(`../../../resources/translations/lang.json`)
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('warn')
-        .setDescription('Warn a user')
+        .setDescription(langData.en.warn.command.description)
+        .setDescriptionLocalizations({
+            de: langData.de.warn.command.description
+        })
         .addUserOption((option) =>
             option
                 .setName('user')
-                .setDescription('The user to warn')
+                .setDescription(langData.en.warn.command.userOptionDescription)
+                .setDescriptionLocalizations({
+                    de: langData.de.warn.command.userOptionDescription
+                })
                 .setRequired(true)
         )
         .addStringOption((option) =>
             option
                 .setName('reason')
-                .setDescription('The reason for the warn')
+                .setDescription(langData.en.warn.command.stringOptionDescription)
+                .setDescriptionLocalizations({
+                    de: langData.de.warn.command.stringOptionDescription
+                })
                 .setRequired(true)
         )
         .setDefaultMemberPermissions(KickMembers, BanMembers)
         .setDMPermission(false),
     async execute(interaction) {
+        const userLang = interaction.locale.slice(0, 2)
+
         const user = interaction.options.getUser('user')
         const reason = interaction.options.getString('reason')
 
         if (user.id === interaction.user.id)
             return interaction.reply({
-                content: 'You cannot warn yourself!',
+                content: langData[userLang].warn.reply.notYourself,
                 ephemeral: true,
             })
 
@@ -38,7 +51,7 @@ module.exports = {
 
         if (member.permissions.has(KickMembers, BanMembers))
             return interaction.reply({
-                content: 'You cannot warn an administrator!',
+                content: langData[userLang].warn.reply.notAdmin,
                 ephemeral: true,
             })
 
@@ -50,10 +63,10 @@ module.exports = {
         })
 
         const warnEmbed = new EmbedBuilder()
-            .setTitle('Warn-System')
+            .setTitle(langData[userLang].warn.embed.title)
             .setFields([
                 {
-                    name: 'Reason',
+                    name: langData[userLang].warn.embed.fields[0].name,
                     value: reason,
                 },
             ])
@@ -68,15 +81,15 @@ module.exports = {
 
         if (amountOfWarnsOnUser >= 3) {
             const reminderEmbed = new EmbedBuilder()
-                .setTitle('Warn-System')
+                .setTitle(langData[userLang].warn.embed.title)
                 .setFields([
                     {
-                        name: `The user ${user.username} has already been warned ${amountOfWarnsOnUser} times!`,
+                        name: langData[userLang].warn.embed.fields[0].name2 + `${user.username}` + langData[userLang].warn.embed.fields[1].name2 + `${amountOfWarnsOnUser}`,
                         value: ' ',
                     },
                 ])
                 .setFooter({
-                    text: 'You should consider taking action or reset the warns with /resetwarns',
+                    text: langData[userLang].warn.embed.footer,
                 })
                 .setColor('Red')
 
@@ -84,9 +97,10 @@ module.exports = {
                 embeds: [reminderEmbed],
                 ephemeral: true,
             })
+            await wait(1000)
+            await interaction.followUp({ embeds: [warnEmbed] })
         }
 
-        await wait(1000)
-        await interaction.followUp({ embeds: [warnEmbed] })
+        await interaction.reply({ embeds: [warnEmbed], ephemeral: true })
     },
 }
