@@ -153,6 +153,27 @@
                 "messageSet": "Die Verabschiedungsnachricht wurde erfolgreich gesetzt!",
                 "messageReset": "Die Verabschiedungsnachricht wurde erfolgreich zurückgesetzt!"
             }
+        },
+        "resetwarns": {
+            "command": {
+                "description": "Setzt die Warns eines Benutzers zurück",
+                "userOptionDescription": "Der Benutzer, dessen Warns zurückgesetzt werden sollen",
+                "integerOptionDescription": "Die Anzahl der Warns, die zurückgesetzt werden sollen | Standard: all"
+            },
+            "all": "alle",
+            "embed": {
+                "title": "Warn-System",
+                "fields": [
+                    {
+                        "name": "Du hast die Warnung zurückgesetzt",
+                        "value": "Anzahl: "
+                    },
+                    {
+                        "name": "Dieser Benutzer hat keine Warns",
+                        "value": "Nichts zum zurücksetzen"
+                    }
+                ]
+            }
         }
     },
     "en": {
@@ -308,6 +329,27 @@
             "reply": {
                 "messageSet": "Successfully set the goodbye message!",
                 "messageReset": "Successfully reset the goodbye message!"
+            }
+        },
+        "resetwarns": {
+            "command": {
+                "description": "Reset the warns of a user",
+                "userOptionDescription": "The user to reset the warns of",
+                "integerOptionDescription": "The amount of warns to reset | Default: all"
+            },
+            "all": "all",
+            "embed": {
+                "title": "Warn-System",
+                "fields": [
+                    {
+                        "name": "You have reset the warns of the user",
+                        "value": "Amount: "
+                    },
+                    {
+                        "name": "The user has no warns",
+                        "value": "Nothing to reset"
+                    }
+                ]
             }
         }
     }
