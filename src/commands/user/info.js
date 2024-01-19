@@ -10,10 +10,7 @@ const langData = require(`../../../resources/translations/lang.json`)
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName(langData.en.info.command.name)
-        .setNameLocalizations({
-            de: langData.de.info.command.name,
-        })
+        .setName('info')
         .setDescription(langData.en.info.command.description)
         .setDescriptionLocalizations({
             de: langData.de.info.command.description,
@@ -55,7 +52,7 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(
                             langData[userLang].info.embed.title +
-                                `${member.user.username}`
+                            `${member.user.username}`
                         )
                         .setThumbnail(
                             member.user.displayAvatarURL({ dynamic: true })
@@ -89,7 +86,7 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(
                             langData[userLang].info.embed.title +
-                                `${member.user.username}`
+                            `${member.user.username}`
                         )
                         .setThumbnail(
                             member.user.displayAvatarURL({ dynamic: true })
@@ -124,7 +121,7 @@ module.exports = {
                 if (member.kickable) {
                     try {
                         await member.kick()
-                    } catch (error) {}
+                    } catch (error) { }
                 } else {
                     await i.reply({
                         ephemeral: true,
@@ -139,7 +136,7 @@ module.exports = {
                 if (member.bannable) {
                     try {
                         await member.ban()
-                    } catch (error) {}
+                    } catch (error) { }
                 } else {
                     await i.reply({
                         ephemeral: true,

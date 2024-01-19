@@ -9,10 +9,7 @@ const langData = require(`../../../resources/translations/lang.json`)
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName(langData.en.contribute.command.name)
-        .setNameLocalizations({
-            de: langData.de.contribute.command.name,
-        })
+        .setName('contribute')
         .setDescription(langData.en.contribute.command.description)
         .setDescriptionLocalizations({
             de: langData.de.contribute.command.description,

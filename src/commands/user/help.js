@@ -9,13 +9,10 @@ const langData = require(`../../../resources/translations/lang.json`)
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName(langData.en.help.command.name)
-        .setNameLocalizations({
-            de: langData.de.help.command.name,
-        })
-        .setDescription(langData.en.help.command.name)
+        .setName('help')
+        .setDescription(langData.en.help.command.description)
         .setDescriptionLocalizations({
-            de: langData.de.help.command.name,
+            de: langData.de.help.command.description,
         }),
     async execute(interaction) {
         const userLang = interaction.locale.slice(0, 2)
@@ -42,34 +39,30 @@ module.exports = {
                 name: `</${command.name}:${command.id}>`
                     ? `</${command.name}:${command.id}>`
                     : 'No name',
-                value: `${
-                    command.description ? command.description : 'No description'
-                }`,
+                value: `${command.description ? command.description : 'No description'
+                    }`,
             })
             command.options?.forEach((option) => {
                 if (option.type == 2) {
                     option.options?.forEach((subOption) => {
                         helpEmbed.addFields({
-                            name: `</${
-                                command.name +
+                            name: `</${command.name +
                                 ' ' +
                                 option.name +
                                 ' ' +
                                 subOption.name
-                            }:${command.id}>`
-                                ? `</${
-                                      command.name +
-                                      ' ' +
-                                      option.name +
-                                      ' ' +
-                                      subOption.name
-                                  }:${command.id}>`
+                                }:${command.id}>`
+                                ? `</${command.name +
+                                ' ' +
+                                option.name +
+                                ' ' +
+                                subOption.name
+                                }:${command.id}>`
                                 : 'No name',
-                            value: `${
-                                subOption.description
-                                    ? subOption.description
-                                    : 'No description'
-                            }`,
+                            value: `${subOption.description
+                                ? subOption.description
+                                : 'No description'
+                                }`,
                         })
                     })
                 }

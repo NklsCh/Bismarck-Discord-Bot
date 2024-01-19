@@ -11,8 +11,8 @@ const langData = require(`../../../resources/translations/lang.json`)
 
 module.exports = {
     data: new ContextMenuCommandBuilder()
-        .setName(langData.en.info.contextMenu.name)
-        .setType(ApplicationCommandType.User),
+        .setName('Info')
+        .setType(ApplicationCommandType.User, ApplicationCommandType.Message, ApplicationCommandType.ChatInput),
     async execute(interaction) {
         const userLang = interaction.locale.slice(0, 2)
         const member = interaction.targetUser
@@ -39,7 +39,7 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(
                             langData[userLang].info.embed.title +
-                                `${member.username}`
+                            `${member.username}`
                         )
                         .setThumbnail(
                             member.displayAvatarURL({ dynamic: true })
@@ -105,7 +105,7 @@ module.exports = {
                 if (memberInGuild.kickable) {
                     try {
                         await memberInGuild.kick()
-                    } catch (error) {}
+                    } catch (error) { }
                 } else {
                     await i.reply({
                         ephemeral: true,
@@ -120,7 +120,7 @@ module.exports = {
                 if (memberInGuild.bannable) {
                     try {
                         await memberInGuild.ban()
-                    } catch (error) {}
+                    } catch (error) { }
                 } else {
                     await i.reply({
                         ephemeral: true,
