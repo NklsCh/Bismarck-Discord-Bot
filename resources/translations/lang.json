@@ -11,7 +11,6 @@
         },
         "help": {
             "command": {
-                "name": "hilfe",
                 "description": "Zeigt alle Befehle an"
             },
             "embed": {
@@ -22,7 +21,6 @@
         },
         "contribute": {
             "command": {
-                "name": "contribute",
                 "description": "Zeigt das Contributions Menü an"
             },
             "buttons": {
@@ -45,11 +43,7 @@
             }
         },
         "info": {
-            "contextMenu": {
-                "name": "Info"
-            },
             "command": {
-                "name": "info",
                 "description": "Gibt Infos über einen Benutzer",
                 "userOptionName": "mitglied",
                 "userOptionDescription": "Das Mitglied, über das du Infos haben willst"
@@ -68,7 +62,6 @@
         },
         "channelSetup": {
             "command": {
-                "name": "channel",
                 "subCommandJoin": {
                     "description": "Richtet den Join Channel ein",
                     "channelOptionDescription": "Der Channel, in dem die Join Nachrichten gesendet werden sollen"
@@ -139,6 +132,17 @@
                     }
                 ]
             }
+        },
+        "track": {
+            "command": {
+                "addOnlineDescription": "Konfiguriert den Bot, um die Anzahl der Benutzer in einem Server zu verfolgen, welche online sind",
+                "addAllDescription": "Konfiguriert den Bot, um die Anzahl aller Benutzer in einem Server zu verfolgen",
+                "addBotsDescription": "Konfiguriert den Bot, um die Anzahl der Bots in einem Server zu verfolgen",
+                "removeOnlineDescription": "Entfernt die Verfolgung der Anzahl der Benutzer in einem Server welche online sind",
+                "removeAllDescription": "Entfernt die Verfolgung der Anzahl aller Benutzer in einem Server",
+                "removeBotsDescription": "Entfernt die Verfolgung der Anzahl der Bots in einem Server",
+                "channelOptionDesciption": "Der Channel in dem die Anzahl angezeigt wird"
+            }
         }
     },
     "en": {
@@ -153,7 +157,6 @@
         },
         "help": {
             "command": {
-                "name": "help",
                 "description": "Shows all commands"
             },
             "embed": {
@@ -164,7 +167,6 @@
         },
         "contribute": {
             "command": {
-                "name": "contribute",
                 "description": "Shows the contribute menu"
             },
             "buttons": {
@@ -187,11 +189,7 @@
             }
         },
         "info": {
-            "contextMenu": {
-                "name": "Info"
-            },
             "command": {
-                "name": "info",
                 "description": "Gives info about a user",
                 "userOptionName": "member",
                 "userOptionDescription": "The member you want to get info about"
@@ -210,7 +208,6 @@
         },
         "channelSetup": {
             "command": {
-                "name": "channel",
                 "subCommandJoin": {
                     "description": "Set up the channel for join messages",
                     "channelOptionDescription": "The channel where the join messages should be sent"
@@ -280,6 +277,17 @@
                         "value": "@user left the server!"
                     }
                 ]
+            }
+        },
+        "track": {
+            "command": {
+                "addOnlineDescription": "Configures the bot to track the amount of online users in a server",
+                "addAllDescription": "Configures the bot to track the amount of all users in a server",
+                "addBotsDescription": "Configures the bot to track the amount of bots in a server",
+                "removeOnlineDescription": "Removes the tracking of the amount of online users in a server",
+                "removeAllDescription": "Removes the tracking of the amount of all users in a server",
+                "removeBotsDescription": "Removes the tracking of the amount of bots in a server",
+                "channelOptionDesciption": "The channel to track the amount"
             }
         }
     }

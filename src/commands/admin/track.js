@@ -1,45 +1,38 @@
 const {
     PermissionFlagsBits: { Administrator },
-    EmbedBuilder,
     SlashCommandBuilder,
 } = require('discord.js')
 const Guilds = require('../../../models/guilds')
 
+const langData = require(`../../../resources/translations/lang.json`)
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('track')
-        .setDescription(
-            'Configures the bot to track the amount of users in a server'
-        )
-        .setDescriptionLocalizations({
-            de: 'Konfiguriert den Bot, um die Anzahl der Benutzer in einem Server zu verfolgen',
-        })
+        .setDescription('-')
         .addSubcommandGroup((group) =>
             group
                 .setName('add')
-                .setDescription(
-                    'Configures the bot to track the amount of users in a server'
-                )
-                .setDescriptionLocalizations({
-                    de: 'Konfiguriert den Bot, um die Anzahl der Benutzer in einem Server zu verfolgen',
-                })
+                .setDescription('-')
                 .addSubcommand((subcommand) =>
                     subcommand
                         .setName('online')
                         .setDescription(
-                            'Configures the bot to track the amount of online users in a server'
+                            langData.en.track.command.addOnlineDescription
                         )
                         .setDescriptionLocalizations({
-                            de: 'Konfiguriert den Bot, um die Anzahl der Benutzer in einem Server zu verfolgen, welche online sind',
+                            de: langData.de.track.command.addOnlineDescription,
                         })
                         .addChannelOption((option) =>
                             option
                                 .setName('channel')
                                 .setDescription(
-                                    'The channel to track the amount of users in'
+                                    langData.en.track.command
+                                        .channelOptionDesciption
                                 )
                                 .setDescriptionLocalizations({
-                                    de: 'Der Kanal, in dem die Anzahl der Benutzer verfolgt werden soll',
+                                    de: langData.de.track.command
+                                        .channelOptionDesciption,
                                 })
                                 .setRequired(true)
                         )
@@ -48,19 +41,21 @@ module.exports = {
                     subcommand
                         .setName('all')
                         .setDescription(
-                            'Configures the bot to track the amount of all users in a server'
+                            langData.en.track.command.addAllDescription
                         )
                         .setDescriptionLocalizations({
-                            de: 'Konfiguriert den Bot, um die Anzahl aller Benutzer in einem Server zu verfolgen',
+                            de: langData.de.track.command.addAllDescription,
                         })
                         .addChannelOption((option) =>
                             option
                                 .setName('channel')
                                 .setDescription(
-                                    'The channel to track the amount of users in'
+                                    langData.en.track.command
+                                        .channelOptionDesciption
                                 )
                                 .setDescriptionLocalizations({
-                                    de: 'Der Kanal, in dem die Anzahl der Benutzer verfolgt werden soll',
+                                    de: langData.de.track.command
+                                        .channelOptionDesciption,
                                 })
                                 .setRequired(true)
                         )
@@ -69,19 +64,21 @@ module.exports = {
                     subcommand
                         .setName('bots')
                         .setDescription(
-                            'Configures the bot to track the amount of bots in a server'
+                            langData.en.track.command.addBotsDescription
                         )
                         .setDescriptionLocalizations({
-                            de: 'Konfiguriert den Bot, um die Anzahl der Bots in einem Server zu verfolgen',
+                            de: langData.de.track.command.addBotsDescription,
                         })
                         .addChannelOption((option) =>
                             option
                                 .setName('channel')
                                 .setDescription(
-                                    'The channel to track the amount of users in'
+                                    langData.en.track.command
+                                        .channelOptionDesciption
                                 )
                                 .setDescriptionLocalizations({
-                                    de: 'Der Kanal, in dem die Anzahl der Benutzer verfolgt werden soll',
+                                    de: langData.de.track.command
+                                        .channelOptionDesciption,
                                 })
                                 .setRequired(true)
                         )
@@ -90,40 +87,36 @@ module.exports = {
         .addSubcommandGroup((group) =>
             group
                 .setName('remove')
-                .setDescription(
-                    'Removes the tracking of the amount of users in a server'
-                )
-                .setDescriptionLocalizations({
-                    de: 'Entfernt die Verfolgung der Anzahl der Benutzer in einem Server',
-                })
+                .setDescription('-')
                 .addSubcommand((subcommand) =>
                     subcommand
                         .setName('online')
                         .setDescription(
-                            'Removes the tracking of the amount of online users in a server'
+                            langData.en.track.command.removeOnlineDescription
                         )
                         .setDescriptionLocalizations({
-                            de: 'Entfernt die Verfolgung der Anzahl der Benutzer in einem Server welche online sind',
+                            de: langData.de.track.command
+                                .removeOnlineDescription,
                         })
                 )
                 .addSubcommand((subcommand) =>
                     subcommand
                         .setName('all')
                         .setDescription(
-                            'Removes the tracking of the amount of all users in a server'
+                            langData.en.track.command.removeAllDescription
                         )
                         .setDescriptionLocalizations({
-                            de: 'Entfernt die Verfolgung der Anzahl aller Benutzer in einem Server',
+                            de: langData.de.track.command.removeAllDescription,
                         })
                 )
                 .addSubcommand((subcommand) =>
                     subcommand
                         .setName('bots')
                         .setDescription(
-                            'Removes the tracking of the amount of bots in a server'
+                            langData.en.track.command.removeBotsDescription
                         )
                         .setDescriptionLocalizations({
-                            de: 'Entfernt die Verfolgung der Anzahl der Bots in einem Server',
+                            de: langData.de.track.command.removeBotsDescription,
                         })
                 )
         )
@@ -135,8 +128,8 @@ module.exports = {
         })
         const channel = interaction.options.getChannel('channel')
         switch (
-            interaction.options.getSubcommandGroup() ||
-            interaction.options.getSubcommand()
+        interaction.options.getSubcommandGroup() ||
+        interaction.options.getSubcommand()
         ) {
             case 'add':
                 switch (interaction.options.getSubcommand()) {

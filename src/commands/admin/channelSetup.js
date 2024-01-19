@@ -9,10 +9,12 @@ const langData = require(`../../../resources/translations/lang.json`)
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName(langData.en.channelSetup.command.name)
+        .setName('channel')
+        .setDescription('-')
         .addSubcommandGroup((subcommandGroup) =>
             subcommandGroup
                 .setName('set')
+                .setDescription('-')
                 .addSubcommand((subcommand) =>
                     subcommand
                         .setName('join')
@@ -72,6 +74,7 @@ module.exports = {
         .addSubcommandGroup((subcommandGroup) =>
             subcommandGroup
                 .setName('unset')
+                .setDescription('-')
                 .addSubcommand((subcommand) =>
                     subcommand
                         .setName('join')
