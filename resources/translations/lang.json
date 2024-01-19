@@ -198,6 +198,16 @@
                 ],
                 "footer": "Du solltest überlegen, ob du nichts gegen diesen Nutzer unternehmen willst oder du setzt seine Warns zurück mit /resetwarns"
             }
+        },
+        "welcome": {
+            "command": {
+                "description": "Setzt die Willkommensnachricht",
+                "stringOptionDescription": "Die Nachricht, die gesendet werden soll (Leer lassen um zurückzusetzen)"
+            },
+            "reply": {
+                "messageSet": "Die Willkommensnachricht wurde erfolgreich gesetzt!",
+                "messageReset": "Die Willkommensnachricht wurde erfolgreich zurückgesetzt!"
+            }
         }
     },
     "en": {
@@ -398,6 +408,16 @@
                     }
                 ],
                 "footer": "Du solltest überlegen, ob du nichts gegen diesen Nutzer unternehmen willst oder du setzt seine Warns zurück mit /resetwarns"
+            }
+        },
+        "welcome": {
+            "command": {
+                "description": "Set a custom welcome message",
+                "stringOptionDescription": "The custom welcome message (Leave empty to reset)"
+            },
+            "reply": {
+                "messageSet": "Successfully set the welcome message!",
+                "messageReset": "Successfully reset the welcome message!"
             }
         }
     }
