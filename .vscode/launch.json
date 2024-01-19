@@ -7,53 +7,33 @@
         {
             "name": "Sync DB",
             "request": "launch",
-            "runtimeArgs": [
-                "syncdb"
-            ],
+            "runtimeArgs": ["run", "syncdb"],
             "runtimeExecutable": "npm",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
+            "skipFiles": ["<node_internals>/**"],
             "type": "node"
         },
         {
             "name": "Reset DB Start & Deploy",
             "request": "launch",
-            "runtimeArgs": [
-                "syncdb",
-                "deploy",
-                "start"
-            ],
+            "runtimeArgs": ["syncdb", "deploy", "start"],
             "runtimeExecutable": "npm",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
+            "skipFiles": ["<node_internals>/**"],
             "type": "node"
         },
         {
             "name": "Start Deploy",
             "request": "launch",
-            "runtimeArgs": [
-                "deploy",
-                "start"
-            ],
+            "runtimeArgs": ["run", "start"],
             "runtimeExecutable": "npm",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
+            "skipFiles": ["<node_internals>/**"],
             "type": "node"
         },
         {
             "name": "Dev Deploy",
             "request": "launch",
-            "runtimeArgs": [
-                "deploy",
-                "dev"
-            ],
+            "runtimeArgs": ["run", "dev"],
             "runtimeExecutable": "npm",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
+            "skipFiles": ["<node_internals>/**"],
             "type": "node"
         }
     ]
