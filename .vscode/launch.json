@@ -35,6 +35,14 @@
             "runtimeExecutable": "npm",
             "skipFiles": ["<node_internals>/**"],
             "type": "node"
+        },
+        {
+            "name": "Deploy Commands",
+            "request": "launch",
+            "runtimeArgs": ["run", "deploy"],
+            "runtimeExecutable": "npm",
+            "skipFiles": ["<node_internals>/**"],
+            "type": "node"
         }
     ]
 }

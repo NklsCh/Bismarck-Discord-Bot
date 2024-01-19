@@ -143,6 +143,16 @@
                 "removeBotsDescription": "Entfernt die Verfolgung der Anzahl der Bots in einem Server",
                 "channelOptionDesciption": "Der Channel in dem die Anzahl angezeigt wird"
             }
+        },
+        "goodbye": {
+            "command": {
+                "description": "Setzt die Verabschiedungsnachricht",
+                "messageOptionDescription": "Die Nachricht, die gesendet werden soll (Leer lassen um zurückzusetzen)"
+            },
+            "reply": {
+                "messageSet": "Die Verabschiedungsnachricht wurde erfolgreich gesetzt!",
+                "messageReset": "Die Verabschiedungsnachricht wurde erfolgreich zurückgesetzt!"
+            }
         }
     },
     "en": {
@@ -288,6 +298,16 @@
                 "removeAllDescription": "Removes the tracking of the amount of all users in a server",
                 "removeBotsDescription": "Removes the tracking of the amount of bots in a server",
                 "channelOptionDesciption": "The channel to track the amount"
+            }
+        },
+        "goodbye": {
+            "command": {
+                "description": "Set a custom goodbye message",
+                "messageOptionDescription": "The custom welcome message (Leave empty to reset)"
+            },
+            "reply": {
+                "messageSet": "Successfully set the goodbye message!",
+                "messageReset": "Successfully reset the goodbye message!"
             }
         }
     }
