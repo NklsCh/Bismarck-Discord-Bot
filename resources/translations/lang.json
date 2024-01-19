@@ -98,6 +98,47 @@
                 "success": " Nachrichten wurden erfolgreich gelöscht",
                 "error": "Es ist ein Fehler beim Löschen der Nachrichten aufgetreten"
             }
+        },
+        "config": {
+            "commandDesciption": "Zeigt die aktuelle Konfiguration des Bots an",
+            "trackEmbed": {
+                "title": "Statistik Channels",
+                "fields": [
+                    {
+                        "name": "Online",
+                        "value": "Wird nicht getrackt"
+                    },
+                    {
+                        "name": "Alle Mitglieder",
+                        "value": "Wird nicht getrackt"
+                    },
+                    {
+                        "name": "Bots",
+                        "value": "Wird nicht getrackt"
+                    }
+                ]
+            },
+            "channelEmbed": {
+                "title": "Angepasste Nachrichten",
+                "fields": [
+                    {
+                        "name": "Willkommen Channel",
+                        "value": "Es wird keine Willkommensnachricht geschickt"
+                    },
+                    {
+                        "name": "Verlassen Channel",
+                        "value": "Es wird keine Verlassennachricht geschickt"
+                    },
+                    {
+                        "name": "Willkommensnachricht",
+                        "value": "Willkommen @user auf dem @server!"
+                    },
+                    {
+                        "name": "Verabschiedungsnachricht",
+                        "value": "@user hat den server verlassen!"
+                    }
+                ]
+            }
         }
     },
     "en": {
@@ -198,6 +239,47 @@
                 "under1": "You can't delete less than 1 message",
                 "success": " messages have been deleted successfully",
                 "error": "An error occurred while deleting the messages"
+            }
+        },
+        "config": {
+            "commandDesciption": "Shows the running config of the bot",
+            "trackEmbed": {
+                "title": "Tracking Channels",
+                "fields": [
+                    {
+                        "name": "Online",
+                        "value": "Not tracking"
+                    },
+                    {
+                        "name": "All",
+                        "value": "Not tracking"
+                    },
+                    {
+                        "name": "Bots",
+                        "value": "Not tracking"
+                    }
+                ]
+            },
+            "channelEmbed": {
+                "title": "Custom Messages",
+                "fields": [
+                    {
+                        "name": "Welcome",
+                        "value": "Not welcoming"
+                    },
+                    {
+                        "name": "Leave",
+                        "value": "Not saying goodbye"
+                    },
+                    {
+                        "name": "Welcome message",
+                        "value": "Welcome @user to @server!"
+                    },
+                    {
+                        "name": "Goodbye message",
+                        "value": "@user left the server!"
+                    }
+                ]
             }
         }
     }
