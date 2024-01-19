@@ -37,7 +37,7 @@ module.exports = {
         const userLang = interaction.locale.slice(0, 2)
 
         const userid = interaction.options.getUser('user').id
-        const amount = interaction.options.getInteger('amount') ?? langData[userLang].resetwarns.all
+        const amount = interaction.options.getInteger('amount') ?? null
 
         const resetEmbed = new EmbedBuilder()
             .setTitle(langData[userLang].resetwarns.embed.title)
@@ -79,7 +79,7 @@ module.exports = {
                 guildId: interaction.guild.id,
                 userId: userid,
             },
-            limit: amount ? amount : null,
+            limit: amount,
         })
 
         await interaction.reply({ embeds: [resetEmbed] })
