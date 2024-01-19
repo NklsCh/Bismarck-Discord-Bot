@@ -4,26 +4,30 @@ const {
 } = require('discord.js')
 const CMessage = require('../../../models/cMessage')
 
+const langData = require(`../../../resources/translations/lang.json`)
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('welcome')
-        .setDescription('Set a custom welcome message')
+        .setDescription(langData.en.welcome.command.description)
         .setDescriptionLocalizations({
-            de: 'Setze eine benutzerdefinierte Willkommensnachricht',
+            de: langData.de.welcome.command.description,
         })
         .addStringOption((option) =>
             option
                 .setName('message')
                 .setDescription(
-                    'The custom welcome message (Leave empty to reset)'
+                    langData.en.welcome.command.stringOptionDescription
                 )
                 .setDescriptionLocalizations({
-                    de: 'Die Nachricht, die gesendet werden soll (Leer lassen um zurückzusetzen)',
+                    de: langData.de.welcome.command.stringOptionDescription,
                 })
         )
         .setDefaultMemberPermissions(Administrator)
         .setDMPermission(false),
     async execute(interaction) {
+        const userLang = interaction.locale.slice(0, 2)
+
         const [customMessage] = await CMessage.findOrCreate({
             where: {
                 guildId: interaction.guild.id,
@@ -38,13 +42,13 @@ module.exports = {
             .then(async () => {
                 if (!(await customMessage.welcomeMessage)) {
                     await interaction.editReply({
-                        content: 'Successfully reset the welcome message!',
+                        content: langData[userLang].welcome.reply.messageReset,
                         ephemeral: true,
                     })
                     return
                 }
                 await interaction.editReply({
-                    content: 'Successfully set the welcome message!',
+                    content: langData[userLang].welcome.reply.messageSet,
                     ephemeral: true,
                 })
             })
