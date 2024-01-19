@@ -95,7 +95,7 @@
             "reply": {
                 "over100": "Du kannst nicht mehr als 100 Nachrichten löschen",
                 "under1": "Du kannst nicht weniger als 1 Nachricht löschen",
-                "success": "${amount} Nachrichten wurden erfolgreich gelöscht",
+                "success": " Nachrichten wurden erfolgreich gelöscht",
                 "error": "Es ist ein Fehler beim Löschen der Nachrichten aufgetreten"
             }
         }
@@ -196,7 +196,7 @@
             "reply": {
                 "over100": "You can't delete more than 100 messages",
                 "under1": "You can't delete less than 1 message",
-                "success": "${amount} messages have been deleted successfully",
+                "success": " messages have been deleted successfully",
                 "error": "An error occurred while deleting the messages"
             }
         }
