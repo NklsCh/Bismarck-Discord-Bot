@@ -9,6 +9,9 @@ const {
 
 const langData = require(`../../../resources/translations/lang.json`)
 
+const handleKick = require('../../functions/handleKick')
+const handleBan = require('../../functions/handleBan')
+
 module.exports = {
     data: new ContextMenuCommandBuilder()
         .setName('Info')
@@ -102,35 +105,29 @@ module.exports = {
 
         collector.on('collect', async (i) => {
             if (i.customId === 'kick') {
-                if (memberInGuild.kickable) {
-                    try {
-                        await memberInGuild.kick()
-                    } catch (error) { }
+                if (handleKick(memberInGuild)) {
+                    await i.reply({
+                        ephemeral: true,
+                        content: langData[userLang].success.kickSuccess,
+                    })
                 } else {
                     await i.reply({
                         ephemeral: true,
                         content: langData[userLang].errors.notAbleToKickUser,
                     })
                 }
-                i.reply({
-                    ephemeral: true,
-                    content: langData[userLang].success.kickSuccess,
-                })
             } else if (i.customId === 'ban') {
-                if (memberInGuild.bannable) {
-                    try {
-                        await memberInGuild.ban()
-                    } catch (error) { }
+                if (handleBan(memberInGuild)) {
+                    await i.reply({
+                        ephemeral: true,
+                        content: langData[userLang].success.banSuccess,
+                    })
                 } else {
                     await i.reply({
                         ephemeral: true,
                         content: langData[userLang].errors.notAbleToBanUser,
                     })
                 }
-                i.reply({
-                    ephemeral: true,
-                    content: langData[userLang].success.banSuccess,
-                })
             } else {
                 await i.reply({
                     ephemeral: true,
