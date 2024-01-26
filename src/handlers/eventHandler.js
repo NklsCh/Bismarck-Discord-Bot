@@ -1,18 +1,21 @@
-const fs = require('fs')
+const fs = require('fs');
 
-module.exports = (client) => {
-    const eventFiles = fs
-        .readdirSync('./events')
-        .filter((file) => file.endsWith('.js'))
+module.exports = async (client) => {
+    const startTime = Date.now();
 
-    eventFiles.forEach((file) => {
-        const event = require(`../../events/${file}`)
-        if (event.once) {
-            client.once(event.name, (...args) => event.execute(...args))
-        } else {
-            client.on(event.name, (...args) => event.execute(...args))
+    const eventFiles = await fs.promises.readdir('./events');
+
+    for (const file of eventFiles) {
+        if (file.endsWith('.js')) {
+            const event = await require(`../../events/${file}`);
+            if (event.once) {
+                client.once(event.name, event.execute);
+            } else {
+                client.on(event.name, event.execute);
+            }
         }
-    })
+    }
 
-    console.log('Events loaded!')
-}
+    const loadingTime = Date.now() - startTime;
+    console.log(`Events loaded! (${loadingTime} ms)`);
+};
