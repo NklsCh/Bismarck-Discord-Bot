@@ -3,6 +3,7 @@ const {
     ActionRowBuilder,
     ButtonBuilder,
     EmbedBuilder,
+    ChatInputCommandInteraction
 } = require('discord.js')
 
 const langData = require(`../../../resources/translations/lang.json`)
@@ -14,6 +15,10 @@ module.exports = {
         .setDescriptionLocalizations({
             de: langData.de.contribute.command.description,
         }),
+    /**
+     * @param {ChatInputCommandInteraction} interaction - The interaction object.
+     * @returns {Promise<void>}
+     */
     async execute(interaction) {
         const userLang = interaction.locale.slice(0, 2)
 
