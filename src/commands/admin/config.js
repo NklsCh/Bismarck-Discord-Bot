@@ -2,6 +2,7 @@ const {
     PermissionFlagsBits: { Administrator },
     SlashCommandBuilder,
     EmbedBuilder,
+    ChatInputCommandInteraction
 } = require('discord.js')
 const Guilds = require('../../../models/guilds')
 const cMessage = require('../../../models/cMessage')
@@ -17,6 +18,10 @@ module.exports = {
         })
         .setDefaultMemberPermissions(Administrator)
         .setDMPermission(false),
+    /**
+     * @param {ChatInputCommandInteraction} interaction - The interaction object.
+     * @returns {Promise<void>}
+     */
     async execute(interaction) {
         const userLang = interaction.locale.slice(0, 2)
 
@@ -32,38 +37,35 @@ module.exports = {
             .setFields([
                 {
                     name: langData[userLang].config.trackEmbed.fields[0].name,
-                    value: `${
-                        (await dbguild.onlineChannelId)
-                            ? await interaction.guild.channels.fetch(
-                                  await dbguild.onlineChannelId
-                              )
-                            : langData[userLang].config.trackEmbed.fields[0]
-                                  .value
-                    }`,
+                    value: `${(await dbguild.onlineChannelId)
+                        ? await interaction.guild.channels.fetch(
+                            await dbguild.onlineChannelId
+                        )
+                        : langData[userLang].config.trackEmbed.fields[0]
+                            .value
+                        }`,
                     inline: true,
                 },
                 {
                     name: langData[userLang].config.trackEmbed.fields[1].name,
-                    value: `${
-                        (await dbguild.allChannelId)
-                            ? await interaction.guild.channels.fetch(
-                                  await dbguild.allChannelId
-                              )
-                            : langData[userLang].config.trackEmbed.fields[1]
-                                  .value
-                    }`,
+                    value: `${(await dbguild.allChannelId)
+                        ? await interaction.guild.channels.fetch(
+                            await dbguild.allChannelId
+                        )
+                        : langData[userLang].config.trackEmbed.fields[1]
+                            .value
+                        }`,
                     inline: true,
                 },
                 {
                     name: langData[userLang].config.trackEmbed.fields[2].name,
-                    value: `${
-                        (await dbguild.botChannelId)
-                            ? await interaction.guild.channels.fetch(
-                                  await dbguild.botChannelId
-                              )
-                            : langData[userLang].config.trackEmbed.fields[2]
-                                  .value
-                    }`,
+                    value: `${(await dbguild.botChannelId)
+                        ? await interaction.guild.channels.fetch(
+                            await dbguild.botChannelId
+                        )
+                        : langData[userLang].config.trackEmbed.fields[2]
+                            .value
+                        }`,
                     inline: true,
                 },
             ])
@@ -72,26 +74,24 @@ module.exports = {
             .setFields([
                 {
                     name: langData[userLang].config.channelEmbed.fields[0].name,
-                    value: `${
-                        (await dbguild.welcomeChannelId)
-                            ? await interaction.guild.channels.fetch(
-                                  await dbguild.welcomeChannelId
-                              )
-                            : langData[userLang].config.channelEmbed.fields[0]
-                                  .value
-                    }`,
+                    value: `${(await dbguild.welcomeChannelId)
+                        ? await interaction.guild.channels.fetch(
+                            await dbguild.welcomeChannelId
+                        )
+                        : langData[userLang].config.channelEmbed.fields[0]
+                            .value
+                        }`,
                     inline: true,
                 },
                 {
                     name: langData[userLang].config.channelEmbed.fields[1].name,
-                    value: `${
-                        (await dbguild.leaveChannelId)
-                            ? await interaction.guild.channels.fetch(
-                                  await dbguild.leaveChannelId
-                              )
-                            : langData[userLang].config.channelEmbed.fields[1]
-                                  .value
-                    }`,
+                    value: `${(await dbguild.leaveChannelId)
+                        ? await interaction.guild.channels.fetch(
+                            await dbguild.leaveChannelId
+                        )
+                        : langData[userLang].config.channelEmbed.fields[1]
+                            .value
+                        }`,
                     inline: true,
                 },
                 {
@@ -103,10 +103,9 @@ module.exports = {
                     name: langData[userLang].config.channelEmbed.fields[2].name,
                     value:
                         '```' +
-                        `${
-                            (await customMessage.welcomeMessage)
-                                ? await customMessage.welcomeMessage
-                                : langData[userLang].config.channelEmbed.fields[2].value
+                        `${(await customMessage.welcomeMessage)
+                            ? await customMessage.welcomeMessage
+                            : langData[userLang].config.channelEmbed.fields[2].value
                         }` +
                         '```',
                     inline: true,
@@ -115,10 +114,9 @@ module.exports = {
                     name: langData[userLang].config.channelEmbed.fields[3].name,
                     value:
                         '```' +
-                        `${
-                            (await customMessage.goodbyeMessage)
-                                ? await customMessage.goodbyeMessage
-                                : langData[userLang].config.channelEmbed.fields[3].value
+                        `${(await customMessage.goodbyeMessage)
+                            ? await customMessage.goodbyeMessage
+                            : langData[userLang].config.channelEmbed.fields[3].value
                         }` +
                         '```',
                     inline: true,

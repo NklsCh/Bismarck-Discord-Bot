@@ -1,6 +1,7 @@
 const {
     PermissionFlagsBits: { Administrator },
     SlashCommandBuilder,
+    ChatInputCommandInteraction
 } = require('discord.js')
 const Guilds = require('../../../models/guilds')
 
@@ -122,6 +123,10 @@ module.exports = {
         )
         .setDefaultMemberPermissions(Administrator)
         .setDMPermission(false),
+    /**
+     * @param {ChatInputCommandInteraction} interaction - The interaction object.
+     * @returns {Promise<void>}
+     */
     async execute(interaction) {
         const [guild] = await Guilds.findOrCreate({
             where: { guildId: interaction.guild.id },
