@@ -33,7 +33,7 @@ module.exports = {
         .setDMPermission(false),
     async execute(interaction) {
         const userLang = interaction.locale.slice(0, 2)
-        const member = interaction.options.getMember('member')
+        const memberInGuild = await guild.members.fetch(interaction.options.getMember('member').id)
         let kick, ban, admin, button, msg
         const { BanMembers, KickMembers } = PermissionsBitField.Flags
         if (
@@ -55,18 +55,18 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(
                             langData[userLang].info.embed.title +
-                            `${member.user.username}`
+                            `${memberInGuild.username}`
                         )
                         .setThumbnail(
-                            member.user.displayAvatarURL({ dynamic: true })
+                            memberInGuild.displayAvatarURL({ dynamic: true })
                         )
-                        .setFooter({ text: `${member.user.id}` })
+                        .setFooter({ text: `${memberInGuild.id}` })
                         .addFields([
                             {
                                 name: langData[userLang].info.embed.fields
                                     .accountCreated,
                                 value: `<t:${Math.round(
-                                    member.user.createdTimestamp / 1000
+                                    memberInGuild.createdTimestamp / 1000
                                 )}>`,
                                 inline: true,
                             },
@@ -74,7 +74,7 @@ module.exports = {
                                 name: langData[userLang].info.embed.fields
                                     .serverJoined,
                                 value: `<t:${Math.round(
-                                    member.joinedTimestamp / 1000
+                                    memberInGuild.joinedTimestamp / 1000
                                 )}>`,
                                 inline: true,
                             },
@@ -89,17 +89,17 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(
                             langData[userLang].info.embed.title +
-                            `${member.user.username}`
+                            `${memberInGuild.username}`
                         )
                         .setThumbnail(
-                            member.user.displayAvatarURL({ dynamic: true })
+                            memberInGuild.displayAvatarURL({ dynamic: true })
                         )
                         .addFields([
                             {
                                 name: langData[userLang].info.embed.fields
                                     .accountCreated,
                                 value: `<t:${Math.round(
-                                    member.user.createdTimestamp / 1000
+                                    memberInGuild.createdTimestamp / 1000
                                 )}>`,
                                 inline: true,
                             },
@@ -107,7 +107,7 @@ module.exports = {
                                 name: langData[userLang].info.embed.fields
                                     .serverJoined,
                                 value: `<t:${Math.round(
-                                    member.joinedTimestamp / 1000
+                                    memberInGuild.joinedTimestamp / 1000
                                 )}>`,
                                 inline: true,
                             },
@@ -121,7 +121,7 @@ module.exports = {
 
         collector.on('collect', async (i) => {
             if (i.customId === 'kick') {
-                if (handleKick(interaction.guild, member.user)) {
+                if (handleKick(memberInGuild)) {
                     await i.reply({
                         ephemeral: true,
                         content: langData[userLang].success.kickSuccess,
@@ -133,7 +133,7 @@ module.exports = {
                     })
                 }
             } else if (i.customId === 'ban') {
-                if (handleBan(interaction.guild, member.user)) {
+                if (handleBan(memberInGuild)) {
                     await i.reply({
                         ephemeral: true,
                         content: langData[userLang].success.banSuccess,
