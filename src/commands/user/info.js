@@ -4,6 +4,7 @@ const {
     ButtonBuilder,
     EmbedBuilder,
     PermissionsBitField,
+    ChatInputCommandInteraction
 } = require('discord.js')
 
 const langData = require(`../../../resources/translations/lang.json`)
@@ -31,6 +32,10 @@ module.exports = {
                 .setRequired(true)
         )
         .setDMPermission(false),
+    /**
+     * @param {ChatInputCommandInteraction} interaction - The interaction object.
+     * @returns {Promise<void>}
+     */
     async execute(interaction) {
         const userLang = interaction.locale.slice(0, 2)
         const memberInGuild = await guild.members.fetch(interaction.options.getMember('member').id)
