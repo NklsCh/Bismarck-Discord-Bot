@@ -2,6 +2,7 @@ const {
     PermissionFlagsBits: { KickMembers, BanMembers },
     SlashCommandBuilder,
     EmbedBuilder,
+    ChatInputCommandInteraction
 } = require('discord.js')
 const wait = require('node:timers/promises').setTimeout
 const warns = require('../../../models/warns')
@@ -35,6 +36,10 @@ module.exports = {
         )
         .setDefaultMemberPermissions(KickMembers, BanMembers)
         .setDMPermission(false),
+    /**
+     * @param {ChatInputCommandInteraction} interaction - The interaction object.
+     * @returns {Promise<void>}
+     */
     async execute(interaction) {
         const userLang = interaction.locale.slice(0, 2)
 

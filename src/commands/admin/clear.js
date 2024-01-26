@@ -1,5 +1,6 @@
 const {
     SlashCommandBuilder,
+    ChatInputCommandInteraction,
     PermissionFlagsBits: { ManageMessages },
 } = require('discord.js')
 
@@ -24,6 +25,10 @@ module.exports = {
                 .setRequired(true)
         )
         .setDefaultMemberPermissions(ManageMessages),
+    /**
+     * @param {ChatInputCommandInteraction} interaction - The interaction object.
+     * @returns {Promise<void>}
+     */
     async execute(interaction) {
         const userlang = interaction.locale.slice(0, 2)
 
