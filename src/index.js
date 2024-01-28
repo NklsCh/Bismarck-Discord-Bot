@@ -3,14 +3,6 @@ const fs = require('fs')
 const {
     Client,
     Collection,
-    GatewayIntentBits: {
-        GuildMembers,
-        GuildMessageReactions,
-        GuildMessages,
-        GuildPresences,
-        Guilds,
-        MessageContent,
-    },
 } = require('discord.js')
 
 /*
@@ -18,12 +10,12 @@ const {
 */
 const client = new Client({
     intents: [
-        GuildMembers,
-        GuildPresences,
-        Guilds,
-        GuildMessages,
-        GuildMessageReactions,
-        MessageContent,
+        'GuildMembers',
+        'GuildPresences',
+        'Guilds',
+        'GuildMessages',
+        'GuildMessageReactions',
+        'MessageContent',
     ],
 })
 

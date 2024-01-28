@@ -2,7 +2,7 @@ const {
     EmbedBuilder,
     SlashCommandBuilder,
     REST,
-    ChatInputCommandInteraction,
+    CommandInteraction,
     Routes,
 } = require('discord.js')
 
@@ -16,7 +16,7 @@ module.exports = {
             de: langData.de.help.command.description,
         }),
     /**
-     * @param {ChatInputCommandInteraction} interaction - The interaction object.
+     * @param {CommandInteraction} interaction - The interaction object.
      * @returns {Promise<void>}
      */
     async execute(interaction) {

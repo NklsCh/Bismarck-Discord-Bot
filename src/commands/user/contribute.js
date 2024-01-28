@@ -3,7 +3,7 @@ const {
     ActionRowBuilder,
     ButtonBuilder,
     EmbedBuilder,
-    ChatInputCommandInteraction
+    CommandInteraction
 } = require('discord.js')
 
 const langData = require(`../../../resources/translations/lang.json`)
@@ -16,7 +16,7 @@ module.exports = {
             de: langData.de.contribute.command.description,
         }),
     /**
-     * @param {ChatInputCommandInteraction} interaction - The interaction object.
+     * @param {CommandInteraction} interaction - The interaction object.
      * @returns {Promise<void>}
      */
     async execute(interaction) {

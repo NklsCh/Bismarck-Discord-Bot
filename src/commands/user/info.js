@@ -4,7 +4,7 @@ const {
     ButtonBuilder,
     EmbedBuilder,
     PermissionsBitField,
-    ChatInputCommandInteraction
+    CommandInteraction
 } = require('discord.js')
 
 const langData = require(`../../../resources/translations/lang.json`)
@@ -33,17 +33,17 @@ module.exports = {
         )
         .setDMPermission(false),
     /**
-     * @param {ChatInputCommandInteraction} interaction - The interaction object.
+     * @param {CommandInteraction} interaction - The interaction object.
      * @returns {Promise<void>}
      */
     async execute(interaction) {
         const userLang = interaction.locale.slice(0, 2)
-        const memberInGuild = await guild.members.fetch(interaction.options.getMember('member').id)
+        const memberInGuild = await interaction.guild.members.fetch(interaction.options.getMember('member').id)
         let kick, ban, admin, button, msg
         const { BanMembers, KickMembers } = PermissionsBitField.Flags
         if (
             interaction.member.permissions.has([BanMembers, KickMembers]) &&
-            !member.user.bot
+            !memberInGuild.user.bot
         ) {
             kick = new ButtonBuilder()
                 .setStyle(4)
@@ -60,7 +60,7 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(
                             langData[userLang].info.embed.title +
-                            `${memberInGuild.username}`
+                            `${memberInGuild.user.username} aka ${memberInGuild.displayName}`
                         )
                         .setThumbnail(
                             memberInGuild.displayAvatarURL({ dynamic: true })
@@ -71,7 +71,7 @@ module.exports = {
                                 name: langData[userLang].info.embed.fields
                                     .accountCreated,
                                 value: `<t:${Math.round(
-                                    memberInGuild.createdTimestamp / 1000
+                                    memberInGuild.user.createdTimestamp / 1000
                                 )}>`,
                                 inline: true,
                             },
@@ -94,7 +94,7 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(
                             langData[userLang].info.embed.title +
-                            `${memberInGuild.username}`
+                            `${memberInGuild.user.username} aka ${memberInGuild.displayName}`
                         )
                         .setThumbnail(
                             memberInGuild.displayAvatarURL({ dynamic: true })
@@ -104,7 +104,7 @@ module.exports = {
                                 name: langData[userLang].info.embed.fields
                                     .accountCreated,
                                 value: `<t:${Math.round(
-                                    memberInGuild.createdTimestamp / 1000
+                                    memberInGuild.user.createdTimestamp / 1000
                                 )}>`,
                                 inline: true,
                             },

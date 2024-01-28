@@ -5,7 +5,7 @@ const {
     PermissionsBitField,
     ButtonBuilder,
     ActionRowBuilder,
-    ContextMenuCommandInteraction
+    CommandInteraction
 } = require('discord.js')
 
 const langData = require(`../../../resources/translations/lang.json`)
@@ -19,7 +19,7 @@ module.exports = {
         .setType(ApplicationCommandType.User, ApplicationCommandType.Message, ApplicationCommandType.ChatInput),
     /**
      * Executes the command when invoked by an interaction.
-     * @param {ContextMenuCommandInteraction} interaction - The interaction object.
+     * @param {CommandInteraction} interaction - The interaction object.
      * @returns {Promise<void>}
      */
     async execute(interaction) {
@@ -48,7 +48,7 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(
                             langData[userLang].info.embed.title +
-                            `${member.username}`
+                            `${member.username} aka ${memberInGuild.displayName}`
                         )
                         .setThumbnail(
                             member.displayAvatarURL({ dynamic: true })
@@ -80,7 +80,10 @@ module.exports = {
             msg = await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
-                        .setTitle(`User info about ${member.username}`)
+                        .setTitle(
+                            langData[userLang].info.embed.title +
+                            `${member.username} aka ${memberInGuild.displayName}`
+                        )
                         .setThumbnail(
                             member.displayAvatarURL({ dynamic: true })
                         )

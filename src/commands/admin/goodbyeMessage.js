@@ -1,7 +1,7 @@
 const {
     PermissionFlagsBits: { Administrator },
     SlashCommandBuilder,
-    ChatInputCommandInteraction
+    CommandInteraction
 } = require('discord.js')
 const CMessage = require('../../../models/cMessage')
 
@@ -27,7 +27,7 @@ module.exports = {
         .setDefaultMemberPermissions(Administrator)
         .setDMPermission(false),
     /**
-     * @param {ChatInputCommandInteraction} interaction - The interaction object.
+     * @param {CommandInteraction} interaction - The interaction object.
      * @returns {Promise<void>}
      */
     async execute(interaction) {
