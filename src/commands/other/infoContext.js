@@ -16,7 +16,7 @@ const handleBan = require('../../functions/handleBan')
 module.exports = {
     data: new ContextMenuCommandBuilder()
         .setName('Info')
-        .setType(ApplicationCommandType.User, ApplicationCommandType.Message, ApplicationCommandType.ChatInput),
+        .setType(ApplicationCommandType.User, ApplicationCommandType.ChatInput),
     /**
      * Executes the command when invoked by an interaction.
      * @param {CommandInteraction} interaction - The interaction object.

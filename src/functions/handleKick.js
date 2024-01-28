@@ -16,6 +16,7 @@ async function handleKick(user, reason) {
         }
         return true;
     }
+    return false;
 }
 
 module.exports = handleKick

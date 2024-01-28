@@ -9,13 +9,14 @@ const { GuildMember } = require("discord.js");
 async function handleBan(user, reason) {
     if (user.bannable) {
         try {
-            user.ban(reason)
+            user.ban({ reason: reason })
         } catch (error) {
             console.error(error)
             return false;
         }
         return true;
     }
+    return false;
 }
 
 module.exports = handleBan
