@@ -14,7 +14,7 @@ module.exports = {
         await cMessage.sync()
 
         client.guilds.fetch({ cache: true })
-        
+
         //Get the amount of all users from all servers
         client.guilds.cache.forEach((guild) => {
             memberAmount += guild.members.cache.filter(
@@ -68,7 +68,6 @@ module.exports = {
                             member.presence?.status === 'dnd') &&
                         !member.user.bot
                 ).size
-                console.log(onlineUsers)
                 if (await dbguild.onlineChannelId) {
                     await guild.channels.edit(await dbguild.onlineChannelId, {
                         name: `Online: ${onlineUsers}`,
@@ -81,11 +80,10 @@ module.exports = {
                 }
                 if (await dbguild.botChannelId) {
                     await guild.channels.edit(await dbguild.botChannelId, {
-                        name: `Bots: ${
-                            guild.members.cache.filter(
-                                (member) => member.user.bot
-                            ).size
-                        }`,
+                        name: `Bots: ${guild.members.cache.filter(
+                            (member) => member.user.bot
+                        ).size
+                            }`,
                     })
                 }
             })
