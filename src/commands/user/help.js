@@ -1,10 +1,8 @@
 const {
-    EmbedBuilder,
     SlashCommandBuilder,
     REST,
     CommandInteraction,
     Routes,
-    Embed,
 } = require('discord.js')
 const fs = require('fs')
 const makeHelpEmbed = require('../../functions/helpEmbedCreator')
@@ -30,11 +28,6 @@ module.exports = {
         const commands = await rest.get(
             Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID)
         )
-
-        const helpEmbed = new EmbedBuilder()
-            .setTitle('Help')
-            .setDescription('Here are all commands\r------------------')
-            .setColor('Blue')
 
         const commandFolders = fs.readdirSync('./src/commands')
 
@@ -66,11 +59,11 @@ module.exports = {
                                 : 'No name',
                             value: `${command.description
                                 ? command.description
-                          : 'No description'
+                                : 'No description'
                                 }`,
                         })
                     }
-                  command.options?.forEach((option) => {
+                    command.options?.forEach((option) => {
                         if (option.type == 2) {
                             option.options?.forEach((subOption) => {
                                 embed.addFields({
@@ -89,11 +82,13 @@ module.exports = {
                                         : 'No name',
                                     value: `${subOption.description
                                         ? subOption.description
-                                : 'No description'
-                                }`,
-                        })
-                    }
-                    return
+                                        : 'No description'
+                                        }`,
+                                })
+                            })
+                        }
+                        return
+                    })
                 })
             })
             embeds.push(embed)
