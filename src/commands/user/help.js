@@ -2,23 +2,29 @@ const {
     EmbedBuilder,
     SlashCommandBuilder,
     REST,
+    CommandInteraction,
     Routes,
     Embed,
 } = require('discord.js')
 const fs = require('fs')
 const makeHelpEmbed = require('../../functions/helpEmbedCreator')
 
+const langData = require(`../../../resources/translations/lang.json`)
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('help')
-        .setNameLocalizations({
-            de: 'hilfe',
-        })
-        .setDescription('Shows all commands')
+        .setDescription(langData.en.help.command.description)
         .setDescriptionLocalizations({
-            de: 'Zeigt alle Befehle an',
+            de: langData.de.help.command.description,
         }),
+    /**
+     * @param {CommandInteraction} interaction - The interaction object.
+     * @returns {Promise<void>}
+     */
     async execute(interaction) {
+        const userLang = interaction.locale.slice(0, 2)
+
         const rest = new REST({ version: '10' }).setToken(process.env.TOKEN)
 
         const commands = await rest.get(
@@ -60,11 +66,11 @@ module.exports = {
                                 : 'No name',
                             value: `${command.description
                                 ? command.description
-                                : 'No description'
+                          : 'No description'
                                 }`,
                         })
                     }
-                    command.options?.forEach((option) => {
+                  command.options?.forEach((option) => {
                         if (option.type == 2) {
                             option.options?.forEach((subOption) => {
                                 embed.addFields({
@@ -83,13 +89,11 @@ module.exports = {
                                         : 'No name',
                                     value: `${subOption.description
                                         ? subOption.description
-                                        : 'No description'
-                                        }`,
-                                })
-                            })
-                        }
-                        return
-                    })
+                                : 'No description'
+                                }`,
+                        })
+                    }
+                    return
                 })
             })
             embeds.push(embed)

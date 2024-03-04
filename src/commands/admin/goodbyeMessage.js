@@ -1,29 +1,38 @@
 const {
     PermissionFlagsBits: { Administrator },
     SlashCommandBuilder,
+    CommandInteraction
 } = require('discord.js')
 const CMessage = require('../../../models/cMessage')
+
+const langData = require('../../../resources/translations/lang.json')
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('goodbye')
-        .setDescription('Set a custom goodbye message')
+        .setDescription(langData.en.goodbye.command.description)
         .setDescriptionLocalizations({
-            de: 'Setze eine benutzerdefinierte Abschiedsnachricht',
+            de: langData.de.goodbye.command.description,
         })
         .addStringOption((option) =>
             option
                 .setName('message')
                 .setDescription(
-                    'The custom welcome message (Leave empty to reset)'
+                    langData.en.goodbye.command.messageOptionDescription
                 )
                 .setDescriptionLocalizations({
-                    de: 'Die Nachricht, die gesendet werden soll (Leer lassen um zurückzusetzen)',
+                    de: langData.de.goodbye.command.messageOptionDescription,
                 })
         )
         .setDefaultMemberPermissions(Administrator)
         .setDMPermission(false),
+    /**
+     * @param {CommandInteraction} interaction - The interaction object.
+     * @returns {Promise<void>}
+     */
     async execute(interaction) {
+        const userLang = interaction.locale.slice(0, 2)
+
         const [customMessage] = await CMessage.findOrCreate({
             where: {
                 guildId: interaction.guild.id,
@@ -38,13 +47,13 @@ module.exports = {
             .then(async () => {
                 if (!(await customMessage.goodbyeMessage)) {
                     await interaction.editReply({
-                        content: 'Successfully reset the goodbye message!',
+                        content: langData[userLang].goodbye.reply.messageSet,
                         ephemeral: true,
                     })
                     return
                 }
                 await interaction.editReply({
-                    content: 'Successfully set the goodbye message!',
+                    content: langData[userLang].goodbye.reply.messageReset,
                     ephemeral: true,
                 })
             })

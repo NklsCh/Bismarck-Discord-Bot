@@ -1,18 +1,20 @@
-const fs = require('fs')
+const fs = require('fs');
 
-module.exports = (client) => {
-    const commandFolders = fs.readdirSync('./src/commands')
+module.exports = async (client) => {
+    const startTime = Date.now();
 
-    commandFolders.forEach((folder) => {
-        const commandFiles = fs
-            .readdirSync(`./src/commands/${folder}`)
-            .filter((file) => file.endsWith('.js'))
+    const commandFolders = await fs.promises.readdir('./src/commands');
 
-        commandFiles.forEach((commandFile) => {
-            const command = require(`../commands/${folder}/${commandFile}`)
-            client.commands.set(command.data.name, command)
-        })
-    })
+    for (const folder of commandFolders) {
+        const commandFiles = await fs.promises.readdir(`./src/commands/${folder}`);
+        const filteredFiles = commandFiles.filter((file) => file.endsWith('.js'));
 
-    console.log('Commands loaded!')
-}
+        for (const commandFile of filteredFiles) {
+            const command = await require(`../commands/${folder}/${commandFile}`);
+            client.commands.set(command.data.name, command);
+        }
+    }
+
+    const loadingTime = Date.now() - startTime;
+    console.log(`Commands loaded! (${loadingTime} ms)`);
+};
