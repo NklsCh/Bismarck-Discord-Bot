@@ -1,5 +1,4 @@
 const {
-    ActivityType: { Watching },
     Events,
 } = require('discord.js')
 const Guild = require('../models/guilds')
@@ -14,18 +13,6 @@ module.exports = {
         })
         await cMessage.create({
             guildId: guild.id,
-        })
-
-        const serverAmount = client.guilds.cache
-
-        client.user.setPresence({
-            activities: [
-                {
-                    name: `${serverAmount.size} Server(s)`,
-                    type: Watching,
-                },
-            ],
-            status: 'online',
         })
     },
 }

@@ -2,20 +2,29 @@ const {
     PermissionFlagsBits: { Administrator },
     SlashCommandBuilder,
     EmbedBuilder,
+    CommandInteraction
 } = require('discord.js')
 const Guilds = require('../../../models/guilds')
 const cMessage = require('../../../models/cMessage')
 
+const langData = require(`../../../resources/translations/lang.json`)
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('config')
-        .setDescription('Shows the current configuration of the bot')
+        .setDescription(langData.en.config.commandDesciption)
         .setDescriptionLocalizations({
-            de: 'Zeigt die aktuelle Konfiguration des Bots an',
+            de: langData.de.config.commandDesciption,
         })
         .setDefaultMemberPermissions(Administrator)
         .setDMPermission(false),
+    /**
+     * @param {CommandInteraction} interaction - The interaction object.
+     * @returns {Promise<void>}
+     */
     async execute(interaction) {
+        const userLang = interaction.locale.slice(0, 2)
+
         const [dbguild] = await Guilds.findOrCreate({
             where: { guildId: interaction.guild.id },
         })
@@ -24,65 +33,65 @@ module.exports = {
         })
         await interaction.deferReply({ ephemeral: true })
         const trackEmbed = new EmbedBuilder()
-            .setTitle('Tracking Channels')
+            .setTitle(langData[userLang].config.trackEmbed.title)
             .setFields([
                 {
-                    name: 'Online',
-                    value: `${
-                        (await dbguild.onlineChannelId)
-                            ? await interaction.guild.channels.fetch(
-                                  await dbguild.onlineChannelId
-                              )
-                            : 'Not tracking'
-                    }`,
+                    name: langData[userLang].config.trackEmbed.fields[0].name,
+                    value: `${(await dbguild.onlineChannelId)
+                        ? await interaction.guild.channels.fetch(
+                            await dbguild.onlineChannelId
+                        )
+                        : langData[userLang].config.trackEmbed.fields[0]
+                            .value
+                        }`,
                     inline: true,
                 },
                 {
-                    name: 'All',
-                    value: `${
-                        (await dbguild.allChannelId)
-                            ? await interaction.guild.channels.fetch(
-                                  await dbguild.allChannelId
-                              )
-                            : 'Not tracking'
-                    }`,
+                    name: langData[userLang].config.trackEmbed.fields[1].name,
+                    value: `${(await dbguild.allChannelId)
+                        ? await interaction.guild.channels.fetch(
+                            await dbguild.allChannelId
+                        )
+                        : langData[userLang].config.trackEmbed.fields[1]
+                            .value
+                        }`,
                     inline: true,
                 },
                 {
-                    name: 'Bots',
-                    value: `${
-                        (await dbguild.botChannelId)
-                            ? await interaction.guild.channels.fetch(
-                                  await dbguild.botChannelId
-                              )
-                            : 'Not tracking'
-                    }`,
+                    name: langData[userLang].config.trackEmbed.fields[2].name,
+                    value: `${(await dbguild.botChannelId)
+                        ? await interaction.guild.channels.fetch(
+                            await dbguild.botChannelId
+                        )
+                        : langData[userLang].config.trackEmbed.fields[2]
+                            .value
+                        }`,
                     inline: true,
                 },
             ])
         const channelEmbed = new EmbedBuilder()
-            .setTitle('Custom Messages')
+            .setTitle(langData[userLang].config.channelEmbed.title)
             .setFields([
                 {
-                    name: 'Welcome',
-                    value: `${
-                        (await dbguild.welcomeChannelId)
-                            ? await interaction.guild.channels.fetch(
-                                  await dbguild.welcomeChannelId
-                              )
-                            : 'Not welcoming'
-                    }`,
+                    name: langData[userLang].config.channelEmbed.fields[0].name,
+                    value: `${(await dbguild.welcomeChannelId)
+                        ? await interaction.guild.channels.fetch(
+                            await dbguild.welcomeChannelId
+                        )
+                        : langData[userLang].config.channelEmbed.fields[0]
+                            .value
+                        }`,
                     inline: true,
                 },
                 {
-                    name: 'Leave',
-                    value: `${
-                        (await dbguild.leaveChannelId)
-                            ? await interaction.guild.channels.fetch(
-                                  await dbguild.leaveChannelId
-                              )
-                            : 'Not saying goodbye'
-                    }`,
+                    name: langData[userLang].config.channelEmbed.fields[1].name,
+                    value: `${(await dbguild.leaveChannelId)
+                        ? await interaction.guild.channels.fetch(
+                            await dbguild.leaveChannelId
+                        )
+                        : langData[userLang].config.channelEmbed.fields[1]
+                            .value
+                        }`,
                     inline: true,
                 },
                 {
@@ -91,31 +100,29 @@ module.exports = {
                     inline: true,
                 },
                 {
-                    name: 'Welcome message',
+                    name: langData[userLang].config.channelEmbed.fields[2].name,
                     value:
                         '```' +
-                        `${
-                            (await customMessage.welcomeMessage)
-                                ? await customMessage.welcomeMessage
-                                : 'Welcome $user to $server!'
+                        `${(await customMessage.welcomeMessage)
+                            ? await customMessage.welcomeMessage
+                            : langData[userLang].config.channelEmbed.fields[2].value
                         }` +
                         '```',
                     inline: true,
                 },
                 {
-                    name: 'Goodbye message',
+                    name: langData[userLang].config.channelEmbed.fields[3].name,
                     value:
                         '```' +
-                        `${
-                            (await customMessage.goodbyeMessage)
-                                ? await customMessage.goodbyeMessage
-                                : '$User left the server!'
+                        `${(await customMessage.goodbyeMessage)
+                            ? await customMessage.goodbyeMessage
+                            : langData[userLang].config.channelEmbed.fields[3].value
                         }` +
                         '```',
                     inline: true,
                 },
             ])
 
-        interaction.editReply({ embeds: [trackEmbed, channelEmbed] })
+        await interaction.editReply({ embeds: [trackEmbed, channelEmbed] })
     },
 }

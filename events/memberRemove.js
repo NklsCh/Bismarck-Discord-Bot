@@ -1,8 +1,13 @@
-const { Events } = require('discord.js')
+const { Events, GuildMember } = require('discord.js')
 const Guilds = require('../models/guilds')
 
 module.exports = {
     name: Events.GuildMemberRemove,
+    /**
+     * Executes the memberRemove event.
+     * @param {GuildMember} GuildMember - The GuildMember object representing the member who left the server.
+     * @returns {Promise<void>}
+     */
     async execute(GuildMember) {
         const [dbguild] = await Guilds.findOrCreate({
             where: {
@@ -13,7 +18,7 @@ module.exports = {
         GuildMember.guild.channels
             .fetch(await dbguild.goodbyeChannelId)
             .then((channel) => {
-                channel.send(`**${GuildMember.user.tag}** left the server!`);
+                channel.send(`**${GuildMember.user.username}** left the server!`);
             });
     },
 };

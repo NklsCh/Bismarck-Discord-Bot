@@ -20,6 +20,7 @@ It has all the features you want online user tracking or welcome and goodbye mes
 ## Co-Authors
 
 - [@LordVertice](https://github.com/LordVertice)
+- [@TomSnd01](https://github.com/TomSnd01)
 
 
 ## Support

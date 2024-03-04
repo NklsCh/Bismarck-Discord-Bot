@@ -1,7 +1,36 @@
-/.idea
-/.vs
-/.fleet
-/node_modules
+### Node ###
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# dotenv environment variable files
 .env
-.prettierrc.json
-database.sqlite
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+### IDE ###
+.vscode/*
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json
+.vscode/*.code-snippets
+.fleet/*
+
+# Local History for Visual Studio Code
+.history/
+
+# Project-specific files
+.idea
+*.sqlite
+.prettierrc*
