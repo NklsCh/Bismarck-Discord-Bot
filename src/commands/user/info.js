@@ -4,7 +4,7 @@ const {
     ButtonBuilder,
     EmbedBuilder,
     PermissionsBitField,
-    CommandInteraction
+    ChatInputCommandInteraction
 } = require('discord.js')
 
 const langData = require(`../../../resources/translations/lang.json`)
@@ -33,7 +33,7 @@ module.exports = {
         )
         .setDMPermission(false),
     /**
-     * @param {CommandInteraction} interaction - The interaction object.
+     * @param {ChatInputCommandInteraction} interaction - The interaction object.
      * @returns {Promise<void>}
      */
     async execute(interaction) {

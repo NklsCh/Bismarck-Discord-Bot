@@ -1,7 +1,7 @@
 const {
     SlashCommandBuilder,
     REST,
-    CommandInteraction,
+    ChatInputCommandInteraction,
     Routes,
 } = require('discord.js')
 const fs = require('fs')
@@ -17,7 +17,7 @@ module.exports = {
             de: langData.de.help.command.description,
         }),
     /**
-     * @param {CommandInteraction} interaction - The interaction object.
+     * @param {ChatInputCommandInteraction} interaction - The interaction object.
      * @returns {Promise<void>}
      */
     async execute(interaction) {
@@ -64,7 +64,7 @@ module.exports = {
                         })
                     }
                     command.options?.forEach((option) => {
-                        if (option.type == 2) {
+                        if (option.type === 2) {
                             option.options?.forEach((subOption) => {
                                 embed.addFields({
                                     name: `</${command.name +
