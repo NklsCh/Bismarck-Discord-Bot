@@ -2,7 +2,7 @@ const {
     PermissionFlagsBits: { Administrator },
     SlashCommandBuilder,
     ChannelType: { GuildText },
-    CommandInteraction
+    ChatInputCommandInteraction
 } = require('discord.js')
 const Guilds = require('../../../models/guilds')
 
@@ -104,7 +104,7 @@ module.exports = {
         .setDefaultMemberPermissions(Administrator)
         .setDMPermission(false),
     /**
-     * @param {CommandInteraction} interaction - The interaction object.
+     * @param {ChatInputCommandInteraction} interaction - The interaction object.
      * @returns {Promise<void>}
      */
     async execute(interaction) {

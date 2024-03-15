@@ -1,6 +1,6 @@
 const {
     SlashCommandBuilder,
-    CommandInteraction,
+    ChatInputCommandInteraction,
     PermissionFlagsBits: { ManageMessages },
 } = require('discord.js')
 
@@ -26,7 +26,7 @@ module.exports = {
         )
         .setDefaultMemberPermissions(ManageMessages),
     /**
-     * @param {CommandInteraction} interaction - The interaction object.
+     * @param {ChatInputCommandInteraction} interaction - The interaction object.
      * @returns {Promise<void>}
      */
     async execute(interaction) {

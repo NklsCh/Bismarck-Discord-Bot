@@ -5,7 +5,7 @@ const {
     PermissionsBitField,
     ButtonBuilder,
     ActionRowBuilder,
-    CommandInteraction
+    UserContextMenuCommandInteraction
 } = require('discord.js')
 
 const langData = require(`../../../resources/translations/lang.json`)
@@ -16,10 +16,10 @@ const handleBan = require('../../functions/handleBan')
 module.exports = {
     data: new ContextMenuCommandBuilder()
         .setName('Info')
-        .setType(ApplicationCommandType.User, ApplicationCommandType.ChatInput),
+        .setType(ApplicationCommandType.User),
     /**
      * Executes the command when invoked by an interaction.
-     * @param {CommandInteraction} interaction - The interaction object.
+     * @param {UserContextMenuCommandInteraction} interaction - The interaction object.
      * @returns {Promise<void>}
      */
     async execute(interaction) {

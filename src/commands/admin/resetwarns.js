@@ -2,7 +2,7 @@ const {
     PermissionFlagsBits: { KickMembers, BanMembers },
     SlashCommandBuilder,
     EmbedBuilder,
-    CommandInteraction
+    ChatInputCommandInteraction
 } = require('discord.js')
 const warns = require('../../../models/warns')
 
@@ -35,7 +35,7 @@ module.exports = {
         .setDefaultMemberPermissions(KickMembers, BanMembers)
         .setDMPermission(false),
     /**
-     * @param {CommandInteraction} interaction - The interaction object.
+     * @param {ChatInputCommandInteraction} interaction - The interaction object.
      * @returns {Promise<void>}
      */
     async execute(interaction) {
