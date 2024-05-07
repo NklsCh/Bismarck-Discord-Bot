@@ -60,12 +60,11 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle(
                             langData[userLang].info.embed.title +
-                            `${memberInGuild.user.username} aka ${memberInGuild.displayName}`
+                            `${memberInGuild.user.tag} aka ${memberInGuild.displayName}`
                         )
                         .setThumbnail(
                             memberInGuild.displayAvatarURL({ dynamic: true })
                         )
-                        .setFooter({ text: `${memberInGuild.id}` })
                         .addFields([
                             {
                                 name: langData[userLang].info.embed.fields

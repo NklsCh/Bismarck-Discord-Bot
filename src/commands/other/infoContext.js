@@ -53,7 +53,6 @@ module.exports = {
                         .setThumbnail(
                             member.displayAvatarURL({ dynamic: true })
                         )
-                        .setFooter({ text: `${member.id}` })
                         .addFields([
                             {
                                 name: langData[userLang].info.embed.fields
