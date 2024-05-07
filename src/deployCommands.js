@@ -12,29 +12,30 @@ modules.forEach((module) => {
     commandFiles.forEach((commandFile) => {
         const command = require(`./commands/${module}/${commandFile}`)
         commands.push(command.data.toJSON())
+        console.log(`Loaded command ${command.data.name} from ${module}`)
     })
 })
 
 const rest = new REST({ version: '10' }).setToken(process.env.TOKEN)
 
-;(async () => {
-    try {
-        console.log(
-            `Started refreshing ${commands.length} application (/) commands.`
-        )
+    ; (async () => {
+        try {
+            console.log(
+                `Started refreshing ${commands.length} application (/) commands.`
+            )
 
-        const data = await rest.put(
-            Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID),
-            { body: commands }
-        )
+            const data = await rest.put(
+                Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID),
+                { body: commands }
+            )
 
-        console.log(
-            `Successfully reloaded ${data.length} application (/) commands.`
-        )
-    } catch (error) {
-        console.error(error)
-    }
-})()
+            console.log(
+                `Successfully reloaded ${data.length} application (/) commands.`
+            )
+        } catch (error) {
+            console.error(error)
+        }
+    })()
 
 /*rest.put(Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID, process.env.DISCORD_GUILD_ID),
     {body: commands})
@@ -44,8 +45,8 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN)
 //Delete a specific command by its ID
 
 /* rest.delete(Routes.applicationCommand(process.env.DISCORD_APPLICATION_ID, ''))
-	.then(() => console.log('Successfully deleted application command'))
-	.catch(console.error); */
+    .then(() => console.log('Successfully deleted application command'))
+    .catch(console.error); */
 
 //Delete all commands
 
