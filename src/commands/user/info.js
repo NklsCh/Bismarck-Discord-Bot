@@ -4,69 +4,81 @@ const {
     ButtonBuilder,
     EmbedBuilder,
     PermissionsBitField,
+    ChatInputCommandInteraction
 } = require('discord.js')
+
+const langData = require(`../../../resources/translations/lang.json`)
+
+const handleKick = require('../../functions/handleKick')
+const handleBan = require('../../functions/handleBan')
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('info')
-        .setNameLocalizations({
-            de: 'info',
-        })
-        .setDescription('gives info about a user')
+        .setDescription(langData.en.info.command.description)
         .setDescriptionLocalizations({
-            de: 'Gibt Infos über einen Benutzer',
+            de: langData.de.info.command.description,
         })
         .addUserOption((option) =>
             option
-                .setName('member')
+                .setName(langData.en.info.command.userOptionName)
                 .setNameLocalizations({
-                    de: 'mitglied',
+                    de: langData.de.info.command.userOptionName,
                 })
-                .setDescription("The user's info you want to get")
+                .setDescription(langData.en.info.command.userOptionDescription)
                 .setDescriptionLocalizations({
-                    de: 'Die Infos über den Benutzer den du haben willst',
+                    de: langData.de.info.command.userOptionDescription,
                 })
                 .setRequired(true)
         )
         .setDMPermission(false),
+    /**
+     * @param {ChatInputCommandInteraction} interaction - The interaction object.
+     * @returns {Promise<void>}
+     */
     async execute(interaction) {
-        const member = interaction.options.getMember('member')
-        let kick, ban, admin, button
+        const userLang = interaction.locale.slice(0, 2)
+        const memberInGuild = await interaction.guild.members.fetch(interaction.options.getMember('member').id)
+        let kick, ban, admin, button, msg
         const { BanMembers, KickMembers } = PermissionsBitField.Flags
         if (
             interaction.member.permissions.has([BanMembers, KickMembers]) &&
-            !member.user.bot
+            !memberInGuild.user.bot
         ) {
             kick = new ButtonBuilder()
                 .setStyle(4)
                 .setCustomId('kick')
-                .setLabel('Kick')
+                .setLabel(langData[userLang].info.buttons.kick)
             ban = new ButtonBuilder()
                 .setStyle(4)
                 .setCustomId('ban')
-                .setLabel('Ban')
+                .setLabel(langData[userLang].info.buttons.ban)
             button = [kick, ban]
             admin = new ActionRowBuilder().addComponents(button)
-            interaction.reply({
+            msg = await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
-                        .setTitle(`User info about ${member.user.tag}`)
-                        .setThumbnail(
-                            member.user.displayAvatarURL({ dynamic: true })
+                        .setTitle(
+                            langData[userLang].info.embed.title +
+                            `${memberInGuild.user.tag} aka ${memberInGuild.displayName}`
                         )
-                        .setFooter({ text: `${member.user.id}` })
+                        .setThumbnail(
+                            memberInGuild.displayAvatarURL({ dynamic: true })
+                        )
                         .addFields([
                             {
-                                name: 'Account Creation Date',
+                                name: langData[userLang].info.embed.fields
+                                    .accountCreated,
                                 value: `<t:${Math.round(
-                                    member.user.createdTimestamp / 1000
+                                    memberInGuild.user.createdTimestamp / 1000
                                 )}>`,
                                 inline: true,
                             },
                             {
-                                name: 'Joined Server Date',
+                                name: langData[userLang].info.embed.fields
+                                    .serverJoined,
                                 value: `<t:${Math.round(
-                                    member.joinedTimestamp / 1000
+                                    memberInGuild.joinedTimestamp / 1000
                                 )}>`,
                                 inline: true,
                             },
@@ -76,25 +88,30 @@ module.exports = {
                 components: [admin],
             })
         } else {
-            interaction.reply({
+            msg = await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
-                        .setTitle(`User info about ${member.user.tag}`)
+                        .setTitle(
+                            langData[userLang].info.embed.title +
+                            `${memberInGuild.user.username} aka ${memberInGuild.displayName}`
+                        )
                         .setThumbnail(
-                            member.user.displayAvatarURL({ dynamic: true })
+                            memberInGuild.displayAvatarURL({ dynamic: true })
                         )
                         .addFields([
                             {
-                                name: 'Account Creation Date',
+                                name: langData[userLang].info.embed.fields
+                                    .accountCreated,
                                 value: `<t:${Math.round(
-                                    member.user.createdTimestamp / 1000
+                                    memberInGuild.user.createdTimestamp / 1000
                                 )}>`,
                                 inline: true,
                             },
                             {
-                                name: 'Joined Server Date',
+                                name: langData[userLang].info.embed.fields
+                                    .serverJoined,
                                 value: `<t:${Math.round(
-                                    member.joinedTimestamp / 1000
+                                    memberInGuild.joinedTimestamp / 1000
                                 )}>`,
                                 inline: true,
                             },
@@ -103,5 +120,40 @@ module.exports = {
                 ephemeral: true,
             })
         }
+
+        const collector = await msg.createMessageComponentCollector()
+
+        collector.on('collect', async (i) => {
+            if (i.customId === 'kick') {
+                if (handleKick(memberInGuild)) {
+                    await i.reply({
+                        ephemeral: true,
+                        content: langData[userLang].success.kickSuccess,
+                    })
+                } else {
+                    await i.reply({
+                        ephemeral: true,
+                        content: langData[userLang].errors.notAbleToKickUser,
+                    })
+                }
+            } else if (i.customId === 'ban') {
+                if (handleBan(memberInGuild)) {
+                    await i.reply({
+                        ephemeral: true,
+                        content: langData[userLang].success.banSuccess,
+                    })
+                } else {
+                    await i.reply({
+                        ephemeral: true,
+                        content: langData[userLang].errors.notAbleToBanUser,
+                    })
+                }
+            } else {
+                await i.reply({
+                    ephemeral: true,
+                    content: langData[userLang].errors.smthWentWrong,
+                })
+            }
+        })
     },
 }

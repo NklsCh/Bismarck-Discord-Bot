@@ -1,9 +1,15 @@
-const { Events } = require('discord.js')
+const { Events, GuildMember } = require('discord.js')
 const Guilds = require('../models/guilds')
 const cMessage = require('../models/cMessage')
 
 module.exports = {
     name: Events.GuildMemberAdd,
+    /**
+     * Executes the memberAdd event handler.
+     * 
+     * @param {GuildMember} GuildMember - The GuildMember object representing the member who joined the guild.
+     * @returns {Promise<void>} - A Promise that resolves once the execution is complete.
+     */
     async execute(GuildMember) {
         const name = GuildMember.guild.name;
         const [dbguild] = await Guilds.findOrCreate({
@@ -40,7 +46,7 @@ module.exports = {
                     url: GuildMember.user.avatarURL(),
                 },
                 description:
-                    "Welcome " + GuildMember.user.tag + " to " + name + "!",
+                    "Welcome " + GuildMember.user.username + " to " + name + "!",
             };
             if (!(await dbguild.welcomeChannelId)) return;
             GuildMember.guild.channels

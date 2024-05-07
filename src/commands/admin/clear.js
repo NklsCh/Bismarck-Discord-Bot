@@ -1,39 +1,50 @@
 const {
     SlashCommandBuilder,
+    ChatInputCommandInteraction,
     PermissionFlagsBits: { ManageMessages },
 } = require('discord.js')
+
+const langData = require('../../../resources/translations/lang.json')
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('clear')
-        .setDescription('Clear messages')
+        .setDescription(langData.en.clear.command.description)
         .setDescriptionLocalizations({
-            de: 'Lösche Nachrichten',
+            de: langData.de.clear.command.description,
         })
         .addIntegerOption((option) =>
             option
                 .setName('amount')
-                .setDescription('The amount of messages to delete')
+                .setDescription(
+                    langData.en.clear.command.integerOptionDescription
+                )
                 .setDescriptionLocalizations({
-                    de: 'Die Anzahl der zu löschenden Nachrichten',
+                    de: langData.de.clear.command.integerOptionDescription,
                 })
                 .setRequired(true)
         )
         .setDefaultMemberPermissions(ManageMessages),
+    /**
+     * @param {ChatInputCommandInteraction} interaction - The interaction object.
+     * @returns {Promise<void>}
+     */
     async execute(interaction) {
+        const userlang = interaction.locale.slice(0, 2)
+
         const amount = interaction.options.getInteger('amount')
 
         if (amount > 100) {
             return interaction.reply({
                 ephemeral: true,
-                content: 'You cannot delete more than 100 messages',
+                content: langData[userlang].clear.reply.over100,
             })
         }
 
         if (amount < 1) {
             return interaction.reply({
                 ephemeral: true,
-                content: 'You must delete at least 1 message',
+                content: langData[userlang].clear.reply.under1,
             })
         }
 
@@ -41,13 +52,13 @@ module.exports = {
             console.error(err)
             return interaction.reply({
                 ephemeral: true,
-                content: 'There was an error while deleting messages',
+                content: langData[userlang].clear.reply.error,
             })
         })
 
         await interaction.reply({
             ephemeral: true,
-            content: `Deleted ${amount} messages`,
+            content: `${amount}` + langData[userlang].clear.reply.success,
         })
     },
 }

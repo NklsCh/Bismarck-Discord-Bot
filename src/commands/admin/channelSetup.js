@@ -2,38 +2,42 @@ const {
     PermissionFlagsBits: { Administrator },
     SlashCommandBuilder,
     ChannelType: { GuildText },
+    ChatInputCommandInteraction
 } = require('discord.js')
 const Guilds = require('../../../models/guilds')
+
+const langData = require(`../../../resources/translations/lang.json`)
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('channel')
-        .setDescription('Setup the bot')
-        .setDescriptionLocalizations({
-            de: 'Richte den Bot ein',
-        })
+        .setDescription('-')
         .addSubcommandGroup((subcommandGroup) =>
             subcommandGroup
                 .setName('set')
-                .setDescription('Setup notification channels')
-                .setDescriptionLocalizations({
-                    de: 'Richte die Benachrichtigungschannel ein',
-                })
+                .setDescription('-')
                 .addSubcommand((subcommand) =>
                     subcommand
                         .setName('join')
-                        .setDescription('Setup the channel for join messages')
+                        .setDescription(
+                            langData.en.channelSetup.command.subCommandJoin
+                                .description
+                        )
                         .setDescriptionLocalizations({
-                            de: 'Richte den Join Channel ein',
+                            de: langData.de.channelSetup.command.subCommandJoin
+                                .description,
                         })
                         .addChannelOption((option) =>
                             option
                                 .setName('channel')
                                 .setDescription(
-                                    'The channel where the join messages should be sent'
+                                    langData.en.channelSetup.command
+                                        .subCommandJoin.channelOptionDescription
                                 )
                                 .setDescriptionLocalizations({
-                                    de: 'Der Channel in dem die Join Nachrichten gesendet werden sollen',
+                                    de: langData.de.channelSetup.command
+                                        .subCommandJoin
+                                        .channelOptionDescription,
                                 })
                                 .setRequired(true)
                                 .addChannelTypes(GuildText)
@@ -42,16 +46,26 @@ module.exports = {
                 .addSubcommand((subcommand) =>
                     subcommand
                         .setName('leave')
-                        .setDescription('Setup the leave channel')
+                        .setDescription(
+                            langData.en.channelSetup.command.subCommandLeave
+                                .description
+                        )
                         .setDescriptionLocalizations({
-                            de: 'Richte den Leave Channel ein',
+                            de: langData.de.channelSetup.command.subCommandLeave
+                                .description,
                         })
                         .addChannelOption((option) =>
                             option
                                 .setName('channel')
-                                .setDescription('The channel to set')
+                                .setDescription(
+                                    langData.en.channelSetup.command
+                                        .subCommandLeave
+                                        .channelOptionDescription
+                                )
                                 .setDescriptionLocalizations({
-                                    de: 'Der Channel der gesetzt werden soll',
+                                    de: langData.de.channelSetup.command
+                                        .subCommandLeave
+                                        .channelOptionDescription,
                                 })
                                 .setRequired(true)
                                 .addChannelTypes(GuildText)
@@ -61,30 +75,41 @@ module.exports = {
         .addSubcommandGroup((subcommandGroup) =>
             subcommandGroup
                 .setName('unset')
-                .setDescription('Unset notification channels')
-                .setDescriptionLocalizations({
-                    de: 'Entferne die Benachrichtigungschannel',
-                })
+                .setDescription('-')
                 .addSubcommand((subcommand) =>
                     subcommand
                         .setName('join')
-                        .setDescription('Unset the join channel')
+                        .setDescription(
+                            langData.en.channelSetup.command
+                                .subCommandUnsetJoinDescription
+                        )
                         .setDescriptionLocalizations({
-                            de: 'Entferne den Join Channel',
+                            de: langData.de.channelSetup.command
+                                .subCommandUnsetJoinDescription,
                         })
                 )
                 .addSubcommand((subcommand) =>
                     subcommand
                         .setName('leave')
-                        .setDescription('Unset the leave channel')
+                        .setDescription(
+                            langData.en.channelSetup.command
+                                .subCommandUnsetLeaveDescription
+                        )
                         .setDescriptionLocalizations({
-                            de: 'Entferne den Leave Channel',
+                            de: langData.de.channelSetup.command
+                                .subCommandUnsetLeaveDescription,
                         })
                 )
         )
         .setDefaultMemberPermissions(Administrator)
         .setDMPermission(false),
+    /**
+     * @param {ChatInputCommandInteraction} interaction - The interaction object.
+     * @returns {Promise<void>}
+     */
     async execute(interaction) {
+        const userLang = interaction.locale.slice(0, 2)
+
         //Get server config
         const [guild] = await Guilds.findOrCreate({
             where: { guildId: interaction.guild.id },
@@ -101,7 +126,9 @@ module.exports = {
                             welcomeChannelId: null,
                         })
                         interaction.reply({
-                            content: `Join channel unset`,
+                            content:
+                                langData[userLang].channelSetup.reply
+                                    .joinChannelUnset,
                             ephemeral: true,
                         })
                         break
@@ -111,7 +138,9 @@ module.exports = {
                             goodbyeChannelId: null,
                         })
                         interaction.reply({
-                            content: `Leave channel unset`,
+                            content:
+                                langData[userLang].channelSetup.reply
+                                    .leaveChannelUnset,
                             ephemeral: true,
                         })
                         break
@@ -127,7 +156,9 @@ module.exports = {
                             welcomeChannelId: welcomeChannelId.id,
                         })
                         interaction.reply({
-                            content: `Join channel set to ${welcomeChannelId}`,
+                            content:
+                                langData[userLang].channelSetup.reply
+                                    .joinChannelSet + `${welcomeChannelId}`,
                             ephemeral: true,
                         })
                         break
@@ -140,7 +171,9 @@ module.exports = {
                         })
 
                         interaction.reply({
-                            content: `Leave channel set to ${goodbyeChannelId}`,
+                            content:
+                                langData[userLang].channelSetup.reply
+                                    .leaveChannelSet + `${goodbyeChannelId}`,
                             ephemeral: true,
                         })
                         break
