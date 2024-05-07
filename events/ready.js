@@ -12,6 +12,7 @@ module.exports = {
         await Guild.sync()
         await cMessage.sync()
 
+
         await client.guilds.fetch({ cache: true })
 
         client.guilds.cache.forEach(async (guild) => {
@@ -69,11 +70,10 @@ module.exports = {
                 }
                 if (await dbguild.botChannelId) {
                     await guild.channels.edit(await dbguild.botChannelId, {
-                        name: `Bots: ${
-                            guild.members.cache.filter(
-                                (member) => member.user.bot
-                            ).size
-                        }`,
+                        name: `Bots: ${guild.members.cache.filter(
+                            (member) => member.user.bot
+                        ).size
+                            }`,
                     })
                 }
             })
