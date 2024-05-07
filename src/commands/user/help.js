@@ -33,6 +33,7 @@ module.exports = {
 
         const embeds = []
         commandFolders.forEach((folder) => {
+            if (folder === 'other') return
 
             const commandf = fs.readdirSync(`./src/commands/${folder}`)
                 .filter((file) => file.endsWith('.js'))
@@ -96,7 +97,7 @@ module.exports = {
 
 
         await interaction.reply({
-            embeds: [embeds[0], embeds[1], embeds[2]],
+            embeds: [embeds[0], embeds[1]],
             ephemeral: true,
         })
     },
