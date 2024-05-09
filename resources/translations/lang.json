@@ -3,7 +3,8 @@
         "errors": {
             "notAbleToKickUser": "Ich kann diesen Benutzer nicht kicken",
             "notAbleToBanUser": "Ich kann diesen Benutzer nicht bannen",
-            "smthWentWrong": "Etwas ist schief gelaufen"
+            "smthWentWrong": "Etwas ist schief gelaufen",
+            "noPerms": "Du hast nicht die nötigen Rechte, um diesen Befehl auszuführen"
         },
         "success": {
             "kickSuccess": "Der Benutzer wurde erfolgreich gekickt",
@@ -214,7 +215,8 @@
         "errors": {
             "notAbleToKickUser": "I am not able to kick this user",
             "notAbleToBanUser": "I am not able to ban this user",
-            "smthWentWrong": "Something went wrong"
+            "smthWentWrong": "Something went wrong",
+            "noPerms": "You don't have the necessary permissions to execute this command"
         },
         "success": {
             "kickSuccess": "The user has been kicked successfully",

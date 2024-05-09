@@ -1,3 +1,5 @@
+const startTime = Date.now();
+
 require('dotenv').config()
 const fs = require('fs')
 const {
@@ -43,4 +45,4 @@ for (const file of fs
 
 client
     .login(process.env.TOKEN)
-    .then((r) => console.log(`Ready! Logged in as ${client.user.tag}`))
+    .then((r) => console.log(`Ready! Logged in as ${client.user.tag} (${Date.now() - startTime}ms)`))
