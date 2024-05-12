@@ -3,7 +3,8 @@
         "errors": {
             "notAbleToKickUser": "Ich kann diesen Benutzer nicht kicken",
             "notAbleToBanUser": "Ich kann diesen Benutzer nicht bannen",
-            "smthWentWrong": "Etwas ist schief gelaufen"
+            "smthWentWrong": "Etwas ist schief gelaufen",
+            "noPerms": "Du hast nicht die nötigen Rechte, um diesen Befehl auszuführen"
         },
         "success": {
             "kickSuccess": "Der Benutzer wurde erfolgreich gekickt",
@@ -208,13 +209,24 @@
                 "messageSet": "Die Willkommensnachricht wurde erfolgreich gesetzt!",
                 "messageReset": "Die Willkommensnachricht wurde erfolgreich zurückgesetzt!"
             }
+        },
+        "joinRole": {
+            "command": {
+                "description": "Setzt die Rolle, die einem Benutzer gegeben wird, wenn er dem Server beitritt",
+                "roleOptionDescription": "Die Rolle, die gegeben werden soll (Leer lassen um zurückzusetzen)"
+            },
+            "reply": {
+                "roleSet": "Die Join-Rolle wurde erfolgreich gesetzt!",
+                "roleReset": "Die Join-Rolle wurde erfolgreich zurückgesetzt!"
+            }
         }
     },
     "en": {
         "errors": {
             "notAbleToKickUser": "I am not able to kick this user",
             "notAbleToBanUser": "I am not able to ban this user",
-            "smthWentWrong": "Something went wrong"
+            "smthWentWrong": "Something went wrong",
+            "noPerms": "You don't have the necessary permissions to execute this command"
         },
         "success": {
             "kickSuccess": "The user has been kicked successfully",
@@ -418,6 +430,16 @@
             "reply": {
                 "messageSet": "Successfully set the welcome message!",
                 "messageReset": "Successfully reset the welcome message!"
+            }
+        },
+        "joinRole": {
+            "command": {
+                "description": "Set the role to be given to a user when they join the server",
+                "roleOptionDescription": "The role to be given (Leave empty to reset)"
+            },
+            "reply": {
+                "roleSet": "Successfully set the join role!",
+                "roleReset": "Successfully reset the join role!"
             }
         }
     }
