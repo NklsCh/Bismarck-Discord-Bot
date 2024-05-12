@@ -26,6 +26,10 @@ const Guilds = sequelize.define('guilds', {
         type: Sequelize.STRING,
         allowNull: true,
     },
+    joinRoleId: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
 })
 
 module.exports = Guilds
