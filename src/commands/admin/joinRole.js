@@ -40,20 +40,23 @@ module.exports = {
         })
         await interaction.deferReply({ ephemeral: true })
         const joinRole = interaction.options.getRole('role')
+        if (!joinRole) {
+            await dbguild.update({
+                joinRoleId: null,
+            })
+            await interaction.editReply({
+                content: langData[userLang].joinRole.reply.roleReset,
+                ephemeral: true,
+            })
+            return
+        }
         await dbguild
             .update({
                 joinRoleId: joinRole.id,
             })
             .then(async () => {
-                if (!(await dbguild.joinRoleId)) {
-                    await interaction.editReply({
-                        content: langData[userLang].joinRole.reply.roleSet,
-                        ephemeral: true,
-                    })
-                    return
-                }
                 await interaction.editReply({
-                    content: langData[userLang].joinRole.reply.roleReset,
+                    content: langData[userLang].joinRole.reply.roleSet,
                     ephemeral: true,
                 })
             })
