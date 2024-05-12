@@ -25,7 +25,7 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN)
             )
 
             const data = await rest.put(
-                Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID),
+                Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID, process.env.DISCORD_GUILD_ID),
                 { body: commands }
             )
 

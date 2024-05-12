@@ -11,7 +11,7 @@ warns.belongsTo(Guilds, { foreignKey: 'guildId' })
 
 
 //Force: Resets the database
-Guilds.sync({ force: true }).then(() => {
+/* Guilds.sync({ force: true }).then(() => {
     console.log('Database reset!')
 })
 cMessage.sync({ force: true }).then(() => {
@@ -19,17 +19,16 @@ cMessage.sync({ force: true }).then(() => {
 })
 warns.sync({ force: true }).then(() => {
     console.log('Database reset!')
-})
+}) */
 
 //Alter: Updates the database
-/* Guilds.sync({ alter: true }).then(() => {
+Guilds.sync({ alter: true }).then(() => {
     console.log('Database updated!');
 });
 cMessage.sync({ alter: true }).then(() => {
     console.log("Database updated!");
-}); 
+});
 warns.sync({ alter: true }).then(() => {
     console.log("Database updated!");
 });
 
- */

@@ -23,6 +23,10 @@ module.exports = {
             },
         });
 
+        if (await dbguild.joinRoleId) {
+            GuildMember.roles.add(await dbguild.joinRoleId);
+        }
+
         if (await customMessage.welcomeMessage) {
             const welcomeEmbed = {
                 color: 0x0099ff,
