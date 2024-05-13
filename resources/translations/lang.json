@@ -219,6 +219,16 @@
                 "roleSet": "Die Join-Rolle wurde erfolgreich gesetzt!",
                 "roleReset": "Die Join-Rolle wurde erfolgreich zurückgesetzt!"
             }
+        },
+        "logSystem": {
+            "command": {
+                "description": "Richtet das Log-System ein (Wenn kein Channel angegeben wird, wird das Log-System deaktiviert)",
+                "channelOptionDescription": "Der Channel, in dem die Logs gesendet werden sollen"
+            },
+            "reply": {
+                "activated": "Das Log-System wurde erfolgreich aktiviert",
+                "deactivated": "Das Log-System wurde erfolgreich deaktiviert"
+            }
         }
     },
     "en": {
@@ -440,6 +450,16 @@
             "reply": {
                 "roleSet": "Successfully set the join role!",
                 "roleReset": "Successfully reset the join role!"
+            }
+        },
+        "logSystem": {
+            "command": {
+                "description": "Set up the log system (If no channel is provided, the log system will be disabled)",
+                "channelOptionDescription": "The channel where the logs should be sent"
+            },
+            "reply": {
+                "activated": "The log system has been activated successfully",
+                "deactivated": "The log system has been deactivated successfully"
             }
         }
     }

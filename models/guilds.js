@@ -26,6 +26,10 @@ const Guilds = sequelize.define('guilds', {
         type: Sequelize.STRING,
         allowNull: true,
     },
+    logChannelId: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
     joinRoleId: {
         type: Sequelize.STRING,
         allowNull: true,
