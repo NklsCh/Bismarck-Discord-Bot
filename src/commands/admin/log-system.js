@@ -29,6 +29,7 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async execute(interaction) {
+        const userLang = interaction.locale.slice(0, 2)
         const [guild] = await Guilds.findOrCreate({
             where: { guildId: interaction.guild.id },
         })
@@ -36,7 +37,7 @@ module.exports = {
         if (!interaction.options.getChannel('channel')) {
             await guild.update({ logChannelId: null })
             return interaction.reply({
-                content: langData.en.logSystem.reply.deactivated,
+                content: langData[userLang].logSystem.reply.deactivated,
                 ephemeral: true,
             })
         }
@@ -45,7 +46,7 @@ module.exports = {
         await guild.update({ logChannelId: channelId })
 
         return interaction.reply({
-            content: langData.en.logSystem.reply.activated,
+            content: langData[userLang].logSystem.reply.activated,
             ephemeral: true,
         })
     },
