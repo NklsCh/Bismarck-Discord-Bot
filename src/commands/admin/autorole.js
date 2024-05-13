@@ -9,7 +9,7 @@ const langData = require(`../../../resources/translations/lang.json`)
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('joinrole')
+        .setName('autorole')
         .setDescription(langData.en.joinRole.command.description)
         .setDescriptionLocalizations({
             de: langData.de.joinRole.command.description,
