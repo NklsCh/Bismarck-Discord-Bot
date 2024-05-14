@@ -4,6 +4,7 @@ const { REST, Routes } = require('discord.js')
 const modules = ['admin', 'user', 'other']
 const commands = []
 
+const startTime = Date.now();
 modules.forEach((module) => {
     const commandFiles = fs
         .readdirSync(`./src/commands/${module}/`)
@@ -12,7 +13,6 @@ modules.forEach((module) => {
     commandFiles.forEach((commandFile) => {
         const command = require(`./commands/${module}/${commandFile}`)
         commands.push(command.data.toJSON())
-        console.log(`Loaded command ${command.data.name} from ${module}`)
     })
 })
 
@@ -20,17 +20,13 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN)
 
     ; (async () => {
         try {
-            console.log(
-                `Started refreshing ${commands.length} application (/) commands.`
-            )
-
             const data = await rest.put(
                 Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID, process.env.DISCORD_GUILD_ID),
                 { body: commands }
             )
 
             console.log(
-                `Successfully reloaded ${data.length} application (/) commands.`
+                `Successfully reloaded ${data.length} application commands. (${Date.now() - startTime}ms)`
             )
         } catch (error) {
             console.error(error)
