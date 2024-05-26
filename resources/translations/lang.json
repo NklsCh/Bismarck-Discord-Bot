@@ -229,6 +229,16 @@
                 "activated": "Das Log-System wurde erfolgreich aktiviert",
                 "deactivated": "Das Log-System wurde erfolgreich deaktiviert"
             }
+        },
+        "join2Create": {
+            "command": {
+                "description": "Richtet das Join2Create System ein",
+                "channelOptionDescription": "Der Channel, in dem die Join2Create Nachrichten gesendet werden sollen"
+            },
+            "reply": {
+                "activated": "Das Join2Create System wurde erfolgreich aktiviert",
+                "deactivated": "Das Join2Create System wurde erfolgreich deaktiviert"
+            }
         }
     },
     "en": {
@@ -460,6 +470,16 @@
             "reply": {
                 "activated": "The log system has been activated successfully",
                 "deactivated": "The log system has been deactivated successfully"
+            }
+        },
+        "join2Create": {
+            "command": {
+                "description": "Set up the join2create system",
+                "channelOptionDescription": "The channel where the join2create messages should be sent"
+            },
+            "reply": {
+                "activated": "The join2create system has been activated successfully",
+                "deactivated": "The join2create system has been deactivated successfully"
             }
         }
     }
