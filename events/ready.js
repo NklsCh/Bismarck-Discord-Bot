@@ -1,11 +1,12 @@
 const {
     ActivityType: { Watching },
+    Events,
 } = require('discord.js')
 const Guild = require('../models/guilds')
 const cMessage = require('../models/cMessage')
 
 module.exports = {
-    name: 'ready',
+    name: Events.ClientReady,
     once: true,
     async execute(client) {
         let serverAmount = await client.guilds.fetch({ cache: true })

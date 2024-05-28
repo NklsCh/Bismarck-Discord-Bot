@@ -8,7 +8,6 @@ module.exports = {
      * Executes the memberAdd event handler.
      * 
      * @param {GuildMember} GuildMember - The GuildMember object representing the member who joined the guild.
-     * @returns {Promise<void>} - A Promise that resolves once the execution is complete.
      */
     async execute(GuildMember) {
         const name = GuildMember.guild.name;

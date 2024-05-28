@@ -6,7 +6,6 @@ module.exports = {
     /**
      * Executes the message update event.
      * @param {Message} message - The updated message object.
-     * @returns {Promise<void>}
      */
     async execute(message) {
 
