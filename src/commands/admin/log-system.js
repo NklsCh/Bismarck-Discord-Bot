@@ -26,7 +26,6 @@ module.exports = {
         .setDMPermission(false),
     /**
      * @param {ChatInputCommandInteraction} interaction - The interaction object.
-     * @returns {Promise<void>}
      */
     async execute(interaction) {
         const userLang = interaction.locale.slice(0, 2)

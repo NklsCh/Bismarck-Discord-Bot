@@ -27,7 +27,6 @@ module.exports = {
         .setDefaultMemberPermissions(ManageMessages),
     /**
      * @param {ChatInputCommandInteraction} interaction - The interaction object.
-     * @returns {Promise<void>}
      */
     async execute(interaction) {
         const userlang = interaction.locale.slice(0, 2)

@@ -125,7 +125,6 @@ module.exports = {
         .setDMPermission(false),
     /**
      * @param {ChatInputCommandInteraction} interaction - The interaction object.
-     * @returns {Promise<void>}
      */
     async execute(interaction) {
         const [guild] = await Guilds.findOrCreate({

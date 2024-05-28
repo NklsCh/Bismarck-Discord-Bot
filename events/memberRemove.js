@@ -6,7 +6,6 @@ module.exports = {
     /**
      * Executes the memberRemove event.
      * @param {GuildMember} GuildMember - The GuildMember object representing the member who left the server.
-     * @returns {Promise<void>}
      */
     async execute(GuildMember) {
         const [dbguild] = await Guilds.findOrCreate({
