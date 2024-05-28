@@ -8,8 +8,8 @@ module.exports = {
      * @param {VoiceState} oldState - The old voice state object.
      * @param {VoiceState} newState - The new voice state object.
      */
-    async execute(oldState, newState, client) {
-        const { member, guild } = newState
+    async execute(oldState, newState) {
+        const { member, guild, client } = newState
 
         const [dbguild] = await Guilds.findOrCreate({
             where: {
