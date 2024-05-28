@@ -2,59 +2,59 @@ const {
     PermissionFlagsBits: { Administrator },
     SlashCommandBuilder,
     ChatInputCommandInteraction
-} = require('discord.js')
-const CMessage = require('../../../models/cMessage')
+} = require( 'discord.js' )
+const CMessage = require( '../../../models/cMessage' )
 
-const langData = require(`../../../resources/translations/lang.json`)
+const langData = require( `../../../resources/translations/lang.json` )
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('welcome')
-        .setDescription(langData.en.welcome.command.description)
-        .setDescriptionLocalizations({
+        .setName( 'welcome' )
+        .setDescription( langData.en.welcome.command.description )
+        .setDescriptionLocalizations( {
             de: langData.de.welcome.command.description,
-        })
-        .addStringOption((option) =>
+        } )
+        .addStringOption( ( option ) =>
             option
-                .setName('message')
+                .setName( 'message' )
                 .setDescription(
                     langData.en.welcome.command.stringOptionDescription
                 )
-                .setDescriptionLocalizations({
+                .setDescriptionLocalizations( {
                     de: langData.de.welcome.command.stringOptionDescription,
-                })
+                } )
         )
-        .setDefaultMemberPermissions(Administrator)
-        .setDMPermission(false),
+        .setDefaultMemberPermissions( Administrator )
+        .setDMPermission( false ),
     /**
      * @param {ChatInputCommandInteraction} interaction - The interaction object.
      */
-    async execute(interaction) {
-        const userLang = interaction.locale.slice(0, 2)
+    async execute( interaction ) {
+        const userLang = interaction.locale.slice( 0, 2 )
 
-        const [customMessage] = await CMessage.findOrCreate({
+        const [ customMessage ] = await CMessage.findOrCreate( {
             where: {
                 guildId: interaction.guild.id,
             },
-        })
-        await interaction.deferReply({ ephemeral: true })
-        const welcomeMessage = interaction.options.getString('message')
+        } )
+        await interaction.deferReply( { ephemeral: true } )
+        const welcomeMessage = interaction.options.getString( 'message' )
         await customMessage
-            .update({
+            .update( {
                 welcomeMessage: welcomeMessage,
-            })
-            .then(async () => {
-                if (!(await customMessage.welcomeMessage)) {
-                    await interaction.editReply({
-                        content: langData[userLang].welcome.reply.messageReset,
+            } )
+            .then( async () => {
+                if ( !( await customMessage.welcomeMessage ) ) {
+                    await interaction.editReply( {
+                        content: langData[ userLang ].welcome.reply.messageReset,
                         ephemeral: true,
-                    })
+                    } )
                     return
                 }
-                await interaction.editReply({
-                    content: langData[userLang].welcome.reply.messageSet,
+                await interaction.editReply( {
+                    content: langData[ userLang ].welcome.reply.messageSet,
                     ephemeral: true,
-                })
-            })
+                } )
+            } )
     },
 }

@@ -1,7 +1,7 @@
-const Sequelize = require('sequelize')
-const sequelize = require('../utils/database.js')
+const Sequelize = require( 'sequelize' )
+const sequelize = require( '../utils/database.js' )
 
-const CMessage = sequelize.define('cMessage', {
+const CMessage = sequelize.define( 'cMessage', {
     guildId: {
         type: Sequelize.STRING,
         primaryKey: true,
@@ -14,6 +14,6 @@ const CMessage = sequelize.define('cMessage', {
         type: Sequelize.TEXT,
         allowNull: true,
     },
-})
+} )
 
 module.exports = CMessage

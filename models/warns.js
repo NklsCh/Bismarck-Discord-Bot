@@ -1,7 +1,7 @@
-const Sequelize = require("sequelize");
-const sequelize = require("../utils/database.js");
+const Sequelize = require( "sequelize" );
+const sequelize = require( "../utils/database.js" );
 
-const warns = sequelize.define("warns", {
+const warns = sequelize.define( "warns", {
     guildId: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -14,6 +14,6 @@ const warns = sequelize.define("warns", {
         type: Sequelize.TEXT,
         allowNull: false,
     },
-});
+} );
 
 module.exports = warns;

@@ -1,4 +1,4 @@
-const { Events } = require("discord.js");
+const { Events } = require( "discord.js" );
 
 module.exports = {
     name: Events.Error,
@@ -6,7 +6,7 @@ module.exports = {
      * Executes the error event handler.
      * @param {Error} err - The error object.
      */
-    execute(err) {
-        console.error(err);
+    execute( err ) {
+        console.error( err );
     },
 };
