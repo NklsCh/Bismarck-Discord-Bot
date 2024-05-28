@@ -5,154 +5,154 @@ const {
     EmbedBuilder,
     PermissionsBitField,
     ChatInputCommandInteraction
-} = require('discord.js')
+} = require( 'discord.js' )
 
-const langData = require(`../../../resources/translations/lang.json`)
+const langData = require( `../../../resources/translations/lang.json` )
 
-const handleKick = require('../../functions/handleKick')
-const handleBan = require('../../functions/handleBan')
+const handleKick = require( '../../functions/handleKick' )
+const handleBan = require( '../../functions/handleBan' )
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('info')
-        .setDescription(langData.en.info.command.description)
-        .setDescriptionLocalizations({
+        .setName( 'info' )
+        .setDescription( langData.en.info.command.description )
+        .setDescriptionLocalizations( {
             de: langData.de.info.command.description,
-        })
-        .addUserOption((option) =>
+        } )
+        .addUserOption( ( option ) =>
             option
-                .setName(langData.en.info.command.userOptionName)
-                .setNameLocalizations({
+                .setName( langData.en.info.command.userOptionName )
+                .setNameLocalizations( {
                     de: langData.de.info.command.userOptionName,
-                })
-                .setDescription(langData.en.info.command.userOptionDescription)
-                .setDescriptionLocalizations({
+                } )
+                .setDescription( langData.en.info.command.userOptionDescription )
+                .setDescriptionLocalizations( {
                     de: langData.de.info.command.userOptionDescription,
-                })
-                .setRequired(true)
+                } )
+                .setRequired( true )
         )
-        .setDMPermission(false),
+        .setDMPermission( false ),
     /**
      * @param {ChatInputCommandInteraction} interaction - The interaction object.
      */
-    async execute(interaction) {
-        const userLang = interaction.locale.slice(0, 2)
-        const memberInGuild = await interaction.guild.members.fetch(interaction.options.getMember('member').id)
+    async execute( interaction ) {
+        const userLang = interaction.locale.slice( 0, 2 )
+        const memberInGuild = await interaction.guild.members.fetch( interaction.options.getMember( 'member' ).id )
         let kick, ban, admin, button, msg
         const { BanMembers, KickMembers } = PermissionsBitField.Flags
         if (
-            interaction.member.permissions.has([BanMembers, KickMembers]) &&
+            interaction.member.permissions.has( [ BanMembers, KickMembers ] ) &&
             !memberInGuild.user.bot
         ) {
             kick = new ButtonBuilder()
-                .setStyle(4)
-                .setCustomId('kick')
-                .setLabel(langData[userLang].info.buttons.kick)
+                .setStyle( 4 )
+                .setCustomId( 'kick' )
+                .setLabel( langData[ userLang ].info.buttons.kick )
             ban = new ButtonBuilder()
-                .setStyle(4)
-                .setCustomId('ban')
-                .setLabel(langData[userLang].info.buttons.ban)
-            button = [kick, ban]
-            admin = new ActionRowBuilder().addComponents(button)
-            msg = await interaction.reply({
+                .setStyle( 4 )
+                .setCustomId( 'ban' )
+                .setLabel( langData[ userLang ].info.buttons.ban )
+            button = [ kick, ban ]
+            admin = new ActionRowBuilder().addComponents( button )
+            msg = await interaction.reply( {
                 embeds: [
                     new EmbedBuilder()
                         .setTitle(
-                            langData[userLang].info.embed.title +
-                            `${memberInGuild.user.tag} aka ${memberInGuild.displayName}`
+                            langData[ userLang ].info.embed.title +
+                            `${ memberInGuild.user.tag } aka ${ memberInGuild.displayName }`
                         )
                         .setThumbnail(
-                            memberInGuild.displayAvatarURL({ dynamic: true })
+                            memberInGuild.displayAvatarURL( { dynamic: true } )
                         )
-                        .addFields([
+                        .addFields( [
                             {
-                                name: langData[userLang].info.embed.fields
+                                name: langData[ userLang ].info.embed.fields
                                     .accountCreated,
-                                value: `<t:${Math.round(
+                                value: `<t:${ Math.round(
                                     memberInGuild.user.createdTimestamp / 1000
-                                )}>`,
+                                ) }>`,
                                 inline: true,
                             },
                             {
-                                name: langData[userLang].info.embed.fields
+                                name: langData[ userLang ].info.embed.fields
                                     .serverJoined,
-                                value: `<t:${Math.round(
+                                value: `<t:${ Math.round(
                                     memberInGuild.joinedTimestamp / 1000
-                                )}>`,
+                                ) }>`,
                                 inline: true,
                             },
-                        ]),
+                        ] ),
                 ],
                 ephemeral: true,
-                components: [admin],
-            })
+                components: [ admin ],
+            } )
         } else {
-            msg = await interaction.reply({
+            msg = await interaction.reply( {
                 embeds: [
                     new EmbedBuilder()
                         .setTitle(
-                            langData[userLang].info.embed.title +
-                            `${memberInGuild.user.username} aka ${memberInGuild.displayName}`
+                            langData[ userLang ].info.embed.title +
+                            `${ memberInGuild.user.username } aka ${ memberInGuild.displayName }`
                         )
                         .setThumbnail(
-                            memberInGuild.displayAvatarURL({ dynamic: true })
+                            memberInGuild.displayAvatarURL( { dynamic: true } )
                         )
-                        .addFields([
+                        .addFields( [
                             {
-                                name: langData[userLang].info.embed.fields
+                                name: langData[ userLang ].info.embed.fields
                                     .accountCreated,
-                                value: `<t:${Math.round(
+                                value: `<t:${ Math.round(
                                     memberInGuild.user.createdTimestamp / 1000
-                                )}>`,
+                                ) }>`,
                                 inline: true,
                             },
                             {
-                                name: langData[userLang].info.embed.fields
+                                name: langData[ userLang ].info.embed.fields
                                     .serverJoined,
-                                value: `<t:${Math.round(
+                                value: `<t:${ Math.round(
                                     memberInGuild.joinedTimestamp / 1000
-                                )}>`,
+                                ) }>`,
                                 inline: true,
                             },
-                        ]),
+                        ] ),
                 ],
                 ephemeral: true,
-            })
+            } )
         }
 
         const collector = await msg.createMessageComponentCollector()
 
-        collector.on('collect', async (i) => {
-            if (i.customId === 'kick') {
-                if (handleKick(memberInGuild)) {
-                    await i.reply({
+        collector.on( 'collect', async ( i ) => {
+            if ( i.customId === 'kick' ) {
+                if ( handleKick( memberInGuild ) ) {
+                    await i.reply( {
                         ephemeral: true,
-                        content: langData[userLang].success.kickSuccess,
-                    })
+                        content: langData[ userLang ].success.kickSuccess,
+                    } )
                 } else {
-                    await i.reply({
+                    await i.reply( {
                         ephemeral: true,
-                        content: langData[userLang].errors.notAbleToKickUser,
-                    })
+                        content: langData[ userLang ].errors.notAbleToKickUser,
+                    } )
                 }
-            } else if (i.customId === 'ban') {
-                if (handleBan(memberInGuild)) {
-                    await i.reply({
+            } else if ( i.customId === 'ban' ) {
+                if ( handleBan( memberInGuild ) ) {
+                    await i.reply( {
                         ephemeral: true,
-                        content: langData[userLang].success.banSuccess,
-                    })
+                        content: langData[ userLang ].success.banSuccess,
+                    } )
                 } else {
-                    await i.reply({
+                    await i.reply( {
                         ephemeral: true,
-                        content: langData[userLang].errors.notAbleToBanUser,
-                    })
+                        content: langData[ userLang ].errors.notAbleToBanUser,
+                    } )
                 }
             } else {
-                await i.reply({
+                await i.reply( {
                     ephemeral: true,
-                    content: langData[userLang].errors.smthWentWrong,
-                })
+                    content: langData[ userLang ].errors.smthWentWrong,
+                } )
             }
-        })
+        } )
     },
 }

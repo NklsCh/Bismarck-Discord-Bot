@@ -1,16 +1,16 @@
 const startTime = Date.now();
 
-require('dotenv').config()
-const fs = require('fs')
+require( 'dotenv' ).config()
+const fs = require( 'fs' )
 const {
     Client,
     Collection,
-} = require('discord.js')
+} = require( 'discord.js' )
 
 /*
     Initiates the Bot as client
 */
-const client = new Client({
+const client = new Client( {
     intents: [
         'GuildMembers',
         'GuildPresences',
@@ -19,30 +19,30 @@ const client = new Client({
         'GuildMessageReactions',
         'MessageContent',
     ],
-})
+} )
 
-process.on('unhandledRejection', (reason, promise) => {
-    console.log('Unhandled Rejection at:', promise, 'reason:', reason)
-})
+process.on( 'unhandledRejection', ( reason, promise ) => {
+    console.log( 'Unhandled Rejection at:', promise, 'reason:', reason )
+} )
 
-process.on('uncaughtException', (err) => {
-    console.log('Uncaught Exception:', err)
-})
+process.on( 'uncaughtException', ( err ) => {
+    console.log( 'Uncaught Exception:', err )
+} )
 
-process.on('uncaughtExceptionMonitor', (err, origin) => {
-    console.log('Uncaught Exepction Monitor:', err, origin)
-})
+process.on( 'uncaughtExceptionMonitor', ( err, origin ) => {
+    console.log( 'Uncaught Exepction Monitor:', err, origin )
+} )
 
 client.commands = new Collection()
 
 // Load Handlers
 
-for (const file of fs
-    .readdirSync('./src/handlers')
-    .filter((file) => file.endsWith('.js'))) {
-    require(`./handlers/${file}`)(client)
+for ( const file of fs
+    .readdirSync( './src/handlers' )
+    .filter( ( file ) => file.endsWith( '.js' ) ) ) {
+    require( `./handlers/${ file }` )( client )
 }
 
 client
-    .login(process.env.TOKEN)
-    .then((r) => console.log(`Ready! Logged in as ${client.user.tag} (${Date.now() - startTime}ms)`))
+    .login( process.env.TOKEN )
+    .then( ( r ) => console.log( `Ready! Logged in as ${ client.user.tag } (${ Date.now() - startTime }ms)` ) )

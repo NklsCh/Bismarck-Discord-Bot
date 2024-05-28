@@ -1,7 +1,7 @@
-const Sequelize = require('sequelize')
-const sequelize = require('../utils/database.js')
+const Sequelize = require( 'sequelize' )
+const sequelize = require( '../utils/database.js' )
 
-const Guilds = sequelize.define('guilds', {
+const Guilds = sequelize.define( 'guilds', {
     guildId: {
         type: Sequelize.STRING,
         primaryKey: true,
@@ -34,6 +34,6 @@ const Guilds = sequelize.define('guilds', {
         type: Sequelize.STRING,
         allowNull: true,
     },
-})
+} )
 
 module.exports = Guilds
