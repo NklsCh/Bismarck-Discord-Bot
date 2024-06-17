@@ -5,7 +5,8 @@ let
   ];
 
   packages = with pkgs; [
-   nodejs_20
+    nodejs_20
+    nodePackages_latest.pnpm
   ];
 in
 pkgs.mkShell {
