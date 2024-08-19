@@ -17,9 +17,6 @@ importers:
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
-      nodemon:
-        specifier: ^3.1.4
-        version: 3.1.4
       sequelize:
         specifier: ^6.37.3
         version: 6.37.3(sqlite3@5.1.7)
@@ -27,6 +24,9 @@ importers:
         specifier: ^5.1.7
         version: 5.1.7
     devDependencies:
+      nodemon:
+        specifier: ^3.1.4
+        version: 3.1.4
       prettier:
         specifier: 3.2.5
         version: 3.2.5
