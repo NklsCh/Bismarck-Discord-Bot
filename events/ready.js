@@ -1,7 +1,6 @@
 const {
     Events,
     ActivityType: { Watching },
-    Events,
 } = require( 'discord.js' )
 const Guild = require( '../models/guilds' )
 const cMessage = require( '../models/cMessage' )
