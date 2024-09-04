@@ -1,4 +1,4 @@
-const { GuildMember } = require("discord.js");
+const { GuildMember } = require( "discord.js" );
 
 /**
  * Handles banning a user from a guild.
@@ -6,12 +6,12 @@ const { GuildMember } = require("discord.js");
  * @param {string} reason - The reason for the ban.
  * @returns {boolean} - Returns true if the user was successfully banned, false otherwise.
  */
-async function handleBan(user, reason) {
-    if (user.bannable) {
+async function handleBan( user, reason ) {
+    if ( user.bannable ) {
         try {
-            user.ban({ reason: reason })
-        } catch (error) {
-            console.error(error)
+            user.ban( { reason: reason } )
+        } catch ( error ) {
+            console.error( error )
             return false;
         }
         return true;
