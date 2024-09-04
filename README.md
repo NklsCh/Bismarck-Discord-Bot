@@ -6,7 +6,7 @@ It has all the features you want online user tracking or welcome and goodbye mes
 
 ## Getting started
 
-1. Clone the Repository and run `npm install` to install all the dependencies
+1. Clone the Repository and run `npm install` or `pnpm install` to install all the dependencies
 2. Create a `.env` file and add the following variables:
 
 ```
@@ -15,10 +15,13 @@ DISCORD_APPLICATION_ID=YOUR_APPLICATION_ID
 DISCORD_GUILD_ID=YOUR_GUILD_ID
 ```
 
-3. Run `npm run syncdb` to create the database
-4. Run `npm run dev` to start the bot in development mode
+3. Run `npm run syncdb` or `pnpm syncdb` to create the database
+4. Run `npm run dev` or `pnpm dev` to start the bot in development mode
 
-Note: You only need to add the `DISCORD_GUILD_ID` if you have only one server on which the bot should run. This allows you to register the commands faster.
+> Note: You only need to add the `DISCORD_GUILD_ID` if you have only one server on which the bot should run. This allows you to register the commands faster.
+
+### For NixOS users
+> :information_source: We have a `shell.nix` file that you can use to get all the dependencies you need to run the bot. <br>Just run `nix-shell` in the root directory of the project and you are good to go.
 
 ## Usage
 
