@@ -12,7 +12,6 @@ module.exports = async ( client ) => {
                 client.once( event.name, event.execute );
             } else {
                 client.on( event.name, event.execute );
-                console.log( `Event loaded: ${ event.name }` );
             }
         }
     }
