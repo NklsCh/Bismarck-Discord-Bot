@@ -13,10 +13,11 @@ const {
 const client = new Client( {
     intents: [
         'GuildMembers',
+        'GuildMessageReactions',
+        'GuildMessages',
         'GuildPresences',
         'Guilds',
-        'GuildMessages',
-        'GuildMessageReactions',
+        'GuildVoiceStates',
         'MessageContent',
     ],
 } )

@@ -1,4 +1,5 @@
 const {
+    Events,
     ActivityType: { Watching },
     Events,
 } = require( 'discord.js' )
