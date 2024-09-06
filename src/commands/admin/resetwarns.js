@@ -1,7 +1,8 @@
 const {
-    PermissionFlagsBits: { KickMembers, BanMembers },
+    PermissionsBitField,
     SlashCommandBuilder,
     EmbedBuilder,
+    InteractionContextType,
     ChatInputCommandInteraction
 } = require( 'discord.js' )
 const warns = require( '../../../models/warns' )
@@ -32,8 +33,8 @@ module.exports = {
                     de: langData.de.resetwarns.command.integerOptionDescription,
                 } )
         )
-        .setDefaultMemberPermissions( KickMembers, BanMembers )
-        .setDMPermission( false ),
+        .setDefaultMemberPermissions( PermissionsBitField.Flags.KickMembers, PermissionsBitField.Flags.BanMembers )
+        .setContexts( InteractionContextType.Guild ),
     /**
      * @param {ChatInputCommandInteraction} interaction - The interaction object.
      */

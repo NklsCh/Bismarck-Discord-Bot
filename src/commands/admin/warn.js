@@ -1,7 +1,8 @@
 const {
-    PermissionFlagsBits: { KickMembers, BanMembers },
+    PermissionsBitField,
     SlashCommandBuilder,
     EmbedBuilder,
+    InteractionContextType,
     ChatInputCommandInteraction
 } = require( 'discord.js' )
 const wait = require( 'node:timers/promises' ).setTimeout
@@ -34,8 +35,8 @@ module.exports = {
                 } )
                 .setRequired( true )
         )
-        .setDefaultMemberPermissions( KickMembers, BanMembers )
-        .setDMPermission( false ),
+        .setDefaultMemberPermissions( PermissionsBitField.Flags.KickMembers, PermissionsBitField.Flags.BanMembers )
+        .setContexts( InteractionContextType.Guild ),
     /**
      * @param {ChatInputCommandInteraction} interaction - The interaction object.
      */
@@ -53,7 +54,7 @@ module.exports = {
 
         const member = await interaction.guild.members.fetch( user.id )
 
-        if ( member.permissions.has( KickMembers, BanMembers ) )
+        if ( member.permissions.has( PermissionsBitField.Flags.KickMembers, PermissionsBitField.Flags.BanMembers ) )
             return interaction.reply( {
                 content: langData[ userLang ].warn.reply.notAdmin,
                 ephemeral: true,
