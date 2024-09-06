@@ -1,6 +1,7 @@
 const {
-    PermissionFlagsBits: { Administrator },
+    PermissionsBitField,
     SlashCommandBuilder,
+    InteractionContextType,
     ChatInputCommandInteraction
 } = require( 'discord.js' )
 const Guilds = require( '../../../models/guilds' )
@@ -22,8 +23,8 @@ module.exports = {
                     de: langData.de.join2Create.command.channelOptionDescription,
                 } )
         )
-        .setDefaultMemberPermissions( Administrator )
-        .setDMPermission( false ),
+        .setDefaultMemberPermissions( PermissionsBitField.Flags.Administratorr )
+        .setContexts( InteractionContextType.Guild ),
     /**
      * @param {ChatInputCommandInteraction} interaction - The interaction object.
      * @returns {Promise<void>}

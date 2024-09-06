@@ -1,6 +1,7 @@
 const {
-    PermissionFlagsBits: { Administrator },
+    PermissionsBitField,
     SlashCommandBuilder,
+    InteractionContextType,
     ChannelType: { GuildText },
     ChatInputCommandInteraction
 } = require( 'discord.js' )
@@ -101,8 +102,8 @@ module.exports = {
                         } )
                 )
         )
-        .setDefaultMemberPermissions( Administrator )
-        .setDMPermission( false ),
+        .setDefaultMemberPermissions( PermissionsBitField.Flags.Administrator )
+        .setContexts( InteractionContextType.Guild ),
     /**
      * @param {ChatInputCommandInteraction} interaction - The interaction object.
      */

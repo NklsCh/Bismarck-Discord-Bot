@@ -4,6 +4,7 @@ const {
     ButtonBuilder,
     EmbedBuilder,
     PermissionsBitField,
+    InteractionContextType,
     ChatInputCommandInteraction
 } = require( 'discord.js' )
 
@@ -31,7 +32,7 @@ module.exports = {
                 } )
                 .setRequired( true )
         )
-        .setDMPermission( false ),
+        .setContexts( InteractionContextType.Guild ),
     /**
      * @param {ChatInputCommandInteraction} interaction - The interaction object.
      */

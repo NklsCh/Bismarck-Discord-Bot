@@ -1,7 +1,7 @@
 const {
     SlashCommandBuilder,
     ChatInputCommandInteraction,
-    PermissionFlagsBits: { ManageMessages },
+    PermissionsBitField
 } = require( 'discord.js' )
 
 const langData = require( '../../../resources/translations/lang.json' )
@@ -24,7 +24,7 @@ module.exports = {
                 } )
                 .setRequired( true )
         )
-        .setDefaultMemberPermissions( ManageMessages ),
+        .setDefaultMemberPermissions( PermissionsBitField.Flags.ManageMessages ),
     /**
      * @param {ChatInputCommandInteraction} interaction - The interaction object.
      */
