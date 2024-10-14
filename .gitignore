@@ -18,6 +18,9 @@ jspm_packages/
 .env.production.local
 .env.local
 
+### PNPM ###
+pnpm-lock.yaml
+
 ### IDE ###
 .vscode/*
 .vscode/settings.json
