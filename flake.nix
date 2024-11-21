@@ -1,47 +1,38 @@
 {
-  description = "A Nix-flake-based Node.js development environment";
+  description = "Discord Bot Development Environment";
 
-  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
+  };
 
   outputs =
-    { self, nixpkgs }:
-    let
-      supportedSystems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
-      ];
-      forEachSupportedSystem =
-        f:
-        nixpkgs.lib.genAttrs supportedSystems (
-          system:
-          f {
-            pkgs = import nixpkgs {
-              inherit system;
-              overlays = [ self.overlays.default ];
-            };
-          }
-        );
-    in
     {
-      overlays.default = final: prev: rec {
-        nodejs = prev.nodejs;
-        yarn = (prev.yarn.override { inherit nodejs; });
-      };
+      nixpkgs,
+      flake-utils,
+      ...
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+      {
+        devShells.default = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            nodejs_20
+            nodePackages.pnpm
+            nodePackages.nodemon
+          ];
 
-      devShells = forEachSupportedSystem (
-        { pkgs }:
-        {
-          default = pkgs.mkShell {
-            packages = with pkgs; [
-              node2nix
-              nodejs
-              nodePackages.pnpm
-              yarn
-            ];
-          };
-        }
-      );
-    };
+          shellHook = ''
+            export DISABLE_ESLINT_PLUGIN=true
+            export PATH="$PWD/node_modules/.bin:$PATH"
+            export NODE_ENV=development
+            export NPM_CONFIG_PREFIX=$PWD/.npm-global
+            export npm_config_cache=$PWD/.npm-cache
+          '';
+        };
+      }
+    );
 }
