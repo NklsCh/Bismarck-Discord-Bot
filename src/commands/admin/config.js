@@ -1,9 +1,9 @@
 const {
-    PermissionsBitField,
-    SlashCommandBuilder,
+    ChatInputCommandInteraction,
     EmbedBuilder,
     InteractionContextType,
-    ChatInputCommandInteraction
+    PermissionsBitField,
+    SlashCommandBuilder,
 } = require( 'discord.js' )
 const Guilds = require( '../../../models/guilds' )
 const cMessage = require( '../../../models/cMessage' )
@@ -23,106 +23,118 @@ module.exports = {
      * @param {ChatInputCommandInteraction} interaction - The interaction object.
      */
     async execute( interaction ) {
-        const userLang = interaction.locale.slice( 0, 2 )
+        try {
+            const userLang = interaction.locale.slice( 0, 2 )
 
-        const [ dbguild ] = await Guilds.findOrCreate( {
-            where: { guildId: interaction.guild.id },
-        } )
-        const [ customMessage ] = await cMessage.findOrCreate( {
-            where: { guildId: interaction.guild.id },
-        } )
-        await interaction.deferReply( { ephemeral: true } )
-        const trackEmbed = new EmbedBuilder()
-            .setTitle( langData[ userLang ].config.trackEmbed.title )
-            .setFields( [
-                {
-                    name: langData[ userLang ].config.trackEmbed.fields[ 0 ].name,
-                    value: `${ ( await dbguild.onlineChannelId )
-                        ? await interaction.guild.channels.fetch(
-                            await dbguild.onlineChannelId
-                        )
-                        : langData[ userLang ].config.trackEmbed.fields[ 0 ]
-                            .value
-                        }`,
-                    inline: true,
-                },
-                {
-                    name: langData[ userLang ].config.trackEmbed.fields[ 1 ].name,
-                    value: `${ ( await dbguild.allChannelId )
-                        ? await interaction.guild.channels.fetch(
-                            await dbguild.allChannelId
-                        )
-                        : langData[ userLang ].config.trackEmbed.fields[ 1 ]
-                            .value
-                        }`,
-                    inline: true,
-                },
-                {
-                    name: langData[ userLang ].config.trackEmbed.fields[ 2 ].name,
-                    value: `${ ( await dbguild.botChannelId )
-                        ? await interaction.guild.channels.fetch(
-                            await dbguild.botChannelId
-                        )
-                        : langData[ userLang ].config.trackEmbed.fields[ 2 ]
-                            .value
-                        }`,
-                    inline: true,
-                },
-            ] )
-        const channelEmbed = new EmbedBuilder()
-            .setTitle( langData[ userLang ].config.channelEmbed.title )
-            .setFields( [
-                {
-                    name: langData[ userLang ].config.channelEmbed.fields[ 0 ].name,
-                    value: `${ ( await dbguild.welcomeChannelId )
-                        ? await interaction.guild.channels.fetch(
-                            await dbguild.welcomeChannelId
-                        )
-                        : langData[ userLang ].config.channelEmbed.fields[ 0 ]
-                            .value
-                        }`,
-                    inline: true,
-                },
-                {
-                    name: langData[ userLang ].config.channelEmbed.fields[ 1 ].name,
-                    value: `${ ( await dbguild.leaveChannelId )
-                        ? await interaction.guild.channels.fetch(
-                            await dbguild.leaveChannelId
-                        )
-                        : langData[ userLang ].config.channelEmbed.fields[ 1 ]
-                            .value
-                        }`,
-                    inline: true,
-                },
-                {
-                    name: ' ',
-                    value: ' ',
-                    inline: true,
-                },
-                {
-                    name: langData[ userLang ].config.channelEmbed.fields[ 2 ].name,
-                    value:
-                        '```' +
-                        `${ ( await customMessage.welcomeMessage )
-                            ? await customMessage.welcomeMessage
-                            : langData[ userLang ].config.channelEmbed.fields[ 2 ].value
-                        }` +
-                        '```',
-                    inline: true,
-                },
-                {
-                    name: langData[ userLang ].config.channelEmbed.fields[ 3 ].name,
-                    value:
-                        '```' +
-                        `${ ( await customMessage.goodbyeMessage )
-                            ? await customMessage.goodbyeMessage
-                            : langData[ userLang ].config.channelEmbed.fields[ 3 ].value
-                        }` +
-                        '```',
-                    inline: true,
-                },
-            ] )
+            const [ dbguild ] = await Guilds.findOrCreate( {
+                where: { guildId: interaction.guild.id },
+            } )
+            const [ customMessage ] = await cMessage.findOrCreate( {
+                where: { guildId: interaction.guild.id },
+            } )
+            await interaction.deferReply( { ephemeral: true } )
+            const trackEmbed = new EmbedBuilder()
+                .setTitle( langData[ userLang ].config.trackEmbed.title )
+                .setFields( [
+                    {
+                        name: langData[ userLang ].config.trackEmbed.fields[ 0 ].name,
+                        value: `${ ( await dbguild.onlineChannelId )
+                            ? await interaction.guild.channels.fetch(
+                                await dbguild.onlineChannelId
+                            )
+                            : langData[ userLang ].config.trackEmbed.fields[ 0 ]
+                                .value
+                            }`,
+                        inline: true,
+                    },
+                    {
+                        name: langData[ userLang ].config.trackEmbed.fields[ 1 ].name,
+                        value: `${ ( await dbguild.allChannelId )
+                            ? await interaction.guild.channels.fetch(
+                                await dbguild.allChannelId
+                            )
+                            : langData[ userLang ].config.trackEmbed.fields[ 1 ]
+                                .value
+                            }`,
+                        inline: true,
+                    },
+                    {
+                        name: langData[ userLang ].config.trackEmbed.fields[ 2 ].name,
+                        value: `${ ( await dbguild.botChannelId )
+                            ? await interaction.guild.channels.fetch(
+                                await dbguild.botChannelId
+                            )
+                            : langData[ userLang ].config.trackEmbed.fields[ 2 ]
+                                .value
+                            }`,
+                        inline: true,
+                    },
+                ] )
+            const channelEmbed = new EmbedBuilder()
+                .setTitle( langData[ userLang ].config.channelEmbed.title )
+                .setFields( [
+                    {
+                        name: langData[ userLang ].config.channelEmbed.fields[ 0 ].name,
+                        value: `${ ( await dbguild.welcomeChannelId )
+                            ? await interaction.guild.channels.fetch(
+                                await dbguild.welcomeChannelId
+                            )
+                            : langData[ userLang ].config.channelEmbed.fields[ 0 ]
+                                .value
+                            }`,
+                        inline: true,
+                    },
+                    {
+                        name: langData[ userLang ].config.channelEmbed.fields[ 1 ].name,
+                        value: `${ ( await dbguild.leaveChannelId )
+                            ? await interaction.guild.channels.fetch(
+                                await dbguild.leaveChannelId
+                            )
+                            : langData[ userLang ].config.channelEmbed.fields[ 1 ]
+                                .value
+                            }`,
+                        inline: true,
+                    },
+                    {
+                        name: ' ',
+                        value: ' ',
+                        inline: true,
+                    },
+                    {
+                        name: langData[ userLang ].config.channelEmbed.fields[ 2 ].name,
+                        value:
+                            '```' +
+                            `${ ( await customMessage.welcomeMessage )
+                                ? await customMessage.welcomeMessage
+                                : langData[ userLang ].config.channelEmbed.fields[ 2 ].value
+                            }` +
+                            '```',
+                        inline: true,
+                    },
+                    {
+                        name: langData[ userLang ].config.channelEmbed.fields[ 3 ].name,
+                        value:
+                            '```' +
+                            `${ ( await customMessage.goodbyeMessage )
+                                ? await customMessage.goodbyeMessage
+                                : langData[ userLang ].config.channelEmbed.fields[ 3 ].value
+                            }` +
+                            '```',
+                        inline: true,
+                    },
+                ] )
 
-        await interaction.editReply( { embeds: [ trackEmbed, channelEmbed ] } )
+            await interaction.editReply( { embeds: [ trackEmbed, channelEmbed ] } )
+        } catch ( error ) {
+            console.error( 'Error in ' + interaction.commandName + ' command:', error );
+            const errorMessage = 'An error occurred while processing your request.';
+
+            if ( !interaction.replied ) {
+                await interaction.reply( {
+                    content: errorMessage,
+                    ephemeral: true
+                } );
+            }
+        }
     },
 }

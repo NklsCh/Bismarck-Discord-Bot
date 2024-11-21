@@ -1,9 +1,9 @@
 const {
+    ChannelType: { GuildText },
+    ChatInputCommandInteraction,
+    InteractionContextType,
     PermissionsBitField,
     SlashCommandBuilder,
-    InteractionContextType,
-    ChannelType: { GuildText },
-    ChatInputCommandInteraction
 } = require( 'discord.js' )
 const Guilds = require( '../../../models/guilds' )
 
@@ -108,77 +108,89 @@ module.exports = {
      * @param {ChatInputCommandInteraction} interaction - The interaction object.
      */
     async execute( interaction ) {
-        const userLang = interaction.locale.slice( 0, 2 )
+        try {
+            const userLang = interaction.locale.slice( 0, 2 )
 
-        //Get server config
-        const [ guild ] = await Guilds.findOrCreate( {
-            where: { guildId: interaction.guild.id },
-        } )
+            //Get server config
+            const [ guild ] = await Guilds.findOrCreate( {
+                where: { guildId: interaction.guild.id },
+            } )
 
-        //Switch the subcommand group whether it is set or unset/\\\*\\\* \\\* @param {ChatInputCommandInteraction} interaction - The interaction object. \\\*/
-        switch ( interaction.options.getSubcommandGroup() ) {
-            case 'unset':
-                //Switch the subcommand whether it is join or leave
-                switch ( interaction.options.getSubcommand() ) {
-                    case 'join':
-                        //Set the join channel to null and save the config
-                        await guild.update( {
-                            welcomeChannelId: null,
-                        } )
-                        interaction.reply( {
-                            content:
-                                langData[ userLang ].channelSetup.reply
-                                    .joinChannelUnset,
-                            ephemeral: true,
-                        } )
-                        break
-                    case 'leave':
-                        //Set the leave channel to null and save the config
-                        await guild.update( {
-                            goodbyeChannelId: null,
-                        } )
-                        interaction.reply( {
-                            content:
-                                langData[ userLang ].channelSetup.reply
-                                    .leaveChannelUnset,
-                            ephemeral: true,
-                        } )
-                        break
-                }
-                break
-            case 'set':
-                switch ( interaction.options.getSubcommand() ) {
-                    case 'join':
-                        const welcomeChannelId =
-                            interaction.options.getChannel( 'channel' )
+            //Switch the subcommand group whether it is set or unset/\\\*\\\* \\\* @param {ChatInputCommandInteraction} interaction - The interaction object. \\\*/
+            switch ( interaction.options.getSubcommandGroup() ) {
+                case 'unset':
+                    //Switch the subcommand whether it is join or leave
+                    switch ( interaction.options.getSubcommand() ) {
+                        case 'join':
+                            //Set the join channel to null and save the config
+                            await guild.update( {
+                                welcomeChannelId: null,
+                            } )
+                            interaction.reply( {
+                                content:
+                                    langData[ userLang ].channelSetup.reply
+                                        .joinChannelUnset,
+                                ephemeral: true,
+                            } )
+                            break
+                        case 'leave':
+                            //Set the leave channel to null and save the config
+                            await guild.update( {
+                                goodbyeChannelId: null,
+                            } )
+                            interaction.reply( {
+                                content:
+                                    langData[ userLang ].channelSetup.reply
+                                        .leaveChannelUnset,
+                                ephemeral: true,
+                            } )
+                            break
+                    }
+                    break
+                case 'set':
+                    switch ( interaction.options.getSubcommand() ) {
+                        case 'join':
+                            const welcomeChannelId =
+                                interaction.options.getChannel( 'channel' )
 
-                        await guild.update( {
-                            welcomeChannelId: welcomeChannelId.id,
-                        } )
-                        interaction.reply( {
-                            content:
-                                langData[ userLang ].channelSetup.reply
-                                    .joinChannelSet + `${ welcomeChannelId }`,
-                            ephemeral: true,
-                        } )
-                        break
-                    case 'leave':
-                        const goodbyeChannelId =
-                            interaction.options.getChannel( 'channel' )
+                            await guild.update( {
+                                welcomeChannelId: welcomeChannelId.id,
+                            } )
+                            interaction.reply( {
+                                content:
+                                    langData[ userLang ].channelSetup.reply
+                                        .joinChannelSet + `${ welcomeChannelId }`,
+                                ephemeral: true,
+                            } )
+                            break
+                        case 'leave':
+                            const goodbyeChannelId =
+                                interaction.options.getChannel( 'channel' )
 
-                        await guild.update( {
-                            goodbyeChannelId: goodbyeChannelId.id,
-                        } )
+                            await guild.update( {
+                                goodbyeChannelId: goodbyeChannelId.id,
+                            } )
 
-                        interaction.reply( {
-                            content:
-                                langData[ userLang ].channelSetup.reply
-                                    .leaveChannelSet + `${ goodbyeChannelId }`,
-                            ephemeral: true,
-                        } )
-                        break
-                }
-                break
+                            interaction.reply( {
+                                content:
+                                    langData[ userLang ].channelSetup.reply
+                                        .leaveChannelSet + `${ goodbyeChannelId }`,
+                                ephemeral: true,
+                            } )
+                            break
+                    }
+                    break
+            }
+        } catch ( error ) {
+            console.error( 'Error in ' + interaction.commandName + ' command:', error );
+            const errorMessage = 'An error occurred while processing your request.';
+
+            if ( !interaction.replied ) {
+                await interaction.reply( {
+                    content: errorMessage,
+                    ephemeral: true
+                } );
+            }
         }
     },
 }

@@ -1,6 +1,6 @@
 const {
-    ContextMenuCommandBuilder,
     ApplicationCommandType,
+    ContextMenuCommandBuilder,
     PermissionsBitField,
     UserContextMenuCommandInteraction
 } = require( 'discord.js' )
@@ -19,25 +19,37 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async execute( interaction ) {
-        const userLang = interaction.locale.slice( 0, 2 )
-        const member = interaction.targetUser
-        const guild = interaction.guild
-        const memberInGuild = await guild.members.fetch( member.id )
-        const { BanMembers } = PermissionsBitField.Flags
-        if (
-            interaction.member.permissions.has( BanMembers ) &&
-            !member.bot
-        ) {
-            handleBan( memberInGuild )
-            interaction.reply( {
-                content: langData[ userLang ].success.banSuccess,
-                ephemeral: true
-            } )
-        } else {
-            interaction.reply( {
-                content: langData[ userLang ].errors.noPerms,
-                ephemeral: true
-            } )
+        try {
+            const userLang = interaction.locale.slice( 0, 2 )
+            const member = interaction.targetUser
+            const guild = interaction.guild
+            const memberInGuild = await guild.members.fetch( member.id )
+            const { BanMembers } = PermissionsBitField.Flags
+            if (
+                interaction.member.permissions.has( BanMembers ) &&
+                !member.bot
+            ) {
+                handleBan( memberInGuild )
+                interaction.reply( {
+                    content: langData[ userLang ].success.banSuccess,
+                    ephemeral: true
+                } )
+            } else {
+                interaction.reply( {
+                    content: langData[ userLang ].errors.noPerms,
+                    ephemeral: true
+                } )
+            }
+        } catch ( error ) {
+            console.error( 'Error in ' + interaction.commandName + ' command:', error );
+            const errorMessage = 'An error occurred while processing your request.';
+
+            if ( !interaction.replied ) {
+                await interaction.reply( {
+                    content: errorMessage,
+                    ephemeral: true
+                } );
+            }
         }
     },
 }

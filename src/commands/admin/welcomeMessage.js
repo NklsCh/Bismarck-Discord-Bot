@@ -1,8 +1,8 @@
 const {
+    ChatInputCommandInteraction,
+    InteractionContextType,
     PermissionsBitField,
     SlashCommandBuilder,
-    InteractionContextType,
-    ChatInputCommandInteraction
 } = require( 'discord.js' )
 const CMessage = require( '../../../models/cMessage' )
 
@@ -31,31 +31,43 @@ module.exports = {
      * @param {ChatInputCommandInteraction} interaction - The interaction object.
      */
     async execute( interaction ) {
-        const userLang = interaction.locale.slice( 0, 2 )
+        try {
+            const userLang = interaction.locale.slice( 0, 2 )
 
-        const [ customMessage ] = await CMessage.findOrCreate( {
-            where: {
-                guildId: interaction.guild.id,
-            },
-        } )
-        await interaction.deferReply( { ephemeral: true } )
-        const welcomeMessage = interaction.options.getString( 'message' )
-        await customMessage
-            .update( {
-                welcomeMessage: welcomeMessage,
+            const [ customMessage ] = await CMessage.findOrCreate( {
+                where: {
+                    guildId: interaction.guild.id,
+                },
             } )
-            .then( async () => {
-                if ( !( await customMessage.welcomeMessage ) ) {
+            await interaction.deferReply( { ephemeral: true } )
+            const welcomeMessage = interaction.options.getString( 'message' )
+            await customMessage
+                .update( {
+                    welcomeMessage: welcomeMessage,
+                } )
+                .then( async () => {
+                    if ( !( await customMessage.welcomeMessage ) ) {
+                        await interaction.editReply( {
+                            content: langData[ userLang ].welcome.reply.messageReset,
+                            ephemeral: true,
+                        } )
+                        return
+                    }
                     await interaction.editReply( {
-                        content: langData[ userLang ].welcome.reply.messageReset,
+                        content: langData[ userLang ].welcome.reply.messageSet,
                         ephemeral: true,
                     } )
-                    return
-                }
-                await interaction.editReply( {
-                    content: langData[ userLang ].welcome.reply.messageSet,
-                    ephemeral: true,
                 } )
-            } )
+        } catch ( error ) {
+            console.error( 'Error in ' + interaction.commandName + ' command:', error );
+            const errorMessage = 'An error occurred while processing your request.';
+
+            if ( !interaction.replied ) {
+                await interaction.reply( {
+                    content: errorMessage,
+                    ephemeral: true
+                } );
+            }
+        }
     },
 }
