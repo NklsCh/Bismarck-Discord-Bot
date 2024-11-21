@@ -1,210 +1,222 @@
 const {
-    PermissionFlagsBits: { Administrator },
+    ChatInputCommandInteraction,
+    InteractionContextType,
+    PermissionsBitField,
     SlashCommandBuilder,
-    ChatInputCommandInteraction
-} = require('discord.js')
-const Guilds = require('../../../models/guilds')
+} = require( 'discord.js' )
+const Guilds = require( '../../../models/guilds' )
 
-const langData = require(`../../../resources/translations/lang.json`)
+const langData = require( `../../../resources/translations/lang.json` )
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('track')
-        .setDescription('-')
-        .addSubcommandGroup((group) =>
+        .setName( 'track' )
+        .setDescription( '-' )
+        .addSubcommandGroup( ( group ) =>
             group
-                .setName('add')
-                .setDescription('-')
-                .addSubcommand((subcommand) =>
+                .setName( 'add' )
+                .setDescription( '-' )
+                .addSubcommand( ( subcommand ) =>
                     subcommand
-                        .setName('online')
+                        .setName( 'online' )
                         .setDescription(
                             langData.en.track.command.addOnlineDescription
                         )
-                        .setDescriptionLocalizations({
+                        .setDescriptionLocalizations( {
                             de: langData.de.track.command.addOnlineDescription,
-                        })
-                        .addChannelOption((option) =>
+                        } )
+                        .addChannelOption( ( option ) =>
                             option
-                                .setName('channel')
+                                .setName( 'channel' )
                                 .setDescription(
                                     langData.en.track.command
                                         .channelOptionDesciption
                                 )
-                                .setDescriptionLocalizations({
+                                .setDescriptionLocalizations( {
                                     de: langData.de.track.command
                                         .channelOptionDesciption,
-                                })
-                                .setRequired(true)
+                                } )
+                                .setRequired( true )
                         )
                 )
-                .addSubcommand((subcommand) =>
+                .addSubcommand( ( subcommand ) =>
                     subcommand
-                        .setName('all')
+                        .setName( 'all' )
                         .setDescription(
                             langData.en.track.command.addAllDescription
                         )
-                        .setDescriptionLocalizations({
+                        .setDescriptionLocalizations( {
                             de: langData.de.track.command.addAllDescription,
-                        })
-                        .addChannelOption((option) =>
+                        } )
+                        .addChannelOption( ( option ) =>
                             option
-                                .setName('channel')
+                                .setName( 'channel' )
                                 .setDescription(
                                     langData.en.track.command
                                         .channelOptionDesciption
                                 )
-                                .setDescriptionLocalizations({
+                                .setDescriptionLocalizations( {
                                     de: langData.de.track.command
                                         .channelOptionDesciption,
-                                })
-                                .setRequired(true)
+                                } )
+                                .setRequired( true )
                         )
                 )
-                .addSubcommand((subcommand) =>
+                .addSubcommand( ( subcommand ) =>
                     subcommand
-                        .setName('bots')
+                        .setName( 'bots' )
                         .setDescription(
                             langData.en.track.command.addBotsDescription
                         )
-                        .setDescriptionLocalizations({
+                        .setDescriptionLocalizations( {
                             de: langData.de.track.command.addBotsDescription,
-                        })
-                        .addChannelOption((option) =>
+                        } )
+                        .addChannelOption( ( option ) =>
                             option
-                                .setName('channel')
+                                .setName( 'channel' )
                                 .setDescription(
                                     langData.en.track.command
                                         .channelOptionDesciption
                                 )
-                                .setDescriptionLocalizations({
+                                .setDescriptionLocalizations( {
                                     de: langData.de.track.command
                                         .channelOptionDesciption,
-                                })
-                                .setRequired(true)
+                                } )
+                                .setRequired( true )
                         )
                 )
         )
-        .addSubcommandGroup((group) =>
+        .addSubcommandGroup( ( group ) =>
             group
-                .setName('remove')
-                .setDescription('-')
-                .addSubcommand((subcommand) =>
+                .setName( 'remove' )
+                .setDescription( '-' )
+                .addSubcommand( ( subcommand ) =>
                     subcommand
-                        .setName('online')
+                        .setName( 'online' )
                         .setDescription(
                             langData.en.track.command.removeOnlineDescription
                         )
-                        .setDescriptionLocalizations({
+                        .setDescriptionLocalizations( {
                             de: langData.de.track.command
                                 .removeOnlineDescription,
-                        })
+                        } )
                 )
-                .addSubcommand((subcommand) =>
+                .addSubcommand( ( subcommand ) =>
                     subcommand
-                        .setName('all')
+                        .setName( 'all' )
                         .setDescription(
                             langData.en.track.command.removeAllDescription
                         )
-                        .setDescriptionLocalizations({
+                        .setDescriptionLocalizations( {
                             de: langData.de.track.command.removeAllDescription,
-                        })
+                        } )
                 )
-                .addSubcommand((subcommand) =>
+                .addSubcommand( ( subcommand ) =>
                     subcommand
-                        .setName('bots')
+                        .setName( 'bots' )
                         .setDescription(
                             langData.en.track.command.removeBotsDescription
                         )
-                        .setDescriptionLocalizations({
+                        .setDescriptionLocalizations( {
                             de: langData.de.track.command.removeBotsDescription,
-                        })
+                        } )
                 )
         )
-        .setDefaultMemberPermissions(Administrator)
-        .setDMPermission(false),
+        .setDefaultMemberPermissions( PermissionsBitField.Flags.Administrator )
+        .setContexts( InteractionContextType.Guild ),
     /**
      * @param {ChatInputCommandInteraction} interaction - The interaction object.
-     * @returns {Promise<void>}
      */
-    async execute(interaction) {
-        const [guild] = await Guilds.findOrCreate({
-            where: { guildId: interaction.guild.id },
-        })
-        const channel = interaction.options.getChannel('channel')
-        switch (
-        interaction.options.getSubcommandGroup() ||
-        interaction.options.getSubcommand()
-        ) {
-            case 'add':
-                switch (interaction.options.getSubcommand()) {
-                    case 'online':
-                        await interaction.deferReply({ ephemeral: true })
-                        await guild.update({
-                            onlineChannelId: channel.id,
-                        })
-                        await interaction.editReply({
-                            content: `The bot will now track the amount of online users in ${channel}!`,
-                        })
-                        break
-                    case 'all':
-                        await interaction.deferReply({ ephemeral: true })
-                        await guild.update({
-                            allChannelId: channel.id,
-                        })
-                        await interaction.editReply({
-                            content: `The bot will now track the amount of all users in ${channel}!`,
-                            ephemeral: true,
-                        })
-                        break
-                    case 'bots':
-                        await interaction.deferReply({ ephemeral: true })
-                        await guild.update({
-                            botChannelId: channel.id,
-                        })
-                        await interaction.editReply({
-                            content: `The bot will now track the amount of bots in ${channel}!`,
-                            ephemeral: true,
-                        })
-                }
-                break
-            case 'remove':
-                switch (interaction.options.getSubcommand()) {
-                    case 'online':
-                        await interaction.deferReply({ ephemeral: true })
-                        await guild.update({
-                            onlineChannelId: null,
-                        })
-                        await interaction.editReply({
-                            content:
-                                'The bot will no longer track the amount of online users!',
-                            ephemeral: true,
-                        })
-                        break
-                    case 'all':
-                        await interaction.deferReply({ ephemeral: true })
-                        await guild.update({
-                            allChannelId: null,
-                        })
-                        await interaction.editReply({
-                            content:
-                                'The bot will no longer track the amount of all users!',
-                            ephemeral: true,
-                        })
-                        break
-                    case 'bots':
-                        await interaction.deferReply({ ephemeral: true })
-                        await guild.update({
-                            botChannelId: null,
-                        })
-                        await interaction.editReply({
-                            content:
-                                'The bot will no longer track the amount of bots!',
-                            ephemeral: true,
-                        })
-                        break
-                }
-                break
+    async execute( interaction ) {
+        try {
+            const [ guild ] = await Guilds.findOrCreate( {
+                where: { guildId: interaction.guild.id },
+            } )
+            const channel = interaction.options.getChannel( 'channel' )
+            switch (
+            interaction.options.getSubcommandGroup() ||
+            interaction.options.getSubcommand()
+            ) {
+                case 'add':
+                    switch ( interaction.options.getSubcommand() ) {
+                        case 'online':
+                            await interaction.deferReply( { ephemeral: true } )
+                            await guild.update( {
+                                onlineChannelId: channel.id,
+                            } )
+                            await interaction.editReply( {
+                                content: `The bot will now track the amount of online users in ${ channel }!`,
+                            } )
+                            break
+                        case 'all':
+                            await interaction.deferReply( { ephemeral: true } )
+                            await guild.update( {
+                                allChannelId: channel.id,
+                            } )
+                            await interaction.editReply( {
+                                content: `The bot will now track the amount of all users in ${ channel }!`,
+                                ephemeral: true,
+                            } )
+                            break
+                        case 'bots':
+                            await interaction.deferReply( { ephemeral: true } )
+                            await guild.update( {
+                                botChannelId: channel.id,
+                            } )
+                            await interaction.editReply( {
+                                content: `The bot will now track the amount of bots in ${ channel }!`,
+                                ephemeral: true,
+                            } )
+                    }
+                    break
+                case 'remove':
+                    switch ( interaction.options.getSubcommand() ) {
+                        case 'online':
+                            await interaction.deferReply( { ephemeral: true } )
+                            await guild.update( {
+                                onlineChannelId: null,
+                            } )
+                            await interaction.editReply( {
+                                content:
+                                    'The bot will no longer track the amount of online users!',
+                                ephemeral: true,
+                            } )
+                            break
+                        case 'all':
+                            await interaction.deferReply( { ephemeral: true } )
+                            await guild.update( {
+                                allChannelId: null,
+                            } )
+                            await interaction.editReply( {
+                                content:
+                                    'The bot will no longer track the amount of all users!',
+                                ephemeral: true,
+                            } )
+                            break
+                        case 'bots':
+                            await interaction.deferReply( { ephemeral: true } )
+                            await guild.update( {
+                                botChannelId: null,
+                            } )
+                            await interaction.editReply( {
+                                content:
+                                    'The bot will no longer track the amount of bots!',
+                                ephemeral: true,
+                            } )
+                            break
+                    }
+                    break
+            }
+        } catch ( error ) {
+            console.error( 'Error in ' + interaction.commandName + ' command:', error );
+            const errorMessage = 'An error occurred while processing your request.';
+
+            if ( !interaction.replied ) {
+                await interaction.reply( {
+                    content: errorMessage,
+                    ephemeral: true
+                } );
+            }
         }
     },
 }

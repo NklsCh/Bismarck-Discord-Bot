@@ -4,25 +4,25 @@ const {
     PermissionsBitField,
     SlashCommandBuilder,
 } = require( 'discord.js' )
-const CMessage = require( '../../../models/cMessage' )
+const Guilds = require( '../../../models/guilds' )
 
 const langData = require( `../../../resources/translations/lang.json` )
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName( 'welcome' )
-        .setDescription( langData.en.welcome.command.description )
+        .setName( 'autorole' )
+        .setDescription( langData.en.joinRole.command.description )
         .setDescriptionLocalizations( {
-            de: langData.de.welcome.command.description,
+            de: langData.de.joinRole.command.description,
         } )
-        .addStringOption( ( option ) =>
-            option
-                .setName( 'message' )
+        .addRoleOption( ( roleOption ) =>
+            roleOption
+                .setName( 'role' )
                 .setDescription(
-                    langData.en.welcome.command.stringOptionDescription
+                    langData.en.joinRole.command.roleOptionDescription
                 )
                 .setDescriptionLocalizations( {
-                    de: langData.de.welcome.command.stringOptionDescription,
+                    de: langData.de.joinRole.command.roleOptionDescription,
                 } )
         )
         .setDefaultMemberPermissions( PermissionsBitField.Flags.Administrator )
@@ -34,27 +34,30 @@ module.exports = {
         try {
             const userLang = interaction.locale.slice( 0, 2 )
 
-            const [ customMessage ] = await CMessage.findOrCreate( {
+            const [ dbguild ] = await Guilds.findOrCreate( {
                 where: {
                     guildId: interaction.guild.id,
                 },
             } )
             await interaction.deferReply( { ephemeral: true } )
-            const welcomeMessage = interaction.options.getString( 'message' )
-            await customMessage
+            const joinRole = interaction.options.getRole( 'role' )
+            if ( !joinRole ) {
+                await dbguild.update( {
+                    joinRoleId: null,
+                } )
+                await interaction.editReply( {
+                    content: langData[ userLang ].joinRole.reply.roleReset,
+                    ephemeral: true,
+                } )
+                return
+            }
+            await dbguild
                 .update( {
-                    welcomeMessage: welcomeMessage,
+                    joinRoleId: joinRole.id,
                 } )
                 .then( async () => {
-                    if ( !( await customMessage.welcomeMessage ) ) {
-                        await interaction.editReply( {
-                            content: langData[ userLang ].welcome.reply.messageReset,
-                            ephemeral: true,
-                        } )
-                        return
-                    }
                     await interaction.editReply( {
-                        content: langData[ userLang ].welcome.reply.messageSet,
+                        content: langData[ userLang ].joinRole.reply.roleSet,
                         ephemeral: true,
                     } )
                 } )

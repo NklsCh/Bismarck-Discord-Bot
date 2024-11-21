@@ -1,61 +1,73 @@
 const {
-    PermissionFlagsBits: { Administrator },
+    ChatInputCommandInteraction,
+    InteractionContextType,
+    PermissionsBitField,
     SlashCommandBuilder,
-    ChatInputCommandInteraction
-} = require('discord.js')
-const CMessage = require('../../../models/cMessage')
+} = require( 'discord.js' )
+const CMessage = require( '../../../models/cMessage' )
 
-const langData = require('../../../resources/translations/lang.json')
+const langData = require( '../../../resources/translations/lang.json' )
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('goodbye')
-        .setDescription(langData.en.goodbye.command.description)
-        .setDescriptionLocalizations({
+        .setName( 'goodbye' )
+        .setDescription( langData.en.goodbye.command.description )
+        .setDescriptionLocalizations( {
             de: langData.de.goodbye.command.description,
-        })
-        .addStringOption((option) =>
+        } )
+        .addStringOption( ( option ) =>
             option
-                .setName('message')
+                .setName( 'message' )
                 .setDescription(
                     langData.en.goodbye.command.messageOptionDescription
                 )
-                .setDescriptionLocalizations({
+                .setDescriptionLocalizations( {
                     de: langData.de.goodbye.command.messageOptionDescription,
-                })
+                } )
         )
-        .setDefaultMemberPermissions(Administrator)
-        .setDMPermission(false),
+        .setDefaultMemberPermissions( PermissionsBitField.Flags.Administrator )
+        .setContexts( InteractionContextType.Guild ),
     /**
      * @param {ChatInputCommandInteraction} interaction - The interaction object.
-     * @returns {Promise<void>}
      */
-    async execute(interaction) {
-        const userLang = interaction.locale.slice(0, 2)
+    async execute( interaction ) {
+        try {
+            const userLang = interaction.locale.slice( 0, 2 )
 
-        const [customMessage] = await CMessage.findOrCreate({
-            where: {
-                guildId: interaction.guild.id,
-            },
-        })
-        await interaction.deferReply({ ephemeral: true })
-        const goodbyeMessage = interaction.options.getString('message')
-        await customMessage
-            .update({
-                goodbyeMessage: goodbyeMessage,
-            })
-            .then(async () => {
-                if (!(await customMessage.goodbyeMessage)) {
-                    await interaction.editReply({
-                        content: langData[userLang].goodbye.reply.messageSet,
+            const [ customMessage ] = await CMessage.findOrCreate( {
+                where: {
+                    guildId: interaction.guild.id,
+                },
+            } )
+            await interaction.deferReply( { ephemeral: true } )
+            const goodbyeMessage = interaction.options.getString( 'message' )
+            await customMessage
+                .update( {
+                    goodbyeMessage: goodbyeMessage,
+                } )
+                .then( async () => {
+                    if ( !( await customMessage.goodbyeMessage ) ) {
+                        await interaction.editReply( {
+                            content: langData[ userLang ].goodbye.reply.messageSet,
+                            ephemeral: true,
+                        } )
+                        return
+                    }
+                    await interaction.editReply( {
+                        content: langData[ userLang ].goodbye.reply.messageReset,
                         ephemeral: true,
-                    })
-                    return
-                }
-                await interaction.editReply({
-                    content: langData[userLang].goodbye.reply.messageReset,
-                    ephemeral: true,
-                })
-            })
+                    } )
+                } )
+        } catch ( error ) {
+            console.error( 'Error in ' + interaction.commandName + ' command:', error );
+            const errorMessage = 'An error occurred while processing your request.';
+
+            if ( !interaction.replied ) {
+                await interaction.reply( {
+                    content: errorMessage,
+                    ephemeral: true
+                } );
+            }
+        }
     },
 }

@@ -1,6 +1,6 @@
-const { Events, GuildMember } = require('discord.js')
-const Guilds = require('../models/guilds')
-const cMessage = require('../models/cMessage')
+const { Events, GuildMember } = require( 'discord.js' )
+const Guilds = require( '../models/guilds' )
+const cMessage = require( '../models/cMessage' )
 
 module.exports = {
     name: Events.GuildMemberAdd,
@@ -8,26 +8,25 @@ module.exports = {
      * Executes the memberAdd event handler.
      * 
      * @param {GuildMember} GuildMember - The GuildMember object representing the member who joined the guild.
-     * @returns {Promise<void>} - A Promise that resolves once the execution is complete.
      */
-    async execute(GuildMember) {
+    async execute( GuildMember ) {
         const name = GuildMember.guild.name;
-        const [dbguild] = await Guilds.findOrCreate({
+        const [ dbguild ] = await Guilds.findOrCreate( {
             where: {
                 guildId: GuildMember.guild.id,
             },
-        });
-        const [customMessage] = await cMessage.findOrCreate({
+        } );
+        const [ customMessage ] = await cMessage.findOrCreate( {
             where: {
                 guildId: GuildMember.guild.id,
             },
-        });
+        } );
 
-        if (await dbguild.joinRoleId) {
-            GuildMember.roles.add(await dbguild.joinRoleId);
+        if ( await dbguild.joinRoleId ) {
+            GuildMember.roles.add( await dbguild.joinRoleId );
         }
 
-        if (await customMessage.welcomeMessage) {
+        if ( await customMessage.welcomeMessage ) {
             const welcomeEmbed = {
                 color: 0x0099ff,
                 title: "**Welcome**",
@@ -36,12 +35,12 @@ module.exports = {
                 },
                 description: await customMessage.welcomeMessage,
             };
-            if (!(await dbguild.welcomeChannelId)) return;
+            if ( !( await dbguild.welcomeChannelId ) ) return;
             GuildMember.guild.channels
-                .fetch(await dbguild.welcomeChannelId)
-                .then((channel) => {
-                    channel.send({ embeds: [welcomeEmbed] });
-                });
+                .fetch( await dbguild.welcomeChannelId )
+                .then( ( channel ) => {
+                    channel.send( { embeds: [ welcomeEmbed ] } );
+                } );
         } else {
             const helloEmbed = {
                 color: 0x0099ff,
@@ -52,12 +51,12 @@ module.exports = {
                 description:
                     "Welcome " + GuildMember.user.username + " to " + name + "!",
             };
-            if (!(await dbguild.welcomeChannelId)) return;
+            if ( !( await dbguild.welcomeChannelId ) ) return;
             GuildMember.guild.channels
-                .fetch(await dbguild.welcomeChannelId)
-                .then((channel) => {
-                    channel.send({ embeds: [helloEmbed] });
-                });
+                .fetch( await dbguild.welcomeChannelId )
+                .then( ( channel ) => {
+                    channel.send( { embeds: [ helloEmbed ] } );
+                } );
         }
     },
 };
