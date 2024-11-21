@@ -2,9 +2,10 @@ const {
     ActionRowBuilder,
     ButtonBuilder,
     ButtonStyle,
+    ChatInputCommandInteraction,
     ComponentType,
-    Routes,
     REST,
+    Routes,
     SlashCommandBuilder,
     StringSelectMenuBuilder
 } = require( 'discord.js' );
@@ -21,7 +22,9 @@ module.exports = {
         .setDescriptionLocalizations( {
             de: langData.de.help.command.description,
         } ),
-
+    /**
+     * @param {ChatInputCommandInteraction} interaction - The interaction object.
+     */
     async execute( interaction ) {
         try {
             const rest = new REST( { version: '10' } ).setToken( process.env.TOKEN );
