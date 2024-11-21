@@ -1,8 +1,8 @@
 const {
+    ChatInputCommandInteraction,
+    InteractionContextType,
     PermissionsBitField,
     SlashCommandBuilder,
-    InteractionContextType,
-    ChatInputCommandInteraction
 } = require( 'discord.js' )
 const Guilds = require( '../../../models/guilds' )
 
@@ -31,34 +31,46 @@ module.exports = {
      * @param {ChatInputCommandInteraction} interaction - The interaction object.
      */
     async execute( interaction ) {
-        const userLang = interaction.locale.slice( 0, 2 )
+        try {
+            const userLang = interaction.locale.slice( 0, 2 )
 
-        const [ dbguild ] = await Guilds.findOrCreate( {
-            where: {
-                guildId: interaction.guild.id,
-            },
-        } )
-        await interaction.deferReply( { ephemeral: true } )
-        const joinRole = interaction.options.getRole( 'role' )
-        if ( !joinRole ) {
-            await dbguild.update( {
-                joinRoleId: null,
+            const [ dbguild ] = await Guilds.findOrCreate( {
+                where: {
+                    guildId: interaction.guild.id,
+                },
             } )
-            await interaction.editReply( {
-                content: langData[ userLang ].joinRole.reply.roleReset,
-                ephemeral: true,
-            } )
-            return
-        }
-        await dbguild
-            .update( {
-                joinRoleId: joinRole.id,
-            } )
-            .then( async () => {
+            await interaction.deferReply( { ephemeral: true } )
+            const joinRole = interaction.options.getRole( 'role' )
+            if ( !joinRole ) {
+                await dbguild.update( {
+                    joinRoleId: null,
+                } )
                 await interaction.editReply( {
-                    content: langData[ userLang ].joinRole.reply.roleSet,
+                    content: langData[ userLang ].joinRole.reply.roleReset,
                     ephemeral: true,
                 } )
-            } )
+                return
+            }
+            await dbguild
+                .update( {
+                    joinRoleId: joinRole.id,
+                } )
+                .then( async () => {
+                    await interaction.editReply( {
+                        content: langData[ userLang ].joinRole.reply.roleSet,
+                        ephemeral: true,
+                    } )
+                } )
+        } catch ( error ) {
+            console.error( 'Error in ' + interaction.commandName + ' command:', error );
+            const errorMessage = 'An error occurred while processing your request.';
+
+            if ( !interaction.replied ) {
+                await interaction.reply( {
+                    content: errorMessage,
+                    ephemeral: true
+                } );
+            }
+        }
     },
 }

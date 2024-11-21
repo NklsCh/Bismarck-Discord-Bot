@@ -1,9 +1,9 @@
 const {
-    PermissionsBitField,
-    SlashCommandBuilder,
+    ChatInputCommandInteraction,
     EmbedBuilder,
     InteractionContextType,
-    ChatInputCommandInteraction
+    PermissionsBitField,
+    SlashCommandBuilder,
 } = require( 'discord.js' )
 const warns = require( '../../../models/warns' )
 
@@ -39,54 +39,66 @@ module.exports = {
      * @param {ChatInputCommandInteraction} interaction - The interaction object.
      */
     async execute( interaction ) {
-        const userLang = interaction.locale.slice( 0, 2 )
+        try {
+            const userLang = interaction.locale.slice( 0, 2 )
 
-        const userid = interaction.options.getUser( 'user' ).id
-        const amount = interaction.options.getInteger( 'amount' ) ?? null
+            const userid = interaction.options.getUser( 'user' ).id
+            const amount = interaction.options.getInteger( 'amount' ) ?? null
 
-        const resetEmbed = new EmbedBuilder()
-            .setTitle( langData[ userLang ].resetwarns.embed.title )
-            .setFields( [
-                {
-                    name: langData[ userLang ].resetwarns.embed.fields[ 0 ].name,
-                    value: langData[ userLang ].resetwarns.embed.fields[ 0 ].value + `${ amount }`,
+            const resetEmbed = new EmbedBuilder()
+                .setTitle( langData[ userLang ].resetwarns.embed.title )
+                .setFields( [
+                    {
+                        name: langData[ userLang ].resetwarns.embed.fields[ 0 ].name,
+                        value: langData[ userLang ].resetwarns.embed.fields[ 0 ].value + `${ amount }`,
+                    },
+                ] )
+                .setColor( 'Green' )
+                .setTimestamp()
+
+            //search db for atleast 1 warn else return
+            const userWarns = await warns.findOne( {
+                where: {
+                    guildId: interaction.guild.id,
+                    userId: userid,
                 },
-            ] )
-            .setColor( 'Green' )
-            .setTimestamp()
-
-        //search db for atleast 1 warn else return
-        const userWarns = await warns.findOne( {
-            where: {
-                guildId: interaction.guild.id,
-                userId: userid,
-            },
-        } )
-
-        if ( !userWarns )
-            return interaction.reply( {
-                embeds: [
-                    new EmbedBuilder()
-                        .setTitle( langData[ userLang ].resetwarns.embed.title )
-                        .setFields( [
-                            {
-                                name: langData[ userLang ].resetwarns.embed.fields[ 1 ].name,
-                                value: langData[ userLang ].resetwarns.embed.fields[ 1 ].value,
-                            },
-                        ] )
-                        .setColor( 'Green' ),
-                ],
-                ephemeral: true,
             } )
 
-        await warns.destroy( {
-            where: {
-                guildId: interaction.guild.id,
-                userId: userid,
-            },
-            limit: amount,
-        } )
+            if ( !userWarns )
+                return interaction.reply( {
+                    embeds: [
+                        new EmbedBuilder()
+                            .setTitle( langData[ userLang ].resetwarns.embed.title )
+                            .setFields( [
+                                {
+                                    name: langData[ userLang ].resetwarns.embed.fields[ 1 ].name,
+                                    value: langData[ userLang ].resetwarns.embed.fields[ 1 ].value,
+                                },
+                            ] )
+                            .setColor( 'Green' ),
+                    ],
+                    ephemeral: true,
+                } )
 
-        await interaction.reply( { embeds: [ resetEmbed ] } )
+            await warns.destroy( {
+                where: {
+                    guildId: interaction.guild.id,
+                    userId: userid,
+                },
+                limit: amount,
+            } )
+
+            await interaction.reply( { embeds: [ resetEmbed ] } )
+        } catch ( error ) {
+            console.error( 'Error in ' + interaction.commandName + ' command:', error );
+            const errorMessage = 'An error occurred while processing your request.';
+
+            if ( !interaction.replied ) {
+                await interaction.reply( {
+                    content: errorMessage,
+                    ephemeral: true
+                } );
+            }
+        }
     },
 }

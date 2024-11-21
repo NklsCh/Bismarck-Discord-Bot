@@ -1,8 +1,8 @@
 const {
+    ChatInputCommandInteraction,
+    InteractionContextType,
     PermissionsBitField,
     SlashCommandBuilder,
-    InteractionContextType,
-    ChatInputCommandInteraction
 } = require( 'discord.js' )
 const Guilds = require( '../../../models/guilds' )
 
@@ -128,83 +128,95 @@ module.exports = {
      * @param {ChatInputCommandInteraction} interaction - The interaction object.
      */
     async execute( interaction ) {
-        const [ guild ] = await Guilds.findOrCreate( {
-            where: { guildId: interaction.guild.id },
-        } )
-        const channel = interaction.options.getChannel( 'channel' )
-        switch (
-        interaction.options.getSubcommandGroup() ||
-        interaction.options.getSubcommand()
-        ) {
-            case 'add':
-                switch ( interaction.options.getSubcommand() ) {
-                    case 'online':
-                        await interaction.deferReply( { ephemeral: true } )
-                        await guild.update( {
-                            onlineChannelId: channel.id,
-                        } )
-                        await interaction.editReply( {
-                            content: `The bot will now track the amount of online users in ${ channel }!`,
-                        } )
-                        break
-                    case 'all':
-                        await interaction.deferReply( { ephemeral: true } )
-                        await guild.update( {
-                            allChannelId: channel.id,
-                        } )
-                        await interaction.editReply( {
-                            content: `The bot will now track the amount of all users in ${ channel }!`,
-                            ephemeral: true,
-                        } )
-                        break
-                    case 'bots':
-                        await interaction.deferReply( { ephemeral: true } )
-                        await guild.update( {
-                            botChannelId: channel.id,
-                        } )
-                        await interaction.editReply( {
-                            content: `The bot will now track the amount of bots in ${ channel }!`,
-                            ephemeral: true,
-                        } )
-                }
-                break
-            case 'remove':
-                switch ( interaction.options.getSubcommand() ) {
-                    case 'online':
-                        await interaction.deferReply( { ephemeral: true } )
-                        await guild.update( {
-                            onlineChannelId: null,
-                        } )
-                        await interaction.editReply( {
-                            content:
-                                'The bot will no longer track the amount of online users!',
-                            ephemeral: true,
-                        } )
-                        break
-                    case 'all':
-                        await interaction.deferReply( { ephemeral: true } )
-                        await guild.update( {
-                            allChannelId: null,
-                        } )
-                        await interaction.editReply( {
-                            content:
-                                'The bot will no longer track the amount of all users!',
-                            ephemeral: true,
-                        } )
-                        break
-                    case 'bots':
-                        await interaction.deferReply( { ephemeral: true } )
-                        await guild.update( {
-                            botChannelId: null,
-                        } )
-                        await interaction.editReply( {
-                            content:
-                                'The bot will no longer track the amount of bots!',
-                            ephemeral: true,
-                        } )
-                        break
-                }
-                break
+        try {
+            const [ guild ] = await Guilds.findOrCreate( {
+                where: { guildId: interaction.guild.id },
+            } )
+            const channel = interaction.options.getChannel( 'channel' )
+            switch (
+            interaction.options.getSubcommandGroup() ||
+            interaction.options.getSubcommand()
+            ) {
+                case 'add':
+                    switch ( interaction.options.getSubcommand() ) {
+                        case 'online':
+                            await interaction.deferReply( { ephemeral: true } )
+                            await guild.update( {
+                                onlineChannelId: channel.id,
+                            } )
+                            await interaction.editReply( {
+                                content: `The bot will now track the amount of online users in ${ channel }!`,
+                            } )
+                            break
+                        case 'all':
+                            await interaction.deferReply( { ephemeral: true } )
+                            await guild.update( {
+                                allChannelId: channel.id,
+                            } )
+                            await interaction.editReply( {
+                                content: `The bot will now track the amount of all users in ${ channel }!`,
+                                ephemeral: true,
+                            } )
+                            break
+                        case 'bots':
+                            await interaction.deferReply( { ephemeral: true } )
+                            await guild.update( {
+                                botChannelId: channel.id,
+                            } )
+                            await interaction.editReply( {
+                                content: `The bot will now track the amount of bots in ${ channel }!`,
+                                ephemeral: true,
+                            } )
+                    }
+                    break
+                case 'remove':
+                    switch ( interaction.options.getSubcommand() ) {
+                        case 'online':
+                            await interaction.deferReply( { ephemeral: true } )
+                            await guild.update( {
+                                onlineChannelId: null,
+                            } )
+                            await interaction.editReply( {
+                                content:
+                                    'The bot will no longer track the amount of online users!',
+                                ephemeral: true,
+                            } )
+                            break
+                        case 'all':
+                            await interaction.deferReply( { ephemeral: true } )
+                            await guild.update( {
+                                allChannelId: null,
+                            } )
+                            await interaction.editReply( {
+                                content:
+                                    'The bot will no longer track the amount of all users!',
+                                ephemeral: true,
+                            } )
+                            break
+                        case 'bots':
+                            await interaction.deferReply( { ephemeral: true } )
+                            await guild.update( {
+                                botChannelId: null,
+                            } )
+                            await interaction.editReply( {
+                                content:
+                                    'The bot will no longer track the amount of bots!',
+                                ephemeral: true,
+                            } )
+                            break
+                    }
+                    break
+            }
+        } catch ( error ) {
+            console.error( 'Error in ' + interaction.commandName + ' command:', error );
+            const errorMessage = 'An error occurred while processing your request.';
+
+            if ( !interaction.replied ) {
+                await interaction.reply( {
+                    content: errorMessage,
+                    ephemeral: true
+                } );
+            }
         }
     },
 }

@@ -1,26 +1,26 @@
 {
-    "name": "proton-bot",
-    "version": "1.0.0",
-    "description": "Proton - A Discord Bot with a lot of features",
-    "main": "index.js",
-    "scripts": {
-        "start": "node src/index.js",
-        "dev": "nodemon src/index.js",
-        "deploy": "node src/deployCommands.js",
-        "syncdb": "node src/syncdb.js"
-    },
-    "author": "",
-    "license": "MIT",
-    "dependencies": {
-        "@discordjs/builders": "^1.9.0",
-        "discord.js": "^14.16.1",
-        "dotenv": "^16.4.5",
-        "proton-bot": "file:",
-        "sequelize": "^6.37.3",
-        "sqlite3": "^5.1.7"
-    },
-    "devDependencies": {
-        "nodemon": "^3.1.4",
-        "prettier": "3.2.5"
-    }
+  "name": "proton-bot",
+  "version": "1.0.0",
+  "description": "Proton - A Discord Bot with a lot of features",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "push": "node src/deployCommands.js",
+    "syncdb": "node src/syncdb.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@discordjs/builders": "^1.9.0",
+    "discord.js": "^14.16.1",
+    "dotenv": "^16.4.5",
+    "proton-bot": "file:",
+    "sequelize": "^6.37.3",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4",
+    "prettier": "3.2.5"
+  }
 }

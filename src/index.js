@@ -1,49 +1,47 @@
 const startTime = Date.now();
+require( 'dotenv' ).config();
+const fs = require( 'fs' );
+const { Client, Collection, GatewayIntentBits } = require( 'discord.js' );
 
-require( 'dotenv' ).config()
-const fs = require( 'fs' )
-const {
-    Client,
-    Collection,
-} = require( 'discord.js' )
+const REQUIRED_INTENTS = [
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.MessageContent,
+];
 
-/*
-    Initiates the Bot as client
-*/
-const client = new Client( {
-    intents: [
-        'GuildMembers',
-        'GuildMessageReactions',
-        'GuildMessages',
-        'GuildPresences',
-        'Guilds',
-        'GuildVoiceStates',
-        'MessageContent',
-    ],
-} )
+const setupErrorHandlers = () => {
+    process.on( 'unhandledRejection', ( reason, promise ) =>
+        console.log( 'Unhandled Rejection at:', promise, 'reason:', reason ) );
 
-process.on( 'unhandledRejection', ( reason, promise ) => {
-    console.log( 'Unhandled Rejection at:', promise, 'reason:', reason )
-} )
+    process.on( 'uncaughtException', ( err ) =>
+        console.log( 'Uncaught Exception:', err ) );
 
-process.on( 'uncaughtException', ( err ) => {
-    console.log( 'Uncaught Exception:', err )
-} )
+    process.on( 'uncaughtExceptionMonitor', ( err, origin ) =>
+        console.log( 'Uncaught Exception Monitor:', err, origin ) );
+};
 
-process.on( 'uncaughtExceptionMonitor', ( err, origin ) => {
-    console.log( 'Uncaught Exepction Monitor:', err, origin )
-} )
+const loadHandlers = ( client ) => {
+    const handlerFiles = fs.readdirSync( './src/handlers' )
+        .filter( file => file.endsWith( '.js' ) );
 
-client.commands = new Collection()
+    for ( const file of handlerFiles ) {
+        require( `./handlers/${ file }` )( client );
+    }
+};
 
-// Load Handlers
+const initializeClient = async () => {
+    const client = new Client( { intents: REQUIRED_INTENTS } );
+    client.commands = new Collection();
 
-for ( const file of fs
-    .readdirSync( './src/handlers' )
-    .filter( ( file ) => file.endsWith( '.js' ) ) ) {
-    require( `./handlers/${ file }` )( client )
-}
+    setupErrorHandlers();
+    loadHandlers( client );
 
-client
-    .login( process.env.TOKEN )
-    .then( ( r ) => console.log( `Ready! Logged in as ${ client.user.tag } (${ Date.now() - startTime }ms)` ) )
+    await client.login( process.env.TOKEN );
+    console.log( `Ready! Logged in as ${ client.user.tag } (${ Date.now() - startTime }ms)` );
+};
+
+initializeClient().catch( console.error );
