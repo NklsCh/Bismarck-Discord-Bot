@@ -1,19 +1,36 @@
 const {
-    ActionRowBuilder,
+    SlashCommandBuilder,
+    ComponentType,
     ButtonBuilder,
     ButtonStyle,
-    ChatInputCommandInteraction,
-    ComponentType,
-    REST,
-    Routes,
-    SlashCommandBuilder,
-    StringSelectMenuBuilder
+    ActionRowBuilder,
+    StringSelectMenuBuilder,
+    EmbedBuilder
 } = require( 'discord.js' );
 const fs = require( 'fs' );
-const makeHelpEmbed = require( '../../functions/helpEmbedCreator' );
 const langData = require( '../../../resources/translations/lang.json' );
 
 const COMMANDS_PER_PAGE = 6;
+
+async function handleInteraction( i, action ) {
+    try {
+        await i.deferUpdate();
+        await action();
+    } catch ( error ) {
+        if ( error.code === 10062 ) {
+            try {
+                await i.followUp( {
+                    content: 'The menu has expired. Please run the help command again.',
+                    ephemeral: true
+                } );
+            } catch ( e ) {
+                console.error( 'Error sending followUp:', e );
+            }
+        } else {
+            console.error( 'Error handling interaction:', error );
+        }
+    }
+}
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -22,144 +39,163 @@ module.exports = {
         .setDescriptionLocalizations( {
             de: langData.de.help.command.description,
         } ),
-    /**
-     * @param {ChatInputCommandInteraction} interaction - The interaction object.
-     */
+
     async execute( interaction ) {
         try {
-            const rest = new REST( { version: '10' } ).setToken( process.env.TOKEN );
             const selectMenu = new StringSelectMenuBuilder()
                 .setCustomId( 'category' )
                 .setPlaceholder( 'Select command category' )
                 .addOptions( [
-                    { label: 'User Commands', value: 'user' },
-                    { label: 'Admin Commands', value: 'admin' }
+                    {
+                        label: 'User Commands',
+                        value: 'user',
+                        description: 'Commands available to all users'
+                    },
+                    {
+                        label: 'Admin Commands',
+                        value: 'admin',
+                        description: 'Commands available to administrators'
+                    }
                 ] );
 
-            const initialResponse = await interaction.reply( {
-                components: [ new ActionRowBuilder().addComponents( selectMenu ) ],
-                ephemeral: true
+            const row = new ActionRowBuilder().addComponents( selectMenu );
+
+            const initialMessage = await interaction.reply( {
+                components: [ row ],
+                ephemeral: true,
+                fetchReply: true
             } );
 
-            const categoryCollector = initialResponse.createMessageComponentCollector( {
-                componentType: ComponentType.StringSelect,
-                time: 30000
+            const collector = initialMessage.createMessageComponentCollector( {
+                time: 300000
             } );
 
-            categoryCollector.on( 'collect', async i => {
-                const folder = i.values[ 0 ];
-                const commandFields = [];
+            let currentPages = [];
+            let currentPageIndex = 0;
 
-                const commandFiles = fs.readdirSync( `./src/commands/${ folder }` )
-                    .filter( file => file.endsWith( '.js' ) );
+            collector.on( 'collect', async i => {
+                if ( i.user.id !== interaction.user.id ) {
+                    await i.reply( {
+                        content: 'You cannot use this menu.',
+                        ephemeral: true
+                    } );
+                    return;
+                }
 
-                const commands = await rest.get(
-                    Routes.applicationCommands( process.env.DISCORD_APPLICATION_ID )
-                );
+                if ( i.customId === 'category' ) {
+                    await handleInteraction( i, async () => {
+                        const folder = i.values[ 0 ];
+                        const commandFiles = fs.readdirSync( `./src/commands/${ folder }` )
+                            .filter( file => file.endsWith( '.js' ) );
 
-                commandFiles.forEach( file => {
-                    const f = require( `../../commands/${ folder }/${ file }` );
-                    commands.forEach( command => {
-                        if ( command.name === 'Info' || f.data.name !== command.name ) return;
+                        const commandFields = [];
 
-                        if ( !command.options?.some( opt => opt.type === 2 ) ) {
+                        for ( const file of commandFiles ) {
+                            const command = require( `../../commands/${ folder }/${ file }` );
+                            if ( !command.data ) continue;
+
                             commandFields.push( {
-                                name: `</${ command.name }:${ command.id }>`,
-                                value: command.description || 'No description',
+                                name: `/${ command.data.name }`,
+                                value: command.data.description || 'No description available',
                                 inline: true
                             } );
                         }
 
-                        command.options?.forEach( option => {
-                            if ( option.type === 2 ) {
-                                option.options?.forEach( subOption => {
-                                    commandFields.push( {
-                                        name: `</${ command.name } ${ option.name } ${ subOption.name }:${ command.id }>`,
-                                        value: subOption.description || 'No description',
-                                        inline: true
-                                    } );
-                                } );
+                        currentPages = [];
+                        currentPageIndex = 0;
+
+                        for ( let pageIndex = 0; pageIndex < commandFields.length; pageIndex += COMMANDS_PER_PAGE ) {
+                            const embed = new EmbedBuilder()
+                                .setColor( '#0099ff' )
+                                .setTitle( `${ folder.charAt( 0 ).toUpperCase() + folder.slice( 1 ) } Commands` )
+                                .setTimestamp();
+
+                            const pageFields = commandFields.slice( pageIndex, pageIndex + COMMANDS_PER_PAGE );
+                            pageFields.forEach( field => embed.addFields( field ) );
+
+                            const padding = pageFields.length % 3;
+                            if ( padding !== 0 ) {
+                                for ( let j = 0; j < 3 - padding; j++ ) {
+                                    embed.addFields( { name: '\u200b', value: '\u200b', inline: true } );
+                                }
                             }
-                        } );
-                    } );
-                } );
 
-                const pages = [];
-                for ( let i = 0; i < commandFields.length; i += COMMANDS_PER_PAGE ) {
-                    const embed = makeHelpEmbed( interaction, folder );
-                    const chunk = commandFields.slice( i, i + COMMANDS_PER_PAGE );
-
-                    while ( chunk.length % 3 !== 0 ) {
-                        chunk.push( { name: '\u200b', value: '\u200b', inline: true } );
-                    }
-
-                    for ( let j = 0; j < chunk.length; j += 3 ) {
-                        embed.addFields( chunk.slice( j, j + 3 ) );
-                        if ( j + 3 < chunk.length ) {
-                            embed.addFields( { name: '\u200b', value: '\u200b', inline: false } );
+                            embed.setFooter( {
+                                text: `Page ${ currentPages.length + 1 }/${ Math.ceil( commandFields.length / COMMANDS_PER_PAGE ) }`
+                            } );
+                            currentPages.push( embed );
                         }
-                    }
 
-                    embed.setFooter( {
-                        text: `${ folder.charAt( 0 ).toUpperCase() + folder.slice( 1 ) } Commands - Page ${ pages.length + 1 }/${ Math.ceil( commandFields.length / COMMANDS_PER_PAGE ) }`
-                    } );
-                    pages.push( embed );
-                }
+                        if ( currentPages.length === 0 ) {
+                            await i.editReply( {
+                                content: `No commands found in ${ folder } category.`,
+                                components: [ row ],
+                                embeds: []
+                            } );
+                            return;
+                        }
 
-                let currentPage = 0;
-                const navigation = new ActionRowBuilder().addComponents(
-                    new ButtonBuilder()
-                        .setCustomId( 'prev' )
-                        .setLabel( 'Previous' )
-                        .setStyle( ButtonStyle.Primary )
-                        .setDisabled( true ),
-                    new ButtonBuilder()
-                        .setCustomId( 'next' )
-                        .setLabel( 'Next' )
-                        .setStyle( ButtonStyle.Primary )
-                        .setDisabled( pages.length <= 1 )
-                );
+                        if ( currentPages.length === 1 ) {
+                            await i.editReply( {
+                                embeds: [ currentPages[ 0 ] ],
+                                components: [ row ]
+                            } );
+                            return;
+                        }
 
-                const categoryRow = new ActionRowBuilder().addComponents( selectMenu );
+                        const buttonRow = new ActionRowBuilder().addComponents(
+                            new ButtonBuilder()
+                                .setCustomId( 'prev' )
+                                .setLabel( 'Previous' )
+                                .setStyle( ButtonStyle.Primary )
+                                .setDisabled( true ),
+                            new ButtonBuilder()
+                                .setCustomId( 'next' )
+                                .setLabel( 'Next' )
+                                .setStyle( ButtonStyle.Primary )
+                                .setDisabled( false )
+                        );
 
-                const response = await i.update( {
-                    embeds: [ pages[ 0 ] ],
-                    components: pages.length > 1 ? [ categoryRow, navigation ] : [ categoryRow ]
-                } );
-
-                if ( pages.length > 1 ) {
-                    const pageCollector = response.createMessageComponentCollector( {
-                        componentType: ComponentType.Button,
-                        time: 300000
-                    } );
-
-                    pageCollector.on( 'collect', async btn => {
-                        currentPage = btn.customId === 'prev' ? currentPage - 1 : currentPage + 1;
-
-                        const buttons = navigation.components;
-                        buttons[ 0 ].setDisabled( currentPage === 0 );
-                        buttons[ 1 ].setDisabled( currentPage === pages.length - 1 );
-
-                        await btn.update( {
-                            embeds: [ pages[ currentPage ] ],
-                            components: [ categoryRow, navigation ]
+                        await i.editReply( {
+                            embeds: [ currentPages[ 0 ] ],
+                            components: [ row, buttonRow ]
                         } );
                     } );
 
-                    pageCollector.on( 'end', async () => {
-                        navigation.components.forEach( button => button.setDisabled( true ) );
-                        await response.edit( { components: [ categoryRow, navigation ] } ).catch( console.error );
+                } else if ( i.customId === 'prev' || i.customId === 'next' ) {
+                    await handleInteraction( i, async () => {
+                        currentPageIndex = i.customId === 'prev' ?
+                            currentPageIndex - 1 :
+                            currentPageIndex + 1;
+
+                        const buttonRow = new ActionRowBuilder().addComponents(
+                            new ButtonBuilder()
+                                .setCustomId( 'prev' )
+                                .setLabel( 'Previous' )
+                                .setStyle( ButtonStyle.Primary )
+                                .setDisabled( currentPageIndex === 0 ),
+                            new ButtonBuilder()
+                                .setCustomId( 'next' )
+                                .setLabel( 'Next' )
+                                .setStyle( ButtonStyle.Primary )
+                                .setDisabled( currentPageIndex === currentPages.length - 1 )
+                        );
+
+                        await i.editReply( {
+                            embeds: [ currentPages[ currentPageIndex ] ],
+                            components: [ row, buttonRow ]
+                        } );
                     } );
                 }
             } );
 
-            categoryCollector.on( 'end', async ( collected, reason ) => {
-                if ( reason === 'time' && collected.size === 0 ) {
-                    await initialResponse.edit( {
-                        content: 'Help command timed out. Please run the command again.',
-                        components: []
-                    } );
-                }
+            collector.on( 'end', () => {
+                selectMenu.setDisabled( true );
+                row.components[ 0 ] = selectMenu;
+
+                initialMessage.edit( {
+                    components: [ row ]
+                } ).catch( () => { } );
             } );
 
         } catch ( error ) {
@@ -171,5 +207,5 @@ module.exports = {
                 } );
             }
         }
-    },
+    }
 };
